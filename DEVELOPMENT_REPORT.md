@@ -61,8 +61,8 @@ Implementiert: maximal fünf deterministische Vorschläge innerhalb desselben Pr
 | M2/Workflow | `25659e7` | erfolgreich |
 | M3/Helpdesk-Sicherheit | `6615c2d` | erfolgreich |
 | M4/Erhaltender Merge | `27fa520` | erfolgreich |
-| M5/Abnahmevorbereitung | aktueller nachfolgender Git-Commit | wird nach lokal bestandenem Lauf gepusht |
+| M5/Abnahmevorbereitung | `9ef47ad` | erfolgreich |
 
-GitHub-Vertragsworkflow vorhanden; externer Lauf wird nach Push beobachtet und separat dokumentiert. **Odoo.sh-Build nicht beobachtet.** Keine direkte Odoo.sh-Konfiguration/Promotion ausgeführt. Development-Pushes können nur nach tatsächlicher Projektzuordnung einem dortigen Build zugeordnet werden.
+GitHub-Vertragsworkflow aktiv; [Lauf 39678680433](https://github.com/ChrHermes/odoo-anforderungsmanagement/actions/runs/39678680433) für `9ef47ad` **erfolgreich abgeschlossen**, Jobdauer 1m22s. Der Runner meldete zwei Wartungshinweise (altes Checkout-Node und wechselndes `ubuntu-latest`). Deshalb wird ausschließlich der Workflow auf Ubuntu 24.04 und den anhand des offiziellen Release verifizierten Checkout-v7.0.1-Commit mit Node 24 fixiert; der Folgelauf wird ebenfalls beobachtet. **Odoo.sh-Build nicht beobachtet.** Keine direkte Odoo.sh-Konfiguration/Promotion ausgeführt. Development-Pushes können nur nach tatsächlicher Projektzuordnung einem dortigen Build zugeordnet werden.
 
 Erforderlich: freigegebenen Odoo.sh-Development-Zugang/Projekt identifizieren, Branch-Zuordnung und Schutzregeln bestätigen, Enterprise-Helpdesk inklusive Custom-Views/-Rules bereitstellen, Installation/Upgrade/Browserprüfung und echte Vertraulichkeits-/Mail-Automationsprüfungen ausführen. Erst danach kann ein konkreter Kandidat zur menschlichen Staging-Freigabe vorgelegt werden. Production braucht weiterhin eine separate Freigabe. Anleitung: `README.md`, detaillierte Schritte: `docs/RUNBOOK.md`.
