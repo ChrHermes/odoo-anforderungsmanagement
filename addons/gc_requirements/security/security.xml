@@ -1,0 +1,30 @@
+<odoo>
+    <record id="module_category_requirements" model="ir.module.category">
+        <field name="name">Anforderungsmanagement</field>
+        <field name="sequence">35</field>
+    </record>
+    <record id="group_user" model="res.groups">
+        <field name="name">Anforderungsmanagement: Benutzer</field>
+        <field name="category_id" ref="module_category_requirements"/>
+    </record>
+    <record id="group_config" model="res.groups">
+        <field name="name">Anforderungsmanagement: Konfiguration</field>
+        <field name="category_id" ref="module_category_requirements"/>
+        <field name="implied_ids" eval="[(4, ref('group_user'))]"/>
+    </record>
+    <record id="rule_requirement_internal" model="ir.rule">
+        <field name="name">Anforderungen ausschließlich intern</field>
+        <field name="model_id" ref="model_gc_requirement"/>
+        <field name="domain_force">[(1, '=', 1)] if not user.share else [(1, '=', 0)]</field>
+    </record>
+    <record id="rule_product_internal" model="ir.rule">
+        <field name="name">Anforderungsprodukte ausschließlich intern</field>
+        <field name="model_id" ref="model_gc_requirement_product"/>
+        <field name="domain_force">[(1, '=', 1)] if not user.share else [(1, '=', 0)]</field>
+    </record>
+    <record id="rule_category_internal" model="ir.rule">
+        <field name="name">Funktionsbereiche ausschließlich intern</field>
+        <field name="model_id" ref="model_gc_requirement_category"/>
+        <field name="domain_force">[(1, '=', 1)] if not user.share else [(1, '=', 0)]</field>
+    </record>
+</odoo>

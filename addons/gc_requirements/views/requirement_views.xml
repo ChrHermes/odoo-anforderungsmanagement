@@ -1,0 +1,54 @@
+<odoo>
+    <record id="view_requirement_kanban" model="ir.ui.view">
+        <field name="name">gc.requirement.kanban</field><field name="model">gc.requirement</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" quick_create="0" records_draggable="0" group_create="0" group_delete="0">
+                <templates><t t-name="card">
+                    <field name="reference" class="text-muted"/>
+                    <field name="name" class="fw-bold fs-5"/>
+                    <field name="request_type"/><field name="product_id"/><field name="category_id"/>
+                    <footer><field name="priority" widget="priority"/><field name="assigned_user_id" widget="many2one_avatar_user" class="ms-auto"/></footer>
+                </t></templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_requirement_list" model="ir.ui.view">
+        <field name="name">gc.requirement.list</field><field name="model">gc.requirement</field>
+        <field name="arch" type="xml"><list delete="0" multi_edit="0">
+            <field name="reference"/><field name="name"/><field name="product_id"/><field name="category_id" optional="hide"/>
+            <field name="request_type"/><field name="state"/><field name="priority" widget="priority"/><field name="assigned_user_id"/>
+        </list></field>
+    </record>
+    <record id="view_requirement_form" model="ir.ui.view">
+        <field name="name">gc.requirement.form</field><field name="model">gc.requirement</field>
+        <field name="arch" type="xml"><form delete="0">
+            <header><field name="state" widget="statusbar" statusbar_visible="new,review,evaluated,planned,in_progress,implemented" options="{'clickable': False}"/></header>
+            <sheet>
+                <field name="active" invisible="1"/>
+                <widget name="web_ribbon" title="Archiviert" bg_color="text-bg-warning" invisible="active"/>
+                <div class="oe_title"><h3><field name="reference"/></h3><h1><field name="name" placeholder="Kurzer Titel der Anforderung"/></h1></div>
+                <group><group><field name="request_type"/><field name="product_id" options="{'no_create': True}"/>
+                    <field name="category_id" domain="[('product_id', '=', product_id)]" options="{'no_create': True}"/>
+                </group><group><field name="priority" widget="priority"/><field name="assigned_user_id" widget="many2one_avatar_user"/><field name="creator_user_id"/></group></group>
+                <notebook><page string="Beschreibung"><field name="description"/></page>
+                    <page string="Weitere Informationen"><group><field name="affected_version"/><field name="implemented_version"/><field name="implemented_on"/><field name="implementation_note"/><field name="development_url"/><field name="decision_reason" readonly="1"/></group></page>
+                </notebook>
+            </sheet><chatter/>
+        </form></field>
+    </record>
+    <record id="view_requirement_search" model="ir.ui.view">
+        <field name="name">gc.requirement.search</field><field name="model">gc.requirement</field>
+        <field name="arch" type="xml"><search><field name="name" filter_domain="['|', ('name', 'ilike', self), ('reference', 'ilike', self)]"/>
+            <field name="product_id"/><field name="state"/><field name="request_type"/><field name="priority"/><field name="assigned_user_id"/>
+            <filter name="mine" string="Meine Anforderungen" domain="[('assigned_user_id', '=', uid)]"/>
+            <filter name="unassigned" string="Nicht zugewiesen" domain="[('assigned_user_id', '=', False)]"/>
+            <separator/><filter name="archived" string="Archiviert" domain="[('active', '=', False)]"/>
+            <group expand="0" string="Gruppieren nach"><filter name="by_product" string="Produkt" context="{'group_by': 'product_id'}"/><filter name="by_type" string="Typ" context="{'group_by': 'request_type'}"/><filter name="by_assignee" string="Verantwortlich" context="{'group_by': 'assigned_user_id'}"/><filter name="by_priority" string="Priorität" context="{'group_by': 'priority'}"/></group>
+        </search></field>
+    </record>
+    <record id="action_requirements" model="ir.actions.act_window">
+        <field name="name">Anforderungen</field><field name="res_model">gc.requirement</field><field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_requirement_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Erfassen Sie eine neue Anforderung.</p><p>Redaktionelle Beschreibung und Ticketquellen werden getrennt aufbewahrt.</p></field>
+    </record>
+</odoo>

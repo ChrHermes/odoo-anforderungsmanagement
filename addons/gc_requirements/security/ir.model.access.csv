@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_requirement_user,Anforderung Benutzer,model_gc_requirement,gc_requirements.group_user,1,1,1,0
+access_product_user,Produkt lesen,model_gc_requirement_product,gc_requirements.group_user,1,0,0,0
+access_product_config,Produkt konfigurieren,model_gc_requirement_product,gc_requirements.group_config,1,1,1,0
+access_category_user,Funktionsbereich lesen,model_gc_requirement_category,gc_requirements.group_user,1,0,0,0
+access_category_config,Funktionsbereich konfigurieren,model_gc_requirement_category,gc_requirements.group_config,1,1,1,0

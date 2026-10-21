@@ -1,0 +1,21 @@
+{
+    "name": "Anforderungsmanagement",
+    "summary": "Interne Anforderungen mit geschützten Helpdesk-Quellen",
+    "version": "18.0.1.0.0",
+    "category": "Productivity",
+    "author": "GridCal",
+    "license": "LGPL-3",
+    "depends": ["base", "mail", "helpdesk"],
+    "data": [
+        "security/security.xml",
+        "security/ir.model.access.csv",
+        "data/sequence.xml",
+        "data/initial_products.xml",
+        "views/product_category_views.xml",
+        "views/requirement_views.xml",
+        "views/menus.xml",
+    ],
+    "application": True,
+    "installable": True,
+    "auto_install": False,
+}

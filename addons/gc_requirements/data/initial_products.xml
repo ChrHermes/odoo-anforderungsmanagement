@@ -1,0 +1,20 @@
+<odoo noupdate="1">
+    <record id="product_node" model="gc.requirement.product"><field name="name">GridCal Node</field><field name="sequence">10</field></record>
+    <record id="product_operator" model="gc.requirement.product"><field name="name">GridCal Operator</field><field name="sequence">20</field></record>
+    <record id="product_core" model="gc.requirement.product"><field name="name">GridCal Core</field><field name="sequence">30</field></record>
+    <record id="category_node_analytic" model="gc.requirement.category"><field name="name">ANALYTIC</field><field name="product_id" ref="product_node"/></record>
+    <record id="category_node_events" model="gc.requirement.category"><field name="name">Events</field><field name="product_id" ref="product_node"/><field name="parent_id" ref="category_node_analytic"/></record>
+    <record id="category_node_mailing" model="gc.requirement.category"><field name="name">Mailing</field><field name="product_id" ref="product_node"/><field name="parent_id" ref="category_node_events"/></record>
+    <record id="category_node_base" model="gc.requirement.category"><field name="name">BASE</field><field name="product_id" ref="product_node"/></record>
+    <record id="category_node_meters" model="gc.requirement.category"><field name="name">Messgeräte</field><field name="product_id" ref="product_node"/><field name="parent_id" ref="category_node_base"/></record>
+    <record id="category_node_scada" model="gc.requirement.category"><field name="name">SCADA</field><field name="product_id" ref="product_node"/></record>
+    <record id="category_node_iec104" model="gc.requirement.category"><field name="name">IEC104 Einstellungen</field><field name="product_id" ref="product_node"/><field name="parent_id" ref="category_node_scada"/></record>
+    <record id="category_node_modbus" model="gc.requirement.category"><field name="name">Modbus</field><field name="product_id" ref="product_node"/></record>
+    <record id="category_node_configuration" model="gc.requirement.category"><field name="name">Konfiguration</field><field name="product_id" ref="product_node"/></record>
+    <record id="category_node_updates" model="gc.requirement.category"><field name="name">Updates</field><field name="product_id" ref="product_node"/></record>
+    <record id="category_operator_base" model="gc.requirement.category"><field name="name">BASE</field><field name="product_id" ref="product_operator"/></record>
+    <record id="category_operator_assets" model="gc.requirement.category"><field name="name">Asset-Management</field><field name="product_id" ref="product_operator"/><field name="parent_id" ref="category_operator_base"/></record>
+    <record id="category_operator_ui" model="gc.requirement.category"><field name="name">Bedienoberfläche</field><field name="product_id" ref="product_operator"/></record>
+    <record id="category_operator_plants" model="gc.requirement.category"><field name="name">Anlagenverwaltung</field><field name="product_id" ref="product_operator"/></record>
+    <record id="category_operator_users" model="gc.requirement.category"><field name="name">Benutzerverwaltung</field><field name="product_id" ref="product_operator"/></record>
+</odoo>

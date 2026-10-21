@@ -45,3 +45,13 @@ $RECYCLE.BIN/
 
 # NFS temporary files
 .nfs*
+
+# Python and local development artifacts
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.log
+.env
+.local/

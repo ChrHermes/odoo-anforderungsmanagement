@@ -1,0 +1,9 @@
+<odoo noupdate="1">
+    <record id="sequence_requirement" model="ir.sequence">
+        <field name="name">Anforderung</field>
+        <field name="code">gc.requirement</field>
+        <field name="prefix">REQ-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>
