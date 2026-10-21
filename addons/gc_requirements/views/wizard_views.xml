@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_decision_form" model="ir.ui.view">
+        <field name="name">gc.requirement.decision.form</field><field name="model">gc.requirement.decision</field>
+        <field name="arch" type="xml"><form string="Status ändern">
+            <group><field name="requirement_id"/><field name="state"/>
+                <field name="reason" required="state in ['deferred', 'rejected']" invisible="state not in ['deferred', 'rejected']"/>
+            </group>
+            <div class="alert alert-info" invisible="state != 'implemented'">Umgesetzt bedeutet: veröffentlicht oder produktiv verfügbar.</div>
+            <group invisible="state != 'implemented'"><field name="implemented_version"/><field name="implemented_on"/><field name="implementation_note"/></group>
+            <footer><button name="action_apply" type="object" string="Status übernehmen" class="btn-primary"/><button string="Abbrechen" special="cancel"/></footer>
+        </form></field>
+    </record>
+</odoo>

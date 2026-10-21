@@ -13,3 +13,5 @@ Stand: 21.10.2026. Verbindliche Fachentscheidungen stehen in `SPEC.md`, technisc
 - Anfangsbefund: Repository enthält nur Spezifikationen und leere Wissensdateien; lokale Änderung an `codex-task.md` stammt vom Nutzer und bleibt unberührt. Python 3.12 und Docker verfügbar, Odoo/Enterprise lokal nicht installiert. GitHub-Zugriff auf `odoo/enterprise` liefert 404. Kein identifiziertes Odoo.sh-Projekt und keine bestätigten Deployment-Schutzregeln.
 
 Fortsetzung: zuerst `docs/STATUS.md`, `docs/DECISIONS.md`, `docs/RUNBOOK.md` und `DEVELOPMENT_REPORT.md` lesen, dann Git-Status/Log prüfen. Prüfresultate aus isoliertem Ersatzvertrag gelten niemals als Enterprise-Abnahme.
+
+Verifizierte Odoo-18-Details: `<list>` und Kanban-Template `card` werden akzeptiert; `_has_cycle()` ist die aktuelle Hierarchie-API. `check_access()` verbindet ACL und Record Rules. `mail.followers` benötigt zusätzlich einen Constraint, um direkte ORM-/One2many-Einträge externer Partner abzuweisen. `new_test_user` mit `no_reset_password=True` verwenden, um synthetische Signup-Mails zu vermeiden.

@@ -12,6 +12,7 @@
         "data/sequence.xml",
         "data/initial_products.xml",
         "views/product_category_views.xml",
+        "views/wizard_views.xml",
         "views/requirement_views.xml",
         "views/menus.xml",
     ],

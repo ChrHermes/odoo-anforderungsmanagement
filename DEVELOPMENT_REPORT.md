@@ -13,3 +13,9 @@ Eine vorhandene Änderung an `codex-task.md` bleibt unberührt. Es werden keine 
 M1 implementiert: Addon, native Kanban/List/Form/Suche, Gruppen/ACLs, eindeutige unveränderliche Referenz, Pflichtinhalt, Produkthierarchie und 18 geschützte Seed-Datensätze, Archivierung/Löschschutz. Vier Odoo-TransactionCase-Tests im Community-Vertrag bestanden. Zwei Fehler im ersten Testlauf korrigiert (native Rekursionsausnahme und Odoo-assertRaises-Verhalten). Python/XML/Diff-Prüfung erfolgreich. Noch keine Enterprise-Integration und kein echter Upgrade-Durchlauf. M2 folgt. Keine Staging-/Production-Freigabe, keine Deployment-Aktion.
 
 Details und nächste Schritte: `docs/STATUS.md`; technische Entscheidungen: `docs/DECISIONS.md`; Installation und tatsächlich ausgeführte Tests: `docs/RUNBOOK.md`.
+
+## M2 – Workflow und Zusammenarbeit
+
+Implementiert: acht flexible Status, serverseitig neue Begründung bei jeder Zurückstellung/Ablehnung, Historiennotiz, Veröffentlichungsdatum, Statuswizard, interne Followerprüfung einschließlich direkter `mail.followers`-Einträge, interne Notizen und gefilterte Empfänger, manuelle Aktivitäten, 30-Tage-/Aktivitätsfilter. 7 Tests im isolierten Odoo-18-Vertrag erfolgreich (0 Fehler).
+
+Git: M1 `45909f4` erfolgreich nach `origin/codex/initial-mvp` gepusht. Keine anderen Branches verändert. M2 wird separat versioniert. Odoo.sh-Buildstatus mangels Projektzugriff unbekannt.

@@ -5,9 +5,10 @@ class RequirementCase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.app_user = new_test_user(cls.env, login="gc_pilot", groups="base.group_user,gc_requirements.group_user")
-        cls.config_user = new_test_user(cls.env, login="gc_config", groups="base.group_user,gc_requirements.group_config")
-        cls.outsider = new_test_user(cls.env, login="gc_outsider", groups="base.group_user")
+        fixture_env = cls.env(context=dict(cls.env.context, no_reset_password=True))
+        cls.app_user = new_test_user(fixture_env, login="gc_pilot", groups="base.group_user,gc_requirements.group_user")
+        cls.config_user = new_test_user(fixture_env, login="gc_config", groups="base.group_user,gc_requirements.group_config")
+        cls.outsider = new_test_user(fixture_env, login="gc_outsider", groups="base.group_user")
         cls.node = cls.env.ref("gc_requirements.product_node")
         cls.operator = cls.env.ref("gc_requirements.product_operator")
         cls.Requirement = cls.env["gc.requirement"].with_user(cls.app_user)

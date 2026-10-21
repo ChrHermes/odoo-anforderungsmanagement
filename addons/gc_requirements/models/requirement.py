@@ -62,19 +62,69 @@ class Requirement(models.Model):
                 raise ValidationError(_("Nummer und Ersteller werden automatisch vergeben."))
             vals["reference"] = self.env["ir.sequence"].next_by_code("gc.requirement")
             vals["creator_user_id"] = self.env.uid
+            state = vals.get("state", self.default_get(["state"]).get("state"))
+            self._validate_transition_values(state, vals)
+            if state == "implemented" and not vals.get("implemented_on"):
+                vals["implemented_on"] = fields.Date.context_today(self)
             prepared.append(vals)
         records = super().create(prepared)
         records._check_active_classification()
+        records._subscribe_responsible()
+        for record in records.filtered(lambda r: r.state in ("deferred", "rejected")):
+            record._post_decision_reason()
         return records
 
     def write(self, vals):
         self._check_app_user()
         if {"reference", "creator_user_id"} & vals.keys():
             raise ValidationError(_("Nummer und Ersteller sind unveränderlich."))
+        self.check_access("write")
+        changes = self.filtered(lambda r: "state" in vals and r.state != vals["state"])
+        if changes:
+            self._validate_transition_values(vals["state"], vals)
+        vals = dict(vals)
+        if changes and vals["state"] == "implemented" and not vals.get("implemented_on"):
+            vals["implemented_on"] = fields.Date.context_today(self)
         result = super().write(vals)
         if {"product_id", "category_id"} & vals.keys():
             self._check_active_classification()
+        if "assigned_user_id" in vals:
+            self._subscribe_responsible()
+        for record in changes.filtered(lambda r: r.state in ("deferred", "rejected")):
+            record._post_decision_reason()
+        changes._after_state_transition()
         return result
+
+    @api.model
+    def _validate_transition_values(self, state, vals):
+        if state in ("deferred", "rejected") and not (vals.get("decision_reason") or "").strip():
+            raise ValidationError(_("Bei jeder Zurückstellung oder Ablehnung ist eine neue Begründung erforderlich."))
+
+    @api.constrains("state", "decision_reason", "implemented_on")
+    def _check_decision(self):
+        for record in self:
+            if record.state in ("deferred", "rejected") and not (record.decision_reason or "").strip():
+                raise ValidationError(_("Eine Begründung ist erforderlich."))
+            if record.state == "implemented" and not record.implemented_on:
+                raise ValidationError(_("Für veröffentlichte Anforderungen ist das Veröffentlichungsdatum erforderlich."))
+
+    def _post_decision_reason(self):
+        self.ensure_one()
+        self.message_post(body=_("Begründung (%(state)s): %(reason)s", state=dict(STATES)[self.state], reason=self.decision_reason))
+
+    def _after_state_transition(self):
+        """Extension point for the narrowly scoped Helpdesk note service."""
+
+    def action_decision(self):
+        self.ensure_one()
+        self._check_app_user()
+        self.check_access("write")
+        return {"type": "ir.actions.act_window", "name": _("Status ändern"), "res_model": "gc.requirement.decision", "view_mode": "form", "target": "new", "context": {"default_requirement_id": self.id, "default_state": self.state}}
+
+    @api.onchange("product_id")
+    def _onchange_product(self):
+        if self.category_id.product_id != self.product_id:
+            self.category_id = False
 
     def copy(self, default=None):
         return super().copy(dict(default or {}, reference=False, creator_user_id=False))

@@ -12,8 +12,6 @@
 - Python-Importprüfung: kein lokales `odoo`, `lxml`, `psycopg2`, `pytest`.
 - `gh api repos/odoo/enterprise`: 404, kein nutzbarer Enterprise-Zugriff.
 
-## Zielinstallation (noch nicht ausgeführt)
-
 ## Isolierter Community-Vertrag (ausgeführt)
 
 `docker compose -p gc-req-dev -f compose.test.yaml up -d db`
@@ -23,6 +21,8 @@
 Odoo-Image `odoo:18.0`, Digest `sha256:1b346c6f9145c79b802b711a554a141acbd0503ed6cd7d31cb3c938889c4cc36`, PostgreSQL 15. Ausschließlich synthetische Daten, keine veröffentlichten Ports. `tests/contract_addons/helpdesk` ist ein expliziter Testvertrag, KEIN Enterprise-Modul und darf niemals auf dem produktiven Addonspfad stehen. Nur `addons/` deployen.
 
 M1: Installation und 4 Tests nach Korrektur zweier Test-Exception-Erwartungen erfolgreich; `0 failed, 0 error(s)`. Python-Kompilierung und XML-Syntaxprüfung erfolgreich. Die Odoo-18-Laufzeit bestätigt `_has_cycle()` statt des veralteten `_check_recursion()`.
+
+M2: 7 Tests, `0 failed, 0 error(s)`, einschließlich Pflichtbegründungen über direkten ORM-Zugriff, Wizard, Follower-Abweisung und manueller Aktivität. Testbenutzer verwenden anschließend `no_reset_password=True`; Test-Signup-Benachrichtigungen sind nicht Bestandteil des App-Verhaltens.
 
 ## Zielinstallation (noch nicht ausgeführt)
 
