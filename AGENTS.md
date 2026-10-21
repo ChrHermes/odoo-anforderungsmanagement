@@ -105,3 +105,34 @@ For unclear **noncritical** details, use the simplest secure Odoo-native interpr
 ## Definition of finished
 
 The feature MVP is implementation-complete when all relevant items in SPEC.md section 11 and IMPLEMENTATION.md milestones M1-M5 are verifiably fulfilled, code/tests/docs are committed, and the Development build is green. It is eligible for **Staging consideration**, not for automatic Production release. After human-approved Staging acceptance and explicit separate production approval, a restricted internal pilot can start. Wider rollout requires its own decision.
+
+## Persistent Project Memory
+
+This repository is the single source of truth for project
+requirements, decisions, progress, and technical knowledge.
+
+At the beginning of every session:
+1. Read docs/.
+2. Read docs/PROJECT_MEMORY.md.
+3. Read docs/DECISIONS.md.
+4. Consult SPEC.md, TECHNICAL_DESIGN.md, and
+   IMPLEMENTATION.md as required.
+
+During development:
+- Maintain docs/STATUS.md as a resumable progress log.
+- Document new technical insights in PROJECT_MEMORY.md.
+- Record significant architecture decisions in DECISIONS.md.
+- Keep RUNBOOK.md updated with verified test commands.
+- Never store secrets, credentials, or customer data.
+
+Before committing completed work:
+- Update the project status.
+- Record tests performed and their actual results.
+- Document remaining blockers and next steps.
+- Include relevant documentation changes in Git commits.
+
+When starting on a new machine or in a new session:
+- Recover the current project state from repository files.
+- Inspect Git status and recent commits.
+- Continue from the documented next steps.
+- Do not repeat completed work unnecessarily.
