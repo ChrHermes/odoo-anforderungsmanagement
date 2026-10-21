@@ -52,3 +52,9 @@ class TestWorkflow(RequirementCase):
         req.activity_schedule("mail.mail_activity_data_todo", user_id=self.app_user.id, summary="Manuelle Prüfung")
         self.assertEqual(len(req.activity_ids), 1)
         self.assertEqual(req.activity_ids.user_id, self.app_user)
+        activity = req.activity_ids
+        req.action_archive()
+        self.assertEqual(req.activity_ids, activity)
+        req.action_unarchive()
+        activity.action_feedback(feedback="Manuell erledigt")
+        self.assertFalse(req.activity_ids)

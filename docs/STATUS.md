@@ -27,3 +27,7 @@ Enterprise-Installation, bestehende Helpdesk-Customizations, echte Record Rules 
 ### M3, implementiert / Enterprise-Gate offen
 
 17 Tests im Community-Vertrag erfolgreich, 0 Fehler. Enthalten: n:m-Capture, unveränderlicher Snapshot, getrennte Redaktion, Kundendeduplizierung/-änderung, Ticketwizard, native Actions, genaue eigene Ticketregel, ACL-Verweigerung, alternative Schnittstellen, Rechteentzug, interne Notizen ohne Notification-Pipeline. Erster M3-Lauf: 8 Fehler (fehlende frühe Pflichtfeldvalidierung und Test-Exportberechtigung); behoben und wiederholt. M4 wird gemäß aktuellem Offline-Auftrag implementiert, ohne das M3-Enterprise-Gate als bestanden auszuweisen.
+
+### M4, implementiert / Enterprise-Gate offen
+
+21 Tests im Community-Vertrag erfolgreich. Bestätigter Merge, Zeilensperren, Quellenkopien mit Provenienz, unveränderte überlappende Snapshots, manuelle Kundenzuordnung, Historie/Anhänge/Aktivitäten, dauerhafte Redirects/Ketten, Wiederherstellung und bounded Duplikatvorschläge. Erster Lauf: zwei Fehler; Odoo-Standardlöschung von Aktivitäten korrigiert, NewId-Erwartung im Vorschlagstest an tatsächliche ORM-Semantik angepasst. Als Nächstes M5: automatisierter frischer Install-/Upgrade-Nachweis, größere Datenmengen, Review und Anleitung.

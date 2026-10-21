@@ -27,3 +27,9 @@ Private unveränderliche Ticketquellen, Ticketaktion zum Erstellen/Verknüpfen, 
 17 Odoo-Tests im synthetischen Vertrag bestanden. Erster M3-Lauf mit 8 Fehlern: erforderliche Beschreibung wurde erst durch DB-Not-Null abgewiesen; jetzt verständliche frühe serverseitige Validierung. Exporttests benötigten zusätzlich die tatsächliche Odoo-Exportgruppe; ergänzt. Wiederholung fehlerfrei. Portal-/Fremdbenutzer, direkte Schnittstellen und Rechteentzug abgedeckt.
 
 M2 `25659e7` erfolgreich gepusht. Keine Enterprise-Installation oder Odoo.sh-Build beobachtet. M3-Enterprise-/Mailgate bleibt offen. M4-Code entsteht unter der ausdrücklichen Offline-Erlaubnis, ohne vorzeitige Freigabe.
+
+## M4 – Duplikate, Zusammenführung und Archivierung
+
+Implementiert: maximal fünf deterministische Vorschläge innerhalb desselben Produkts, bestätigter Merge mit Vorschau und Zeilensperren, unveränderte Originale, fehlende Snapshotkopien einschließlich Capture-Provenienz, manuelle Kundenunion, Originalnavigation und dauerhafte Redirects. Restore behält Redirect. Kein endgültiges Löschen.
+
+21 Tests bestanden. Erster M4-Lauf: zwei Fehlschläge. Einer deckte die Odoo-Standardlöschung offener Aktivitäten beim Archivieren auf; eine eng begrenzte Erhaltung wurde implementiert und die Aktivitätsidentität nach Merge sowie manuelles Abschließen geprüft. Der zweite betraf NewId-Semantik bei ungespeicherten Vorschlägen und wurde im Test korrigiert. M3 `6615c2d` erfolgreich gepusht.

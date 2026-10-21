@@ -23,3 +23,11 @@ Die private Übergangsmethode legt native `mail.message`-Notizen mit `mail.mt_no
 ## D006 – Kein privater Relations-Suchkanal (21.10.2026)
 
 `gc.requirement` erhält absichtlich kein öffentliches One2many auf private Quellen: relationale Suchdomains können fremde Modell-ACLs umgehen und Snapshot-Inhalte als Suchorakel verwenden. Ein schmaler RPC-Adapter liefert nur aktuell autorisierte Einträge. Native Quellenanzeige: Transient-Wizard mit ausschließlich nicht gespeichertem HTML; Leseformatierung und Export invalidieren den Anzeigecache, damit ein Rechteentzug auch innerhalb derselben Transaktion wirksam ist. Aggregatberechnung nutzt eng begrenztes sudo ohne Ticketdetails auszugeben.
+
+## D007 – Verlustfreie Archivierung trotz Odoo-Standard (21.10.2026)
+
+Im echten Odoo-18-Community-Code löschen `mail.activity.mixin.write` und `toggle_active` Aktivitäten beim Archivieren. Der Merge-Test hat dies nachgewiesen. Für Anforderungen ruft `toggle_active` deshalb die normale Model-Implementierung auf; der geprüfte Schreibpfad setzt bei Archivierung einen ausschließlich erhaltenden Kontext für `mail.activity.unlink`. Dieser überspringt nur Anforderungsaktivitäten nach bestehender Rechteprüfung, gewährt keine Rechte und ändert keine Aktivitäten anderer Modelle. Manuelles Erledigen bleibt möglich und getestet.
+
+## D008 – Merge und Wiederherstellung (21.10.2026)
+
+Quell-/Zielrechte werden vor Zeilensperren geprüft; mutiert wird ausschließlich per ORM. Beide Datensätze müssen aktiv und noch nicht zusammengeführt sein. Fehlende Ticketquellen werden mit Originalprovenienz kopiert; Überschneidungen bleiben an beiden Originalen. Anhänge/Chatter/Aktivitäten bleiben am Original und sind über „Erhaltene Originale“ zugänglich. Titel/Klassifikation/Status des Ziels bleiben führend, auch bei produktübergreifender manueller Entscheidung. Wiederherstellen eines Merge-Originals ist erlaubt, entfernt aber niemals den permanenten Redirect. Kettennavigation folgt zum aktuellen Überlebenden; direkte Redirect-Manipulation und erneutes Zusammenführen derselben Quelle sind gesperrt.

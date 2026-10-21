@@ -7,3 +7,4 @@ access_category_config,Funktionsbereich konfigurieren,model_gc_requirement_categ
 access_decision_user,Status ändern,model_gc_requirement_decision,gc_requirements.group_user,1,1,1,1
 access_from_ticket_user,Anforderung aus Ticket,model_gc_requirement_from_ticket,gc_requirements.group_user,1,1,1,1
 access_source_viewer_user,Autorisierte Quellenanzeige,model_gc_requirement_source_viewer,gc_requirements.group_user,1,1,1,1
+access_merge_user,Duplikate zusammenführen,model_gc_requirement_merge,gc_requirements.group_user,1,1,1,1

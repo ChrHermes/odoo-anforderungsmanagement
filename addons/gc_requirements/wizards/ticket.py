@@ -16,6 +16,13 @@ class RequirementFromTicket(models.TransientModel):
     request_type = fields.Selection([("feature", "Funktionswunsch"), ("improvement", "Verbesserung"), ("bug", "Fehler")], string="Typ")
     product_id = fields.Many2one("gc.requirement.product", string="Produkt")
     category_id = fields.Many2one("gc.requirement.category", string="Funktionsbereich")
+    similar_requirement_ids = fields.Many2many("gc.requirement", string="Ähnliche Anforderungen", compute="_compute_similar", compute_sudo=False)
+
+    @api.depends("name", "product_id")
+    @api.depends_context("uid")
+    def _compute_similar(self):
+        for wizard in self:
+            wizard.similar_requirement_ids = self.env["gc.requirement"]._find_similar(wizard.name, wizard.product_id.id)
 
     @api.model
     def default_get(self, field_names):

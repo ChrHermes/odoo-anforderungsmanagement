@@ -53,3 +53,14 @@ class RequirementFollower(models.Model):
             requirement = self.env["gc.requirement"].browse(follower.res_id)
             if not requirement.exists() or follower.partner_id.id not in requirement._permitted_partner_ids(follower.partner_id.ids):
                 raise ValidationError(_("Externe oder nicht berechtigte Follower sind nicht zulässig."))
+
+
+class RequirementActivity(models.Model):
+    _inherit = "mail.activity"
+
+    def unlink(self):
+        if self.env.context.get("gc_preserve_requirement_activities"):
+            self.check_access("unlink")
+            remaining = self.filtered(lambda activity: activity.res_model != "gc.requirement")
+            return super(RequirementActivity, remaining).unlink()
+        return super().unlink()

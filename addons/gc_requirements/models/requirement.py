@@ -88,7 +88,11 @@ class Requirement(models.Model):
         vals = dict(vals)
         if changes and vals["state"] == "implemented" and not vals.get("implemented_on"):
             vals["implemented_on"] = fields.Date.context_today(self)
-        result = super().write(vals)
+        # Odoo's activity mixin deletes activities on archive. Requirement
+        # history must retain them; the scoped unlink guard only preserves
+        # requirement activities and never grants additional permissions.
+        writer = self.with_context(gc_preserve_requirement_activities=True) if vals.get("active") is False else self
+        result = super(Requirement, writer).write(vals)
         if {"product_id", "category_id"} & vals.keys():
             self._check_active_classification()
         if "assigned_user_id" in vals:
@@ -97,6 +101,11 @@ class Requirement(models.Model):
             record._post_decision_reason()
         changes._after_state_transition()
         return result
+
+    def toggle_active(self):
+        # Skip mail.activity.mixin's destructive pre-archive cleanup, while
+        # keeping the normal ORM write path, authorization and audit intact.
+        return models.Model.toggle_active(self)
 
     @api.model
     def _validate_required_values(self, vals, partial=False):

@@ -21,7 +21,9 @@
                 <field name="product_id" required="mode == 'new'" options="{'no_create': True}"/>
                 <field name="category_id" domain="[('product_id', '=', product_id)]" options="{'no_create': True}"/>
             </group>
-            <div invisible="mode != 'new'"><p>Bitte verfassen Sie eine redaktionelle Beschreibung. Der Tickettext wird getrennt als unveränderliche Quelle gesichert.</p><field name="description" required="mode == 'new'"/></div>
+            <div invisible="mode != 'new'"><p>Bitte verfassen Sie eine redaktionelle Beschreibung. Der Tickettext wird getrennt als unveränderliche Quelle gesichert.</p><field name="description" required="mode == 'new'"/>
+                <group string="Mögliche Duplikate" invisible="not similar_requirement_ids"><field name="similar_requirement_ids" widget="many2many_tags" options="{'no_create': True}"/></group>
+            </div>
             <footer><button name="action_apply" type="object" string="Erstellen / verknüpfen" class="btn-primary"/><button string="Abbrechen" special="cancel"/></footer>
         </form></field>
     </record>
@@ -30,6 +32,15 @@
         <field name="arch" type="xml"><form string="Autorisierte Ticketquellen" create="0" edit="0" delete="0">
             <field name="requirement_id"/><field name="source_html"/>
             <footer><button string="Schließen" special="cancel"/></footer>
+        </form></field>
+    </record>
+    <record id="view_merge_form" model="ir.ui.view">
+        <field name="name">gc.requirement.merge.form</field><field name="model">gc.requirement.merge</field>
+        <field name="arch" type="xml"><form string="Duplikat zusammenführen">
+            <group><field name="source_id"/><field name="target_id" domain="[('id', '!=', source_id), ('active', '=', True), ('merged_into_id', '=', False)]" options="{'no_create': True}"/>
+                <field name="preview"/><field name="confirmed"/>
+            </group>
+            <footer><button name="action_apply" type="object" string="Zusammenführen und Quelle archivieren" class="btn-primary"/><button string="Abbrechen" special="cancel"/></footer>
         </form></field>
     </record>
 </odoo>

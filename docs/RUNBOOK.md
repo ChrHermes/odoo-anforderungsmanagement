@@ -26,6 +26,8 @@ M2: 7 Tests, `0 failed, 0 error(s)`, einschließlich Pflichtbegründungen über 
 
 M3: 17 Tests, `0 failed, 0 error(s)` nach Korrektur des ersten Laufs. Exportprivileg für Support-Testbenutzer explizit gesetzt. Direkte rohe `read/search_read/read_group/export/search_count`-Versuche verweigert; eigener Ticket-Record-Rule-Entzug greift auch beim bestehenden Viewer. Statusnotiztest: sechs interne Notizen für zwei Tickets/drei tatsächliche Übergänge, keine zusätzlichen `mail.mail`/`mail.notification`, keine Ticketstatus-/Prioritätsänderung und keine Aktivitäten im synthetischen Vertrag.
 
+M4: 21 Tests, `0 failed, 0 error(s)`. Originalaktivitäten, Anhänge und Historie nach Merge erhalten; überlappende Snapshots getrennt erhalten; unerlaubte/selbstbezügliche/unbestätigte/erneute Merges und direkte Redirects abgewiesen. Odoo-Aktivitätslöschung beim Archivieren gezielt unterbunden und manuelles Erledigen danach getestet.
+
 ## Zielinstallation (noch nicht ausgeführt)
 
 Addon-Verzeichnis `addons` auf den Odoo-Addonspfad setzen; Odoo 18 Enterprise mit `mail` und `helpdesk` bereitstellen. Nur isolierte Development-Datenbank verwenden. Installation: `odoo --stop-after-init -d <development-db> -i gc_requirements --test-enable --test-tags /gc_requirements`. Upgrade entsprechend mit `-u gc_requirements`. Platzhalter sind bewusst keine existierenden Datenbanknamen.
