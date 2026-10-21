@@ -2,7 +2,7 @@
 # Enterprise acceptance: replace /test-contracts with a licensed Enterprise path.
 services:
   db:
-    image: postgres:15-alpine
+    image: postgres:15-alpine@sha256:09e4f20b14ddb3dfe3a0c825b206032aaf8f28300ba2070c0b60fc1c10c6abc7
     environment:
       POSTGRES_USER: odoo
       POSTGRES_PASSWORD: isolated-test-only
@@ -15,7 +15,7 @@ services:
     tmpfs:
       - /var/lib/postgresql/data
   odoo:
-    image: odoo:18.0
+    image: odoo:18.0@sha256:1b346c6f9145c79b802b711a554a141acbd0503ed6cd7d31cb3c938889c4cc36
     depends_on:
       db:
         condition: service_healthy
@@ -25,5 +25,11 @@ services:
       PASSWORD: isolated-test-only
     volumes:
       - ./addons:/mnt/extra-addons:ro
-      - ./tests/contract_addons:/test-contracts:ro
+      - ./.local/contract-addons:/test-contracts:ro
+      - odoo-data:/var/lib/odoo
     command: ["odoo", "--addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons,/test-contracts", "--db_host=db", "--db_user=odoo", "--db_password=isolated-test-only", "-d", "gc_requirements_contract", "-i", "gc_requirements", "--test-enable", "--test-tags", "/gc_requirements", "--stop-after-init", "--without-demo=all", "--http-port=0"]
+networks:
+  default:
+    internal: true
+volumes:
+  odoo-data:

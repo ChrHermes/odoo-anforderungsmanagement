@@ -5,7 +5,7 @@
             <group><field name="requirement_id"/><field name="state"/>
                 <field name="reason" required="state in ['deferred', 'rejected']" invisible="state not in ['deferred', 'rejected']"/>
             </group>
-            <div class="alert alert-info" invisible="state != 'implemented'">Umgesetzt bedeutet: veröffentlicht oder produktiv verfügbar.</div>
+            <div class="alert alert-info" role="status" invisible="state != 'implemented'">Umgesetzt bedeutet: veröffentlicht oder produktiv verfügbar.</div>
             <group invisible="state != 'implemented'"><field name="implemented_version"/><field name="implemented_on"/><field name="implementation_note"/></group>
             <footer><button name="action_apply" type="object" string="Status übernehmen" class="btn-primary"/><button string="Abbrechen" special="cancel"/></footer>
         </form></field>
@@ -19,7 +19,7 @@
             <group invisible="mode != 'new'">
                 <field name="name" required="mode == 'new'"/><field name="request_type" required="mode == 'new'"/>
                 <field name="product_id" required="mode == 'new'" options="{'no_create': True}"/>
-                <field name="category_id" domain="[('product_id', '=', product_id)]" options="{'no_create': True}"/>
+                <field name="category_id" domain="[('product_id', '=', product_id), ('selectable', '=', True)]" options="{'no_create': True}"/>
             </group>
             <div invisible="mode != 'new'"><p>Bitte verfassen Sie eine redaktionelle Beschreibung. Der Tickettext wird getrennt als unveränderliche Quelle gesichert.</p><field name="description" required="mode == 'new'"/>
                 <group string="Mögliche Duplikate" invisible="not similar_requirement_ids"><field name="similar_requirement_ids" widget="many2many_tags" options="{'no_create': True}"/></group>

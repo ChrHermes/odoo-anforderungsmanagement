@@ -10,18 +10,37 @@ from .common import HelpdeskCase
 @tagged("post_install", "-at_install")
 class TestMerge(HelpdeskCase):
     def merge(self, source, target, confirmed=True):
-        wizard = self.env["gc.requirement.merge"].with_user(self.app_user).create({"source_id": source.id, "target_id": target.id, "confirmed": confirmed})
+        wizard = (
+            self.env["gc.requirement.merge"]
+            .with_user(self.app_user)
+            .create({"source_id": source.id, "target_id": target.id, "confirmed": confirmed})
+        )
         return wizard.action_apply()
 
     def test_merge_preserves_overlapping_snapshots_history_and_attachments(self):
         source = self.linked_requirement(manual_customer_ids=[Command.link(self.company_partner.id)])
         source_reference = source.reference
         source.message_post(body="HISTORICAL_ORIGINAL_NOTE")
-        source.activity_schedule("mail.mail_activity_data_todo", user_id=self.app_user.id, summary="Original activity")
-        attachment = self.env["ir.attachment"].with_user(self.app_user).create({"name": "synthetic.txt", "datas": base64.b64encode(b"synthetic evidence"), "res_model": "gc.requirement", "res_id": source.id})
+        source.activity_schedule(
+            "mail.mail_activity_data_todo", user_id=self.app_user.id, summary="Original activity"
+        )
+        attachment = (
+            self.env["ir.attachment"]
+            .with_user(self.app_user)
+            .create(
+                {
+                    "name": "synthetic.txt",
+                    "datas": base64.b64encode(b"synthetic evidence"),
+                    "res_model": "gc.requirement",
+                    "res_id": source.id,
+                }
+            )
+        )
         original_messages = source.message_ids
         original_activity = source.activity_ids
-        original_links = self.env["gc.requirement.ticket.source"].sudo().search([("requirement_id", "=", source.id)])
+        original_links = (
+            self.env["gc.requirement.ticket.source"].sudo().search([("requirement_id", "=", source.id)])
+        )
         original_a = original_links.filtered(lambda s: s.ticket_id == self.ticket_a)
         self.ticket_a.sudo().description = "<p>LATER_TARGET_SNAPSHOT</p>"
         target = self.make_requirement()
@@ -33,8 +52,13 @@ class TestMerge(HelpdeskCase):
         self.assertEqual(target.ticket_count, 2)
         self.assertEqual(target.customer_count, 1)
         self.assertIn(self.company_partner, target.manual_customer_ids)
-        self.assertEqual(self.env["gc.requirement.ticket.source"].sudo().search([("requirement_id", "=", source.id)]), original_links)
-        target_links = self.env["gc.requirement.ticket.source"].sudo().search([("requirement_id", "=", target.id)])
+        self.assertEqual(
+            self.env["gc.requirement.ticket.source"].sudo().search([("requirement_id", "=", source.id)]),
+            original_links,
+        )
+        target_links = (
+            self.env["gc.requirement.ticket.source"].sudo().search([("requirement_id", "=", target.id)])
+        )
         target_a = target_links.filtered(lambda s: s.ticket_id == self.ticket_a)
         self.assertIn("LATER_TARGET_SNAPSHOT", target_a.description_snapshot)
         self.assertIn("SNAPSHOT_ALPHA", original_a.description_snapshot)
@@ -47,6 +71,8 @@ class TestMerge(HelpdeskCase):
         self.assertTrue(original_messages <= source.message_ids)
         self.assertEqual(source.activity_ids, original_activity)
         self.assertEqual(attachment.res_id, source.id)
+        attachment.invalidate_recordset()
+        self.assertEqual(base64.b64decode(attachment.with_user(self.app_user).datas), b"synthetic evidence")
         self.assertIn(source, target.merged_source_ids)
         self.assertEqual(target.with_user(self.app_user).get_authorized_sources(), [])
 
@@ -76,7 +102,14 @@ class TestMerge(HelpdeskCase):
 
     def test_cross_permission_merge_is_atomic(self):
         source, target = self.linked_requirement(), self.make_requirement()
-        self.env["ir.rule"].create({"name": "SYNTHETIC hidden merge target", "model_id": self.env["ir.model"]._get_id("gc.requirement"), "domain_force": "[('id', '!=', %s)] if user.id == %s else [(1, '=', 1)]" % (target.id, self.app_user.id)})
+        self.env["ir.rule"].create(
+            {
+                "name": "SYNTHETIC hidden merge target",
+                "model_id": self.env["ir.model"]._get_id("gc.requirement"),
+                "domain_force": "[('id', '!=', %s)] if user.id == %s else [(1, '=', 1)]"
+                % (target.id, self.app_user.id),
+            }
+        )
         with self.assertRaises(AccessError), self.cr.savepoint():
             self.merge(source, target)
         self.assertTrue(source.active)
@@ -85,7 +118,9 @@ class TestMerge(HelpdeskCase):
 
     def test_similarity_is_bounded_and_product_scoped(self):
         expected = self.make_requirement(name="IEC104 Verbindung verbessern")
-        other_product = self.make_requirement(name="IEC104 Verbindung verbessern", product_id=self.operator.id)
+        other_product = self.make_requirement(
+            name="IEC104 Verbindung verbessern", product_id=self.operator.id
+        )
         draft = self.Requirement.new(self.values(name="IEC104 Verbindung"))
         self.assertIn(expected, draft.similar_requirement_ids._origin)
         self.assertNotIn(other_product, draft.similar_requirement_ids._origin)

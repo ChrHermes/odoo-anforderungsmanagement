@@ -17,3 +17,15 @@ Fortsetzung: zuerst `docs/STATUS.md`, `docs/DECISIONS.md`, `docs/RUNBOOK.md` und
 Verifizierte Odoo-18-Details: `<list>` und Kanban-Template `card` werden akzeptiert; `_has_cycle()` ist die aktuelle Hierarchie-API. `check_access()` verbindet ACL und Record Rules. `mail.followers` benötigt zusätzlich einen Constraint, um direkte ORM-/One2many-Einträge externer Partner abzuweisen. `new_test_user` mit `no_reset_password=True` verwenden, um synthetische Signup-Mails zu vermeiden.
 
 Quellenschutz: keine ACL und keine öffentliche Relation zu `gc.requirement.ticket.source`; `get_authorized_sources()` prüft Parent und Ticket ohne sudo, bevor privater Snapshot gelesen wird. Viewer-HTML ist nicht gespeichert und wird bei Read/Search_read/Export neu autorisiert. Kein Snapshot-Text in Chatter. `base.group_allow_export` muss in Export-Sicherheitstests ausdrücklich gesetzt sein, damit die Tests tatsächlich die Modell-ACL prüfen.
+
+## Verifizierter Abschlussstand des Offline-Kandidaten
+
+- Odoo Community **18.0-20261015**, PostgreSQL 15, per Digest fixierte Docker-Images. 26 Tests jeweils bei frischer Installation und bei echtem Upgrade bestanden. `scripts/test_contract.py` ist der portable reproduzierbare Einstieg; entfernt nur seinen synthetischen Stack. Keine Enterprise-Abnahme daraus ableiten.
+- Der synthetische Vertrag ist nur eine Vorlage ohne erkennbares Odoo-Manifest. `test_contract.py` erzeugt eine Laufzeitkopie in `.local/contract-addons`; diese niemals deployen. Nur `addons/gc_requirements` enthält ein versioniertes echtes Manifest. Keine Quell-/Config-ACL für Snapshots ergänzen, auch wenn Odoo davor warnt.
+- 1.000 Anforderungen mit 2.000 unterschiedlichen Tickets und Quellen: Zählerlesen mit kaltem Cache in 13 SQL-Abfragen. Follower werden beim Batch-Create pro Benutzer gesammelt.
+- Odoo-`Form` verlangt bei readonly Pflichtfeldern Initialwerte: Nummer zeigt vor Save „Neu“, Ersteller aktuellen Benutzer. Serverseitig werden beide unveränderlich gesetzt; Clientwerte können sie nicht bestimmen.
+- Kanonische falsche Odoo-Domain ist `[(0, '=', 1)]`; der Negativtest mit versehentlich berechtigtem Portalbenutzer hat die frühere ungültige Variante aufgedeckt und deren Korrektur bestätigt.
+- `mail.activity.mixin` löscht beim Archivieren standardmäßig Aktivitäten. Für Anforderungen sind beide Löschwege gezielt neutralisiert; manuelles Erledigen bleibt möglich. Siehe D007.
+- Quelle-Viewer speichert nur die Anforderungsreferenz, keinen Snapshottext. Die Quellenanzeige verwendet immer neu berechnetes autorisiertes HTML. Mergeprovenienz wird nur bei Leserecht auf das Herkunfts-REQ ausgegeben.
+- Ticketaktionen sind native `ir.actions.server`-Bindings. Noch keine echte Helpdesk-View geerbt. Official Odoo-18-Router bestätigt URLs `/odoo/<model>/<id>` für Modellnamen mit Punkt; Menüs unterstützen SVG-Icons.
+- Noch offen: Enterprise/Customs, tatsächliche UI-Darstellung, Odoo.sh-Schutz/Zugriff/Build und neutralisierte Staging-Abnahme. Browserwerkzeug scheiterte bei Initialisierung mit `node:process`-Importfehler. Keine Infrastrukturänderung als Ausweichlösung vorgenommen.

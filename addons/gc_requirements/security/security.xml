@@ -15,16 +15,16 @@
     <record id="rule_requirement_internal" model="ir.rule">
         <field name="name">Anforderungen ausschließlich intern</field>
         <field name="model_id" ref="model_gc_requirement"/>
-        <field name="domain_force">[(1, '=', 1)] if not user.share else [(1, '=', 0)]</field>
+        <field name="domain_force">[(1, '=', 1)] if not user.share else [(0, '=', 1)]</field>
     </record>
     <record id="rule_product_internal" model="ir.rule">
         <field name="name">Anforderungsprodukte ausschließlich intern</field>
         <field name="model_id" ref="model_gc_requirement_product"/>
-        <field name="domain_force">[(1, '=', 1)] if not user.share else [(1, '=', 0)]</field>
+        <field name="domain_force">[(1, '=', 1)] if not user.share else [(0, '=', 1)]</field>
     </record>
     <record id="rule_category_internal" model="ir.rule">
         <field name="name">Funktionsbereiche ausschließlich intern</field>
         <field name="model_id" ref="model_gc_requirement_category"/>
-        <field name="domain_force">[(1, '=', 1)] if not user.share else [(1, '=', 0)]</field>
+        <field name="domain_force">[(1, '=', 1)] if not user.share else [(0, '=', 1)]</field>
     </record>
 </odoo>

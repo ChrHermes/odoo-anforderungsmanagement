@@ -1,6 +1,6 @@
 from odoo import Command
 from odoo.exceptions import AccessError, ValidationError
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from .common import HelpdeskCase
 
@@ -8,12 +8,19 @@ from .common import HelpdeskCase
 @tagged("post_install", "-at_install")
 class TestHelpdesk(HelpdeskCase):
     def test_snapshot_capture_many_to_many_and_immutability(self):
+        ticket = self.ticket_a.with_user(self.support)
+        self.assertEqual(ticket.gc_requirement_count, 0)
         req = self.linked_requirement()
         other = self.make_requirement()
         other.with_user(self.support).link_ticket(self.ticket_a.id)
+        self.assertEqual(ticket.gc_requirement_count, 2)
         req.with_user(self.support).link_ticket(self.ticket_a.id)
         self.assertEqual(req.ticket_count, 2)
-        source = self.env["gc.requirement.ticket.source"].sudo().search([("requirement_id", "=", req.id), ("ticket_id", "=", self.ticket_a.id)])
+        source = (
+            self.env["gc.requirement.ticket.source"]
+            .sudo()
+            .search([("requirement_id", "=", req.id), ("ticket_id", "=", self.ticket_a.id)])
+        )
         self.assertEqual(len(source), 1)
         original = source.description_snapshot
         self.ticket_a.sudo().description = "<p>CHANGED_AFTER_CAPTURE</p>"
@@ -26,9 +33,13 @@ class TestHelpdesk(HelpdeskCase):
         self.assertNotIn("CHANGED_AFTER_CAPTURE", rows[0]["description_snapshot"])
 
     def test_customer_organizations_and_live_customer_change(self):
-        req = self.linked_requirement(manual_customer_ids=[Command.link(self.contact_a.id), Command.link(self.company_partner.id)])
+        req = self.linked_requirement(
+            manual_customer_ids=[Command.link(self.contact_a.id), Command.link(self.company_partner.id)]
+        )
         self.assertEqual(req.customer_count, 1)
-        other_customer = self.env["res.partner"].create({"name": "Synthetic second customer", "is_company": True})
+        other_customer = self.env["res.partner"].create(
+            {"name": "Synthetic second customer", "is_company": True}
+        )
         req.manual_customer_ids = [Command.link(other_customer.id)]
         self.assertEqual(req.customer_count, 2)
         self.ticket_a.sudo().partner_id = other_customer
@@ -38,11 +49,26 @@ class TestHelpdesk(HelpdeskCase):
         self.assertEqual(req.customer_count, 1)
 
     def test_ticket_wizard_requires_editorial_description(self):
-        Wizard = self.env["gc.requirement.from.ticket"].with_user(self.support).with_context(default_ticket_id=self.ticket_a.id)
+        Wizard = (
+            self.env["gc.requirement.from.ticket"]
+            .with_user(self.support)
+            .with_context(default_ticket_id=self.ticket_a.id)
+        )
         defaults = Wizard.default_get(["ticket_id", "name", "description", "mode"])
+        form = Form(Wizard)
+        self.assertEqual(form.name, self.ticket_a.name)
+        self.assertFalse(form.description)
         self.assertEqual(defaults["name"], self.ticket_a.name)
         self.assertFalse(defaults.get("description"))
-        wizard = Wizard.create({"ticket_id": self.ticket_a.id, "name": "Synthetischer Titel", "mode": "new", "request_type": "bug", "product_id": self.node.id})
+        wizard = Wizard.create(
+            {
+                "ticket_id": self.ticket_a.id,
+                "name": "Synthetischer Titel",
+                "mode": "new",
+                "request_type": "bug",
+                "product_id": self.node.id,
+            }
+        )
         with self.assertRaises(ValidationError), self.cr.savepoint():
             wizard.action_apply()
         wizard.description = "<p>Vom Mitarbeiter formulierter Inhalt.</p>"
@@ -87,10 +113,32 @@ class TestHelpdesk(HelpdeskCase):
 
     def test_bindings_and_bidirectional_navigation(self):
         req = self.linked_requirement()
+        viewer_action = req.with_user(self.limited).action_view_sources()
+        viewer = (
+            self.env["gc.requirement.source.viewer"].with_user(self.limited).browse(viewer_action["res_id"])
+        )
+        self.assertIn("SNAPSHOT_ALPHA", viewer.read(["source_html"])[0]["source_html"])
+        self.assertNotIn("SNAPSHOT_SECRET_BETA", viewer.read(["source_html"])[0]["source_html"])
         action = self.ticket_a.with_user(self.support).action_gc_requirements()
         self.assertIn(req, self.Requirement.search(action["domain"]))
         action = req.with_user(self.limited).action_view_tickets()
-        self.assertEqual(self.env["helpdesk.ticket"].with_user(self.limited).search(action["domain"]), self.ticket_a.with_user(self.limited))
+        self.assertEqual(
+            self.env["helpdesk.ticket"].with_user(self.limited).search(action["domain"]),
+            self.ticket_a.with_user(self.limited),
+        )
         for xmlid in ("action_ticket_requirement", "action_ticket_requirements"):
             binding = self.env.ref("gc_requirements." + xmlid)
             self.assertEqual(binding.binding_model_id.model, "helpdesk.ticket")
+
+    def test_native_wizard_views_and_grouped_search(self):
+        for model in (
+            "gc.requirement.decision",
+            "gc.requirement.from.ticket",
+            "gc.requirement.source.viewer",
+            "gc.requirement.merge",
+        ):
+            self.env[model].with_user(self.support).get_view(view_type="form")
+        req = self.make_requirement()
+        self.assertIn(req.id, [item[0] for item in self.Requirement.name_search(req.reference)])
+        for field in ("product_id", "request_type", "assigned_user_id", "priority", "state"):
+            self.assertTrue(self.Requirement.read_group([("id", "=", req.id)], [field], [field]))

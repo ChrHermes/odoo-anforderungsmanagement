@@ -1,5 +1,26 @@
 # Entwicklungsstand
 
+## Aktuell – 21.10.2026
+
+**M1–M5 im verfügbaren Offline-Umfang implementiert und lokal geprüft. Enterprise-/Odoo.sh-/Staging-Abnahme weiterhin offen; keine Produktionsfreigabe.**
+
+- `python3 scripts/test_contract.py`: frische Installation **26/26**, tatsächliches Upgrade **26/26**, jeweils 0 Fehler; Upgrade erhält geänderte Seeds, Referenz, Snapshot und physischen Anhang.
+- Aggregatlesen: 1.000 Anforderungen / 2.000 unterschiedlichen Tickets und Quellen, kalter Cache, 13 SQL-Abfragen. Native `Form`-Erfassung und Wizard-Defaults geprüft, keine visuelle Browserabnahme.
+- Statische Paket-/Python-/XML-Prüfung, Ruff und Formatprüfung bestanden. Reproduzierbare Images und GitHub-Vertragsworkflow vorhanden.
+- `README.md`, `DEVELOPMENT_REPORT.md`, `docs/ACCEPTANCE.md`, Wissensbasis und Runbook dienen der Fortsetzung ohne Chatverlauf.
+- M1–M4-Commits erfolgreich gepusht; M5-Kandidat und CI-Nachweis werden im Entwicklungsbericht ergänzt. Git-Log ist die maßgebliche vollständige Commitliste.
+- Beide ausschließlich hier erzeugten synthetischen Docker-Teststacks wurden nach den Prüfungen entfernt. Images bleiben als Testcache; lokale ignorierte Testlogs unter `.local/test-results/`.
+
+## Konkrete nächste Schritte / Blocker
+
+1. Freigegebenes Odoo.sh-Projekt, Zuordnung von `codex/initial-mvp` zu Development und technische Staging-/Production-Schutzregeln bestätigen.
+2. Lizenziertes Odoo-18-Enterprise-Helpdesk und Custom-Addon-/View-/Rule-Inventar bereitstellen; Addonpfad `addons` überprüfen.
+3. Enterprise-Installation und Upgrade mit `--test-tags /gc_requirements` ausführen. Vorhandene Team-/Company-/Feld-/Read-Regeln ergänzend prüfen.
+4. UI-Abnahme mit tatsächlichem Browser einschließlich Kanban, Form, Actions, Wizard, Favoriten und archivierten Originalen nachholen. Browserwerkzeug konnte hier nicht starten.
+5. M3-Vertraulichkeits- und Mail-/Automationsgate im echten neutralisierten System bestehen; erst danach frische menschliche Kandidatenfreigabe für Staging einholen. Production separat.
+
+Vorhandene Nutzeränderung an `codex-task.md` ist unverändert und wird nicht commit­tet. Keine fremden Branches, Zugangsdaten oder produktiven Daten geändert.
+
 ## Auftrag und Plan
 
 Autonome Erstimplementierung M1–M5 auf `codex/initial-mvp`; keine Staging-/Production-Aktionen. Der aktuelle Auftrag erlaubt bei fehlender Enterprise-Laufzeit statische und isolierte Prüfungen und verlangt die Kennzeichnung ungeprüfter Integrationstests. Sicherheitsgates bleiben Freigabeblocker; implementierter Code allein schließt keinen Meilenstein ab.
@@ -18,9 +39,9 @@ Autonome Erstimplementierung M1–M5 auf `codex/initial-mvp`; keine Staging-/Pro
 - Keine lokale Odoo-/Enterprise-Installation; Docker verfügbar. Enterprise-Quellcodezugriff nicht vorhanden (GitHub 404).
 - Dokumentationsbasis vor Implementierungsbeginn gefüllt.
 
-## Offen / nächster Schritt
+## Verlauf M1/M2
 
-M1 und M2 implementiert; insgesamt 7 Odoo-18-TransactionCase-Tests im synthetischen Vertrag bestanden. M2 umfasst flexible Übergänge, neue Pflichtbegründung je Übergang, Veröffentlichungsdatum, interne Follower mit direktem ORM-Schutz, Notizen/Aktivitäten, Statuswizard und Suchfilter. Erster M1-Lauf: 2 Testfehler (Exception-Erwartungen), korrigiert; Wiederholung: 0 Fehler. Installation/XML erfolgreich im isolierten Community-Vertrag. Enterprise-Installation und echter Upgrade-Nachweis bleiben offen. Als Nächstes M3.
+M1 und M2 implementiert; zunächst 7 Odoo-18-TransactionCase-Tests im synthetischen Vertrag bestanden. M2 umfasst flexible Übergänge, neue Pflichtbegründung je Übergang, Veröffentlichungsdatum, interne Follower mit direktem ORM-Schutz, Notizen/Aktivitäten, Statuswizard und Suchfilter. Erster M1-Lauf: 2 Testfehler (Exception-Erwartungen), korrigiert; Wiederholung: 0 Fehler. Installation/XML erfolgreich im isolierten Community-Vertrag. Enterprise-Nachweise bleiben offen.
 
 Enterprise-Installation, bestehende Helpdesk-Customizations, echte Record Rules und Odoo.sh-Build bleiben nachzuweisen. Nutzeränderung `codex-task.md` nicht committen.
 
@@ -30,4 +51,4 @@ Enterprise-Installation, bestehende Helpdesk-Customizations, echte Record Rules 
 
 ### M4, implementiert / Enterprise-Gate offen
 
-21 Tests im Community-Vertrag erfolgreich. Bestätigter Merge, Zeilensperren, Quellenkopien mit Provenienz, unveränderte überlappende Snapshots, manuelle Kundenzuordnung, Historie/Anhänge/Aktivitäten, dauerhafte Redirects/Ketten, Wiederherstellung und bounded Duplikatvorschläge. Erster Lauf: zwei Fehler; Odoo-Standardlöschung von Aktivitäten korrigiert, NewId-Erwartung im Vorschlagstest an tatsächliche ORM-Semantik angepasst. Als Nächstes M5: automatisierter frischer Install-/Upgrade-Nachweis, größere Datenmengen, Review und Anleitung.
+21 Tests im Community-Vertrag erfolgreich. Bestätigter Merge, Zeilensperren, Quellenkopien mit Provenienz, unveränderte überlappende Snapshots, manuelle Kundenzuordnung, Historie/Anhänge/Aktivitäten, dauerhafte Redirects/Ketten, Wiederherstellung und bounded Duplikatvorschläge. Erster Lauf: zwei Fehler; Odoo-Standardlöschung von Aktivitäten korrigiert, NewId-Erwartung im Vorschlagstest an tatsächliche ORM-Semantik angepasst. M5 ergänzt anschließend die oben dokumentierten Installations-/Upgrade-/Leistungsnachweise.

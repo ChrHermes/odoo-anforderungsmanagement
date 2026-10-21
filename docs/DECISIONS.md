@@ -31,3 +31,13 @@ Im echten Odoo-18-Community-Code löschen `mail.activity.mixin.write` und `toggl
 ## D008 – Merge und Wiederherstellung (21.10.2026)
 
 Quell-/Zielrechte werden vor Zeilensperren geprüft; mutiert wird ausschließlich per ORM. Beide Datensätze müssen aktiv und noch nicht zusammengeführt sein. Fehlende Ticketquellen werden mit Originalprovenienz kopiert; Überschneidungen bleiben an beiden Originalen. Anhänge/Chatter/Aktivitäten bleiben am Original und sind über „Erhaltene Originale“ zugänglich. Titel/Klassifikation/Status des Ziels bleiben führend, auch bei produktübergreifender manueller Entscheidung. Wiederherstellen eines Merge-Originals ist erlaubt, entfernt aber niemals den permanenten Redirect. Kettennavigation folgt zum aktuellen Überlebenden; direkte Redirect-Manipulation und erneutes Zusammenführen derselben Quelle sind gesperrt.
+
+## D009 – Reproduzierbare Prüfung und verbleibende Freigabe (21.10.2026)
+
+Der versionsfixierte Community-Vertrag nutzt ein internes Docker-Netz ohne ausgehenden Netzpfad und ohne veröffentlichte Ports. Ein eigener Filestore überdauert Install-/Upgrade-Container, damit der Anhangserhalt tatsächlich geprüft wird. Der Testtreiber verlangt sowohl erfolgreichen Prozessstatus als auch positive Odoo-Testzusammenfassung; fehlende/fehlgeschlagene Tests können nicht als Erfolg durchlaufen. GitHub Actions prüft denselben Vertrag; dies ist ausdrücklich kein Odoo.sh-Enterprise-Build. Keine Runtime-/Deployment-Schutzkonfiguration außerhalb des Development-Teststacks ändern.
+
+Das versionierte Testvertrag-Verzeichnis enthält absichtlich **kein** erkennbares `__manifest__.py`, sondern nur `manifest.py.in`. Erst der Testtreiber erzeugt das synthetische Modul in der Git-ignorierten `.local/contract-addons`-Laufzeitkopie. Damit kann eine rekursive Addonsuche im ausgecheckten Repository den Testvertrag nicht versehentlich als Enterprise-Helpdesk erkennen. Der statische Prüfer erzwingt diese Grenze.
+
+## D010 – Aktive Klassifikation und interne Aktivitäten (21.10.2026)
+
+Eine gespeicherte rekursive Selektierbarkeit blendet Bereiche unter archivierten Produkten/Vorfahren aus der Auswahl aus. Bestehende unveränderte Zuordnungen dürfen weiterhin gespeichert werden; echte neue Zuordnungen werden serverseitig auf den vollständigen aktiven Pfad geprüft. Aktivitätsassignees müssen aktuell interne berechtigte App-Benutzer sein; direkter ORM-Zugriff wird ebenso geprüft wie die UI.

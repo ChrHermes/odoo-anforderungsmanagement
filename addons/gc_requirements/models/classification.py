@@ -36,6 +36,18 @@ class RequirementCategory(models.Model):
     active = fields.Boolean(default=True, string="Aktiv")
     sequence = fields.Integer(default=10, string="Reihenfolge")
     complete_name = fields.Char(string="Pfad", compute="_compute_complete_name", store=True, recursive=True)
+    selectable = fields.Boolean(
+        string="Auswählbar", compute="_compute_selectable", store=True, recursive=True
+    )
+
+    @api.depends("active", "product_id.active", "parent_id.selectable")
+    def _compute_selectable(self):
+        for category in self:
+            category.selectable = (
+                category.active
+                and category.product_id.active
+                and (not category.parent_id or category.parent_id.selectable)
+            )
 
     @api.depends("name", "parent_id.complete_name", "product_id.name")
     def _compute_complete_name(self):
@@ -50,7 +62,10 @@ class RequirementCategory(models.Model):
         for category in self:
             if category.parent_id and category.parent_id.product_id != category.product_id:
                 raise ValidationError(_("Über- und Unterbereich müssen zum selben Produkt gehören."))
-            if any(child.product_id != category.product_id for child in category.with_context(active_test=False).child_ids):
+            if any(
+                child.product_id != category.product_id
+                for child in category.with_context(active_test=False).child_ids
+            ):
                 raise ValidationError(_("Unterbereiche müssen zum selben Produkt gehören."))
 
     def write(self, vals):
@@ -59,10 +74,17 @@ class RequirementCategory(models.Model):
             if changing:
                 subtree = self.with_context(active_test=False).search([("id", "child_of", changing.ids)])
                 # A classification must not become invalid outside requirement.write().
-                if self.env["gc.requirement"].sudo().with_context(active_test=False).search_count(
-                    [("category_id", "in", subtree.ids)], limit=1
+                if (
+                    self.env["gc.requirement"]
+                    .sudo()
+                    .with_context(active_test=False)
+                    .search_count([("category_id", "in", subtree.ids)], limit=1)
                 ):
-                    raise ValidationError(_("Dieser Bereich ist zugeordnet. Ein Produktwechsel benötigt eine geprüfte Migration."))
+                    raise ValidationError(
+                        _(
+                            "Dieser Bereich ist zugeordnet. Ein Produktwechsel benötigt eine geprüfte Migration."
+                        )
+                    )
         return super().write(vals)
 
     @api.ondelete(at_uninstall=False)

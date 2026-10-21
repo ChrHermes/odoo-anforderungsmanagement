@@ -1,0 +1,18 @@
+name: Odoo 18 Community contract (not Enterprise acceptance)
+on:
+  push:
+    branches: [codex/initial-mvp]
+    paths: ["addons/**", "scripts/**", "tests/**", "compose.test.yaml", ".github/workflows/**", "ruff.toml"]
+  pull_request:
+    paths: ["addons/**", "scripts/**", "tests/**", "compose.test.yaml", ".github/workflows/**", "ruff.toml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fresh install, ORM tests, upgrade and preservation
+        run: python3 scripts/test_contract.py

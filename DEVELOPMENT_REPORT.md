@@ -1,5 +1,13 @@
 # Entwicklungsbericht – Anforderungsmanagement
 
+## Aktueller Kandidat
+
+**M1–M5-Code im verfügbaren Offline-Umfang implementiert; Enterprise-/Odoo.sh-/visuelle-/Staging-Abnahme offen.** Keine Production-Freigabe. Vollständige fachliche Zuordnung: `docs/ACCEPTANCE.md`.
+
+Finaler lokaler Nachweis mit `python3 scripts/test_contract.py`: Odoo Community **18.0-20261015**, synthetischer Helpdesk-Vertrag, frische Installation **26 Tests bestanden**, tatsächliches Upgrade **26 Tests bestanden**, jeweils 0 Fehler. Geänderte Seeds, bestehende REQ-Nummer, unveränderliche Quelle und physischer Filestore-Anhang überleben das Upgrade. 1.000 Anforderungen/2.000 unterschiedlichen Tickets und Quellen: 13 SQL-Abfragen für die aggregierten Zähler bei kaltem Cache. Statische Paket-/Syntax-/XML-Prüfung, Ruff und Formatprüfung erfolgreich. Keine lizenzierten Enterprise-Integrationstests daraus ableiten.
+
+Repository enthält native Anwendung, automatisierte Tests, reproduzierbare Docker-Testumgebung, GitHub-Vertragsworkflow, Changelog, Installations-/Testanleitung und versionierte Wissensbasis. Alle durch diese Entwicklung angelegten synthetischen Teststacks wurden beendet/entfernt; heruntergeladene Images bleiben als Testcache erhalten. Vorhandene Nutzeränderung `codex-task.md` bleibt unberührt.
+
 ## Ausgangslage, 21.10.2026
 
 Auftrag: MVP M1–M5, Odoo 18 Enterprise, Branch `codex/initial-mvp`. Spezifikationen vollständig gelesen und Wissensbasis vor dem ersten Code initialisiert.
@@ -10,7 +18,7 @@ Eine vorhandene Änderung an `codex-task.md` bleibt unberührt. Es werden keine 
 
 ## Fortschritt und Freigabestatus
 
-M1 implementiert: Addon, native Kanban/List/Form/Suche, Gruppen/ACLs, eindeutige unveränderliche Referenz, Pflichtinhalt, Produkthierarchie und 18 geschützte Seed-Datensätze, Archivierung/Löschschutz. Vier Odoo-TransactionCase-Tests im Community-Vertrag bestanden. Zwei Fehler im ersten Testlauf korrigiert (native Rekursionsausnahme und Odoo-assertRaises-Verhalten). Python/XML/Diff-Prüfung erfolgreich. Noch keine Enterprise-Integration und kein echter Upgrade-Durchlauf. M2 folgt. Keine Staging-/Production-Freigabe, keine Deployment-Aktion.
+M1 implementiert: Addon, native Kanban/List/Form/Suche, Gruppen/ACLs, eindeutige unveränderliche Referenz, Pflichtinhalt, Produkthierarchie und 18 geschützte Seed-Datensätze, Archivierung/Löschschutz. Zunächst vier Odoo-TransactionCase-Tests im Community-Vertrag bestanden. Zwei Fehler im ersten Testlauf korrigiert (native Rekursionsausnahme und Odoo-assertRaises-Verhalten). Python/XML/Diff-Prüfung erfolgreich. Weitere Meilensteine und Upgrade-Nachweise folgen unten. Keine Staging-/Production-Freigabe.
 
 Details und nächste Schritte: `docs/STATUS.md`; technische Entscheidungen: `docs/DECISIONS.md`; Installation und tatsächlich ausgeführte Tests: `docs/RUNBOOK.md`.
 
@@ -18,7 +26,7 @@ Details und nächste Schritte: `docs/STATUS.md`; technische Entscheidungen: `doc
 
 Implementiert: acht flexible Status, serverseitig neue Begründung bei jeder Zurückstellung/Ablehnung, Historiennotiz, Veröffentlichungsdatum, Statuswizard, interne Followerprüfung einschließlich direkter `mail.followers`-Einträge, interne Notizen und gefilterte Empfänger, manuelle Aktivitäten, 30-Tage-/Aktivitätsfilter. 7 Tests im isolierten Odoo-18-Vertrag erfolgreich (0 Fehler).
 
-Git: M1 `45909f4` erfolgreich nach `origin/codex/initial-mvp` gepusht. Keine anderen Branches verändert. M2 wird separat versioniert. Odoo.sh-Buildstatus mangels Projektzugriff unbekannt.
+Git: M1 `45909f4` und M2 `25659e7` erfolgreich nach `origin/codex/initial-mvp` gepusht. Keine anderen Branches verändert. Odoo.sh-Buildstatus mangels Projektzugriff unbekannt.
 
 ## M3 – Helpdesk und Vertraulichkeit
 
@@ -33,3 +41,28 @@ M2 `25659e7` erfolgreich gepusht. Keine Enterprise-Installation oder Odoo.sh-Bui
 Implementiert: maximal fünf deterministische Vorschläge innerhalb desselben Produkts, bestätigter Merge mit Vorschau und Zeilensperren, unveränderte Originale, fehlende Snapshotkopien einschließlich Capture-Provenienz, manuelle Kundenunion, Originalnavigation und dauerhafte Redirects. Restore behält Redirect. Kein endgültiges Löschen.
 
 21 Tests bestanden. Erster M4-Lauf: zwei Fehlschläge. Einer deckte die Odoo-Standardlöschung offener Aktivitäten beim Archivieren auf; eine eng begrenzte Erhaltung wurde implementiert und die Aktivitätsidentität nach Merge sowie manuelles Abschließen geprüft. Der zweite betraf NewId-Semantik bei ungespeicherten Vorschlägen und wurde im Test korrigiert. M3 `6615c2d` erfolgreich gepusht.
+
+## M5 – Review, Upgrade, Leistung und Übergabe
+
+- Vollständiger isolierter Install-/Upgrade-Testtreiber mit gepinnten Images, internem Netzwerk ohne ausgehenden Netzpfad, eigenem Testfilestore und automatischem Cleanup. Keine echten Kundendaten oder SMTP-Konfiguration.
+- Der Testvertrag erhält sein erkennbares Odoo-Manifest ausschließlich in einer ignorierten Laufzeitkopie. Die versionierte Vorlage kann bei Addonsuche kein echtes Helpdesk-Modul überschatten; statisch geprüft. Der Leistungstest verwendet 2.000 unterschiedliche Tickets, um N+1-Abfragen nicht durch wiederholte Ticket-IDs zu verdecken.
+- Zusätzliche Prüfungen: direkter Quell-CRUD verweigert, irrtümlich zugeteilter Portal-App-Zugriff verweigert, externe Aktivitätsassignees verweigert, native Formularerstellung/Wizarddefaults, Wizard-Viewvalidierung und Gruppierung/Nummernsuche. Ticketzählercache und Herkunftsreferenzen berücksichtigen aktuelle Rechte.
+- Rekursive Selektierbarkeit verhindert die Auswahl unter archivierten Vorfahren; unveränderte Altzuordnungen bleiben editierbar. Batch-Follower verhindern unnötige Einzelabfragen beim Mehrfachanlegen.
+- Erste M5-Erweiterung fand eine ungültige False-Domain im Portal-Negativpfad; korrigiert. Native Formularprüfung fand fehlende Initialwerte der readonly Pflichtfelder Nummer/Ersteller; korrigiert, finale Erzeugung bleibt unveränderlich serverseitig. Danach vollständige Suite fehlerfrei bei Installation und Upgrade.
+- Ruff-Konfiguration auf Odoo-Konventionen begrenzt; zwei ungenutzte Importe entfernt und Python einheitlich formatiert. Keine zusätzlichen Laufzeitbibliotheken, kein JavaScript.
+- Bekannte Image-Diagnostik: Standard-`mail` meldet RST/Docutils-Probleme beim Install; privates Quellenmodell absichtlich ohne ACL mit entsprechender Odoo-Warnung. Kein eigener Testfehler offen.
+- Browserwerkzeug konnte wegen `node:process`-Importverweigerung nicht starten. **Keine visuelle Browserabnahme**; native `Form`-/View-Prüfungen sind kein Ersatz.
+
+## Versionierung und nächste Schritte
+
+| Abschnitt | Commit | Push |
+|---|---|---|
+| M1/Wissensbasis | `45909f4` | erfolgreich |
+| M2/Workflow | `25659e7` | erfolgreich |
+| M3/Helpdesk-Sicherheit | `6615c2d` | erfolgreich |
+| M4/Erhaltender Merge | `27fa520` | erfolgreich |
+| M5/Abnahmevorbereitung | aktueller nachfolgender Git-Commit | wird nach lokal bestandenem Lauf gepusht |
+
+GitHub-Vertragsworkflow vorhanden; externer Lauf wird nach Push beobachtet und separat dokumentiert. **Odoo.sh-Build nicht beobachtet.** Keine direkte Odoo.sh-Konfiguration/Promotion ausgeführt. Development-Pushes können nur nach tatsächlicher Projektzuordnung einem dortigen Build zugeordnet werden.
+
+Erforderlich: freigegebenen Odoo.sh-Development-Zugang/Projekt identifizieren, Branch-Zuordnung und Schutzregeln bestätigen, Enterprise-Helpdesk inklusive Custom-Views/-Rules bereitstellen, Installation/Upgrade/Browserprüfung und echte Vertraulichkeits-/Mail-Automationsprüfungen ausführen. Erst danach kann ein konkreter Kandidat zur menschlichen Staging-Freigabe vorgelegt werden. Production braucht weiterhin eine separate Freigabe. Anleitung: `README.md`, detaillierte Schritte: `docs/RUNBOOK.md`.

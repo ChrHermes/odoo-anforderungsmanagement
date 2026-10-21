@@ -1,11 +1,21 @@
 from odoo.exceptions import AccessError, UserError, ValidationError
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from .common import RequirementCase
 
 
 @tagged("post_install", "-at_install")
 class TestRequirements(RequirementCase):
+    def test_native_form_creation(self):
+        form = Form(self.Requirement)
+        form.name = "Native Formularerfassung"
+        form.product_id = self.node
+        form.request_type = "feature"
+        form.description = "<p>Redaktionell im Formular erfasst.</p>"
+        requirement = form.save()
+        self.assertRegex(requirement.reference, r"^REQ-\d{4,}$")
+        self.assertEqual(requirement.creator_user_id, self.app_user)
+
     def test_reference_required_content_and_priority(self):
         first = self.make_requirement()
         second = self.make_requirement()
@@ -19,6 +29,11 @@ class TestRequirements(RequirementCase):
         for bad in ("", "<p><br></p>", "<p> </p>"):
             with self.assertRaises(ValidationError), self.cr.savepoint():
                 self.make_requirement(description=bad)
+        for key in ("name", "description", "request_type", "product_id"):
+            with self.assertRaises(ValidationError), self.cr.savepoint():
+                self.make_requirement(**{key: False})
+            with self.assertRaises(ValidationError), self.cr.savepoint():
+                first.write({key: False})
         with self.assertRaises(ValidationError), self.cr.savepoint():
             first.write({"reference": "REQ-9999"})
         with self.assertRaises(ValidationError), self.cr.savepoint():
@@ -43,6 +58,8 @@ class TestRequirements(RequirementCase):
             node_base.with_user(self.config_user).product_id = self.operator
         node_base.with_user(self.config_user).active = False
         self.assertEqual(req.category_id, node_base)
+        req.write({"category_id": node_base.id, "name": "Bestehende Zuordnung erhalten"})
+        self.assertFalse(self.env.ref("gc_requirements.category_node_meters").selectable)
         with self.assertRaises(ValidationError), self.cr.savepoint():
             self.make_requirement(category_id=node_base.id)
 
@@ -61,6 +78,11 @@ class TestRequirements(RequirementCase):
     def test_views_and_seed_upgrade_protection(self):
         for kind in ("form", "list", "kanban", "search"):
             self.Requirement.get_view(view_type=kind)
-        seeds = self.env["ir.model.data"].search([("module", "=", "gc_requirements"), ("model", "in", ["gc.requirement.product", "gc.requirement.category"])])
+        seeds = self.env["ir.model.data"].search(
+            [
+                ("module", "=", "gc_requirements"),
+                ("model", "in", ["gc.requirement.product", "gc.requirement.category"]),
+            ]
+        )
         self.assertEqual(len(seeds), 18)
         self.assertTrue(all(seeds.mapped("noupdate")))

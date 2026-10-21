@@ -15,7 +15,13 @@ class RequirementTicketSource(models.Model):
     captured_by_id = fields.Many2one("res.users", required=True, readonly=True, ondelete="restrict")
     origin_requirement_id = fields.Many2one("gc.requirement", readonly=True, ondelete="restrict")
 
-    _sql_constraints = [("requirement_ticket_unique", "unique(requirement_id, ticket_id)", "Das Ticket ist bereits verknüpft.")]
+    _sql_constraints = [
+        (
+            "requirement_ticket_unique",
+            "unique(requirement_id, ticket_id)",
+            "Das Ticket ist bereits verknüpft.",
+        )
+    ]
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -44,6 +50,15 @@ class RequirementTicketSource(models.Model):
         existing = Source.search([("requirement_id", "=", requirement.id), ("ticket_id", "=", ticket.id)])
         if existing:
             return existing
-        source = Source.create({"requirement_id": requirement.id, "ticket_id": ticket.id, "description_snapshot": description, "captured_at": fields.Datetime.now(), "captured_by_id": self.env.uid})
+        source = Source.create(
+            {
+                "requirement_id": requirement.id,
+                "ticket_id": ticket.id,
+                "description_snapshot": description,
+                "captured_at": fields.Datetime.now(),
+                "captured_by_id": self.env.uid,
+            }
+        )
         requirement.invalidate_recordset(["ticket_count", "customer_count"])
+        ticket.invalidate_recordset(["gc_requirement_count"])
         return source
