@@ -23,3 +23,7 @@ Autonome Erstimplementierung M1–M5 auf `codex/initial-mvp`; keine Staging-/Pro
 M1 und M2 implementiert; insgesamt 7 Odoo-18-TransactionCase-Tests im synthetischen Vertrag bestanden. M2 umfasst flexible Übergänge, neue Pflichtbegründung je Übergang, Veröffentlichungsdatum, interne Follower mit direktem ORM-Schutz, Notizen/Aktivitäten, Statuswizard und Suchfilter. Erster M1-Lauf: 2 Testfehler (Exception-Erwartungen), korrigiert; Wiederholung: 0 Fehler. Installation/XML erfolgreich im isolierten Community-Vertrag. Enterprise-Installation und echter Upgrade-Nachweis bleiben offen. Als Nächstes M3.
 
 Enterprise-Installation, bestehende Helpdesk-Customizations, echte Record Rules und Odoo.sh-Build bleiben nachzuweisen. Nutzeränderung `codex-task.md` nicht committen.
+
+### M3, implementiert / Enterprise-Gate offen
+
+17 Tests im Community-Vertrag erfolgreich, 0 Fehler. Enthalten: n:m-Capture, unveränderlicher Snapshot, getrennte Redaktion, Kundendeduplizierung/-änderung, Ticketwizard, native Actions, genaue eigene Ticketregel, ACL-Verweigerung, alternative Schnittstellen, Rechteentzug, interne Notizen ohne Notification-Pipeline. Erster M3-Lauf: 8 Fehler (fehlende frühe Pflichtfeldvalidierung und Test-Exportberechtigung); behoben und wiederholt. M4 wird gemäß aktuellem Offline-Auftrag implementiert, ohne das M3-Enterprise-Gate als bestanden auszuweisen.

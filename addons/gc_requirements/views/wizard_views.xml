@@ -10,4 +10,26 @@
             <footer><button name="action_apply" type="object" string="Status übernehmen" class="btn-primary"/><button string="Abbrechen" special="cancel"/></footer>
         </form></field>
     </record>
+    <record id="view_from_ticket_form" model="ir.ui.view">
+        <field name="name">gc.requirement.from.ticket.form</field><field name="model">gc.requirement.from.ticket</field>
+        <field name="arch" type="xml"><form string="Anforderung erstellen/verknüpfen">
+            <group><field name="ticket_id"/><field name="mode" widget="radio"/>
+                <field name="requirement_id" invisible="mode != 'existing'" required="mode == 'existing'" options="{'no_create': True}"/>
+            </group>
+            <group invisible="mode != 'new'">
+                <field name="name" required="mode == 'new'"/><field name="request_type" required="mode == 'new'"/>
+                <field name="product_id" required="mode == 'new'" options="{'no_create': True}"/>
+                <field name="category_id" domain="[('product_id', '=', product_id)]" options="{'no_create': True}"/>
+            </group>
+            <div invisible="mode != 'new'"><p>Bitte verfassen Sie eine redaktionelle Beschreibung. Der Tickettext wird getrennt als unveränderliche Quelle gesichert.</p><field name="description" required="mode == 'new'"/></div>
+            <footer><button name="action_apply" type="object" string="Erstellen / verknüpfen" class="btn-primary"/><button string="Abbrechen" special="cancel"/></footer>
+        </form></field>
+    </record>
+    <record id="view_source_viewer_form" model="ir.ui.view">
+        <field name="name">gc.requirement.source.viewer.form</field><field name="model">gc.requirement.source.viewer</field>
+        <field name="arch" type="xml"><form string="Autorisierte Ticketquellen" create="0" edit="0" delete="0">
+            <field name="requirement_id"/><field name="source_html"/>
+            <footer><button string="Schließen" special="cancel"/></footer>
+        </form></field>
+    </record>
 </odoo>

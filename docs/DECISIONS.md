@@ -15,3 +15,11 @@ Da installierte Enterprise-/Custom-Views fehlen, werden native an `helpdesk.tick
 ## D004 – Konservative Vorgaben (21.10.2026)
 
 Letztes Veröffentlichungsdatum bleibt bei Rückwärtsübergängen erhalten. „Zuletzt aktualisiert“ bedeutet 30 Tage. Kundenorganisationen werden über `commercial_partner_id` dedupliziert. Stammdatenlöschung wird durch Archivierung ersetzt. Seed-Datensätze sind `noupdate`. Kein automatisches Kopieren von Ticketanhängen oder Ticketpriorität.
+
+## D005 – Interne Helpdesk-Notizen ohne Benachrichtigungspipeline (21.10.2026)
+
+Die private Übergangsmethode legt native `mail.message`-Notizen mit `mail.mt_note`, festem Modell, verknüpften Ticket-IDs, handelndem Autor und escaped Inhalt an. Sie ruft bewusst keine Helpdesk-`message_post`-Hooks auf und setzt keine Empfänger. Das vermeidet automatische Wiederöffnung und die Mail-/Followerpipeline des Standard-Chatter. Kein öffentliches RPC für beliebige privilegierte Ticketnachrichten. Externe Custom-Automationen bleiben ein zwingender neutralisierter Enterprise-/Staging-Test.
+
+## D006 – Kein privater Relations-Suchkanal (21.10.2026)
+
+`gc.requirement` erhält absichtlich kein öffentliches One2many auf private Quellen: relationale Suchdomains können fremde Modell-ACLs umgehen und Snapshot-Inhalte als Suchorakel verwenden. Ein schmaler RPC-Adapter liefert nur aktuell autorisierte Einträge. Native Quellenanzeige: Transient-Wizard mit ausschließlich nicht gespeichertem HTML; Leseformatierung und Export invalidieren den Anzeigecache, damit ein Rechteentzug auch innerhalb derselben Transaktion wirksam ist. Aggregatberechnung nutzt eng begrenztes sudo ohne Ticketdetails auszugeben.

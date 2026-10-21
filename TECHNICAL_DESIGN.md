@@ -259,3 +259,12 @@ Use `TransactionCase` for ORM/security logic and `HttpCase` or documented target
 6. **Development autonomy:** Codex can push to a Development branch after access is set up; Staging and Production are separate approval gates, not automatic consequences of passing a unit test.
 7. **No reporting:** Kanban customer/ticket counts and basic filters are operational information, not a bespoke KPI/reporting dashboard.
 
+## 14. Implementation compatibility record (21 October 2026)
+
+- Verified against official Odoo 18 Community runtime (`odoo:18.0`) and upstream `odoo/odoo` 18.0 mail/ORM sources: `check_access`, `_filtered_access`, `_has_cycle`, Kanban `card`, `<list>`, native server-action bindings and mail APIs. Enterprise source and installed customizations are unavailable; no Enterprise compatibility claim.
+- `source_link_ids` is deliberately omitted from the public requirement model, superseding the suggested table above. Related search domains could otherwise reveal private text through a search oracle despite missing source ACLs. Private storage is queried only inside authorized services and approved aggregate computations.
+- Helpdesk integration uses bound native Actions instead of an unverified inherited form XML ID/XPath. Both create/link and linked-requirement/status navigation are available. A header button is deferred until actual installed view inspection.
+- Source viewer contains no stored snapshot text; its computed HTML reauthorizes through exact current ticket ACLs/record rules, explicit `check_access('read')` and `read()` for field/custom restrictions. Its read/export paths discard cached HTML before rendering.
+- Fixed internal status notes are native `mail.message` records, created by a private narrowly scoped service with `mail.mt_note`, explicit author and no recipients. This avoids standard notification and Helpdesk `message_post` lifecycle hooks. Exact Enterprise automated-action/mail side effects remain mandatory release tests.
+- `tests/contract_addons/helpdesk` is explicitly synthetic and outside the deployable `addons` directory. Community contract tests validate our ORM logic, not Enterprise Helpdesk behavior. Only `addons/gc_requirements` belongs on Odoo.sh.
+

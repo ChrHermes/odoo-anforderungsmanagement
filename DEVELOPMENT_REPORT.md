@@ -19,3 +19,11 @@ Details und nächste Schritte: `docs/STATUS.md`; technische Entscheidungen: `doc
 Implementiert: acht flexible Status, serverseitig neue Begründung bei jeder Zurückstellung/Ablehnung, Historiennotiz, Veröffentlichungsdatum, Statuswizard, interne Followerprüfung einschließlich direkter `mail.followers`-Einträge, interne Notizen und gefilterte Empfänger, manuelle Aktivitäten, 30-Tage-/Aktivitätsfilter. 7 Tests im isolierten Odoo-18-Vertrag erfolgreich (0 Fehler).
 
 Git: M1 `45909f4` erfolgreich nach `origin/codex/initial-mvp` gepusht. Keine anderen Branches verändert. M2 wird separat versioniert. Odoo.sh-Buildstatus mangels Projektzugriff unbekannt.
+
+## M3 – Helpdesk und Vertraulichkeit
+
+Private unveränderliche Ticketquellen, Ticketaktion zum Erstellen/Verknüpfen, eigene Redaktion, n:m-Navigation, Kundenorganisationen und manuelle Beziehungen, autorisierter nicht persistenter Quellenviewer sowie interne Statusnotizen implementiert. Kein öffentliches Relationsfeld auf Snapshotdaten. Aktuelle Ticket-ACLs/Record Rules und Feld-/Read-Beschränkungen werden vor Snapshotausgabe geprüft.
+
+17 Odoo-Tests im synthetischen Vertrag bestanden. Erster M3-Lauf mit 8 Fehlern: erforderliche Beschreibung wurde erst durch DB-Not-Null abgewiesen; jetzt verständliche frühe serverseitige Validierung. Exporttests benötigten zusätzlich die tatsächliche Odoo-Exportgruppe; ergänzt. Wiederholung fehlerfrei. Portal-/Fremdbenutzer, direkte Schnittstellen und Rechteentzug abgedeckt.
+
+M2 `25659e7` erfolgreich gepusht. Keine Enterprise-Installation oder Odoo.sh-Build beobachtet. M3-Enterprise-/Mailgate bleibt offen. M4-Code entsteht unter der ausdrücklichen Offline-Erlaubnis, ohne vorzeitige Freigabe.

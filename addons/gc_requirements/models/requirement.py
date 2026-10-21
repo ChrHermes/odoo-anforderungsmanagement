@@ -56,10 +56,12 @@ class Requirement(models.Model):
     def create(self, vals_list):
         self._check_app_user()
         prepared = []
+        defaults = self.default_get(["name", "description", "product_id", "request_type", "state", "decision_reason"])
         for incoming in vals_list:
-            vals = dict(incoming)
+            vals = dict(defaults, **incoming)
             if vals.get("reference") or vals.get("creator_user_id"):
                 raise ValidationError(_("Nummer und Ersteller werden automatisch vergeben."))
+            self._validate_required_values(vals)
             vals["reference"] = self.env["ir.sequence"].next_by_code("gc.requirement")
             vals["creator_user_id"] = self.env.uid
             state = vals.get("state", self.default_get(["state"]).get("state"))
@@ -79,6 +81,7 @@ class Requirement(models.Model):
         if {"reference", "creator_user_id"} & vals.keys():
             raise ValidationError(_("Nummer und Ersteller sind unveränderlich."))
         self.check_access("write")
+        self._validate_required_values(vals, partial=True)
         changes = self.filtered(lambda r: "state" in vals and r.state != vals["state"])
         if changes:
             self._validate_transition_values(vals["state"], vals)
@@ -94,6 +97,19 @@ class Requirement(models.Model):
             record._post_decision_reason()
         changes._after_state_transition()
         return result
+
+    @api.model
+    def _validate_required_values(self, vals, partial=False):
+        for key in ("name", "description", "request_type", "product_id"):
+            if partial and key not in vals:
+                continue
+            value = vals.get(key)
+            if key == "description":
+                value = html2plaintext(value or "").strip()
+            elif key == "name":
+                value = (value or "").strip()
+            if not value:
+                raise ValidationError(_("Titel, Beschreibung, Typ und Produkt sind erforderlich."))
 
     @api.model
     def _validate_transition_values(self, state, vals):

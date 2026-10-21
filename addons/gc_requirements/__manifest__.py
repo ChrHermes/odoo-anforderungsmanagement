@@ -14,6 +14,7 @@
         "views/product_category_views.xml",
         "views/wizard_views.xml",
         "views/requirement_views.xml",
+        "views/helpdesk_actions.xml",
         "views/menus.xml",
     ],
     "application": True,

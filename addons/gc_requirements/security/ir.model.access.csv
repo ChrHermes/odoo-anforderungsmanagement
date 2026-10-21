@@ -5,3 +5,5 @@ access_product_config,Produkt konfigurieren,model_gc_requirement_product,gc_requ
 access_category_user,Funktionsbereich lesen,model_gc_requirement_category,gc_requirements.group_user,1,0,0,0
 access_category_config,Funktionsbereich konfigurieren,model_gc_requirement_category,gc_requirements.group_config,1,1,1,0
 access_decision_user,Status ändern,model_gc_requirement_decision,gc_requirements.group_user,1,1,1,1
+access_from_ticket_user,Anforderung aus Ticket,model_gc_requirement_from_ticket,gc_requirements.group_user,1,1,1,1
+access_source_viewer_user,Autorisierte Quellenanzeige,model_gc_requirement_source_viewer,gc_requirements.group_user,1,1,1,1
