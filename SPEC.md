@@ -1,0 +1,215 @@
+# Requirements Management - functional specification
+
+**Project:** Internal Odoo 18 app, working title **Anforderungsmanagement**  
+**Module (planned):** `gc_requirements`  
+**Hosting:** Odoo.sh (Development -> Staging -> Production)  
+**Status:** Approved concept baseline, 21 October 2026  
+**Authority:** Decisions made during concept interview, phases 1-7  
+**Purpose:** Source of truth for Codex implementation and business acceptance.
+
+## 1. Vision, users and scope
+
+The app is an independent **internal Odoo application with its own home-screen tile**, not another project in the Odoo Project app and not a public roadmap. It gives customer support, product owners, developers and other internal stakeholders a shared place to capture, discuss, classify, evaluate and follow requirements until their changes are published.
+
+The catalogue supports exactly these request types:
+
+1. **Feature request** - new functionality or a customer wish.
+2. **Improvement** - improving existing functionality.
+3. **Bug** - defects or incorrect behavior.
+
+Out of scope for MVP: technical debt/refactoring as an independent request type, internal business-process change requests, sprint planning, developer capacity management, time tracking, public portals, customer voting, AI summaries, bespoke reporting, release management and automated integrations to development tools.
+
+**Participation:** Initially a selected production pilot group. Inside the enabled group, all users can create/edit/comment/prioritize/change the status of requirements. Later the group can be expanded to all internal employees. A dedicated **configuration group** is the only group authorized to manage product/category master data. A more restrictive approval workflow may be introduced later.
+
+## 2. Requirement creation and essential data
+
+Each requirement has an immutable identifier generated from one global sequence: `REQ-0001`, `REQ-0002`, ... (no reset by product or year). Source/merged records keep their own original number.
+
+**Required on creation:**
+
+- Short title.
+- **Editorial requirement description** in one rich-text field. It is written by a human and is separate from the source ticket text. There are no mandatory description templates or prescribed subsections.
+- Type: Feature request, Improvement or Bug.
+- Top-level product. Optionally select one descendant category within that product's tree.
+
+**Optional:** functional subcategory (any depth), manual priority, assignee, affected customers, starting/affected application version (free text), attachments, development reference, implementation details, implementation/release version. Default status is **Neu**, default priority is **Normal** (no selected stars), default assignee is empty.
+
+**Priority UI:** identical in spirit to the Helpdesk priority widget, with three stars and these values:
+
+| Value | Stars | German UI label |
+|---|---|---|
+| 0 | 0/3 | Normal |
+| 1 | 1/3 | Mittel |
+| 2 | 2/3 | Hoch |
+| 3 | 3/3 | Dringend |
+
+The requirement priority is **independent** of the priorities of linked Helpdesk tickets. Do not automatically copy/change ticket priorities.
+
+**Version fields are distinct:** `affected_version` (the software version that motivated the request/bug, optional free text) vs. `implemented_version` (released version, optional free text). A centralized software-version catalogue is not part of MVP.
+
+## 3. Product hierarchy and classification
+
+Use app-specific master data, **not** the Odoo sales-product catalogue. Each requirement must reference exactly one top-level product and at most one category path below it. It is legal to assign only a product. A category can have arbitrarily nested children. Identical category names in different branches (for example `BASE` for GridCal Node and `BASE` for GridCal Operator) are distinct records.
+
+The **configuration group** may add, rename, move, order and deactivate products/categories using an ordinary Odoo configuration menu. Other app users can only select existing active entries. Deactivation does not delete or silently change assignments on older requirements. Moving a subtree between products must be guarded and must not silently invalidate existing requirement product/category consistency.
+
+**Seed the following known structure at installation** (not a claim that this is a complete product map):
+
+```text
+GridCal Node
+  ANALYTIC
+    Events
+      Mailing
+  BASE
+    Messgeräte
+  SCADA
+    IEC104 Einstellungen
+  Modbus
+  Konfiguration
+  Updates
+GridCal Operator
+  BASE
+    Asset-Management
+  Bedienoberfläche
+  Anlagenverwaltung
+  Benutzerverwaltung
+GridCal Core
+```
+
+The final six non-nested category labels outside the explicit example paths are **seed assumptions** based on earlier named areas; they may be renamed/reparented in the app. No other top-level products are seeded. `GridCal Core` initially has no subcategories. Seed master data must exist in Production on module installation, not only in development demo data.
+
+## 4. Helpdesk integration
+
+The existing Odoo Enterprise Helpdesk is the intake source, not an alternate request database. On `helpdesk.ticket`, provide a visible action **"Anforderung erstellen/verknüpfen"** for authorized users with access to that ticket. It lets the user:
+
+1. Search/select an existing requirement and link it; or
+2. Open a new requirement creation flow based on the ticket.
+
+A requirement may link to multiple tickets, and a ticket may link to multiple requirements (**many-to-many**). Ticket closing, reopening and lifecycle remain independent of the requirement's status. The ticket should show linked requirements/statuses, with navigation in both directions.
+
+**New requirement from ticket:** prefill title, ticket reference, source customer and an immutable **snapshot of the ticket's then-current original description**. **Do not treat raw ticket text as a completed editorial requirement description:** the editorial description is written/reviewed by the creating employee and remains required before the final save. Attachment copying is optional/manual. Do not copy the full message thread. Any product/category inferred from ticket data must be a suggestion, not an unreliable automatic classification.
+
+**All linked ticket sources are separate:** The requirement's `Kunden & Tickets` area shows ticket number, ticket title, associated customer and its own captured description, when the viewing user is authorized to access that Helpdesk ticket. A later edit to the ticket does **not** change its snapshot. The linked ticket remains a click away for current content. Never replace several ticket descriptions with one untraceable text blob.
+
+**Customer associations:** The impacted-customer list is the distinct union of customers derived from linked tickets plus manually added customers (e.g., from phone calls/meetings). Requirements may have zero customers. Repeated tickets for the same customer count as only one affected customer. Manual customer membership must be independent of the ticket links.
+
+### 4.1 Backflow to Helpdesk
+
+On transitions **to Geplant, Umgesetzt or Abgelehnt**, automatically add an **internal note** to every linked Helpdesk ticket, including REQ number, title, new status, internal requirement link and, if present, the implementation note or rejection reason. Do not send customer-directed messages or emails. A closed ticket must not be reopened. Do not create automatic support activities or reminders. The change note applies only for an actual state transition, not for every unrelated edit.
+
+A ticket linked after a state change should show the requirement's current status via its link; it does not need a historical note backfill in MVP (**implementation assumption**).
+
+### 4.2 Confidentiality and security
+
+All app users may read the editorial requirement description. **Original Helpdesk ticket descriptions and ticket-specific details are only readable by users who are permitted to read that exact ticket under the existing Helpdesk access controls.** This applies server-side to ORM/RPC, searches, exports and alternative views, not just hidden tabs. The app must not turn a source snapshot into a backdoor around Helpdesk rules. Public/portal users are not app users; never automatically subscribe customers to the app Chatter.
+
+Counts of linked tickets/unique affected customers may be shown on Kanban cards for app users as approved aggregate indicators, without exposing otherwise inaccessible ticket text.
+
+## 5. Workflow and approvals
+
+Supported states in the primary workflow:
+
+`Neu -> In Prüfung -> Bewertet -> Geplant -> In Umsetzung -> Umgesetzt`
+
+Additional states: `Zurückgestellt`, `Abgelehnt`.
+
+- **Bewertet** means assessed, *not* a decision to implement.
+- **Geplant** means an implementation decision has been made.
+- **Umgesetzt** means the change is actually **released or available in production**, not merely coded/tested. A customer may still need to update their installation.
+- Transitions are not strictly linear; legitimate backwards movements are allowed.
+- Moving to **Zurückgestellt** or **Abgelehnt** requires a short reason. Capture the reason with the transition and preserve it in the Chatter/change history. Enforce this on server-side APIs too, not just with a popup.
+- On moving to **Umgesetzt**, save the completion date; optional fields: published version, implementation note, external development-task URL/reference. These may be edited later; there is no mandatory release form.
+- Changes of status, ownership, priority and other significant fields are tracked in the Chatter.
+
+**Responsibility:** New requirements enter one shared unassigned inbox; any authorized app user can take ownership or assign someone else. No automatic assignment by product in MVP. This is a potential later improvement. All enabled internal users can change priorities/states in MVP; role-based approval may be introduced after the pilot. Master-data rights remain restricted from day one.
+
+## 6. Collaboration
+
+Use standard Odoo Chatter and activities, not a custom chat/tasks subsystem:
+
+- Requirement creator and assigned employee are subscribed as internal followers automatically.
+- Internal people may follow/unfollow or be tagged with `@` mentions.
+- Users may manually schedule Odoo activities with an assignee and due date, visible in their Odoo activity overview.
+- No automatic activities, custom checklists, subtasks or automatic escalation for MVP.
+- No customer contact/portal partner may be made a follower through normal app operations.
+
+## 7. Views and everyday UX
+
+The app appears as **Anforderungsmanagement** in the Odoo app launcher, with its own root menu. **Kanban is the landing view**, grouped by state, with an immediately available **List** view. No custom frontend or dashboard is required.
+
+Each informative Kanban card should show:
+
+- REQ number, concise title, type.
+- Product and optional category/path (compact rendering).
+- Three-star priority and assigned person.
+- Count of distinct affected customers and count of linked Helpdesk tickets.
+- Open activity indicator, if relevant.
+
+The detail Form has a prominent header (title, state, priority, assignee), tabs **Beschreibung**, **Kunden & Tickets**, **Weitere Informationen**, smart buttons for linked tickets and customers, and Chatter/activities. Display source snapshots only after ticket-specific authorization checks.
+
+Search by REQ number and title; filter by state, product, type, priority and assignee. Preset filters: **Meine Anforderungen**, **Nicht zugewiesen**, **Zuletzt aktualisiert**, **Offene Aktivitäten**. Group by product, type, assignee and priority. Users can save personal search favorites. An exact default recency interval for "recently updated" can be chosen by implementation (suggest 30 days) and documented.
+
+**Explicitly later:** separate dashboard, trends, graph/pivot pages, complex reporting and special exports. Native generic Odoo capabilities need not be broken, but adding reporting menus is not part of MVP.
+
+## 8. Duplicates, merge and archiving
+
+While entering a title/product, show plausible similar existing requirements using a basic deterministic search; AI similarity is **not** required. The human makes the decision. Allow a requirement to merge into a selected surviving one after explicit confirmation:
+
+- Consolidate ticket associations and manual customer relationships without duplicate links.
+- Preserve each immutable ticket-description snapshot and its source ticket attribution.
+- Preserve attachments or accessible references to them.
+- Do not flatten/rewrite historical Chatter messages or existing activities. Keep their original requirement record for audit.
+- Archive the losing requirement and store a permanent redirect/reference to the leading REQ.
+- Record a merge audit event and prevent self-merge, cycles and unauthorized merges.
+
+Requirements should normally be **archived, not deleted**. Archived records retain their identifier, history, source links and redirect if merged; users can restore them. They are absent from default active boards but are searchable via archived filters. No ordinary Delete operation in the app UI.
+
+## 9. Initial rollout
+
+- Codex implementation is planned as an Odoo 18 Python/XML addon, tracked in Git and deployed through Odoo.sh.
+- Development branch: artificial test data and automatic tests; iterative implementation and versioned commits.
+- Staging: separate neutralized copy of actual production structures for integration/acceptance checks; prevent external mail or integration side effects.
+- Production changes require separate explicit approval, followed by an **internal pilot** where only named users can access the app. Later expand permissions to all internal staff.
+- Development pushes may be autonomous after repository/branch access is granted. Promotion to Staging requires business acceptance; Production promotion requires an additional explicit approval.
+
+## 10. Deferred backlog (not MVP)
+
+1. Automatic assignment based on product ownership.
+2. Product Owner/management-only approval for binding state changes.
+3. AI-assisted extraction of clear editorial requirements from tickets and related messages; explicit human confirmation; separate privacy assessment.
+4. Dashboard, KPIs, graph/pivot and advanced ageing/customer-interest analytics.
+5. External GitHub/Odoo Project issues and release integrations.
+6. More advanced duplicate similarity.
+7. Optional multiple classification paths and additional structured input fields if real pilot usage warrants them.
+
+## 11. MVP acceptance checklist
+
+- [ ] Own launcher tile and root menu; no customer/portal menu.
+- [ ] Named pilot group can access the app, other employees initially cannot.
+- [ ] Create a requirement with the four essential entries; `REQ-0001`-style immutable sequence.
+- [ ] Hierarchical product/category selection with seeded records; configuration ACLs enforced.
+- [ ] Kanban first, switch to list, filter/search/favorites, rich detail form, Chatter and activities.
+- [ ] Three-star priority 0-3, default 0, independent of Helpdesk priorities.
+- [ ] Ticket wizard creates or links a requirement; many-to-many works both directions.
+- [ ] Editorial description is independently authored; each source ticket has its own immutable snapshot.
+- [ ] Customer count correctly deduplicates customers from manual/ticket sources.
+- [ ] Original ticket details cannot be read by someone lacking that ticket's Helpdesk permissions, including via RPC.
+- [ ] Status changes follow rules; rejected/deferred reason mandatory server-side.
+- [ ] Scheduled/implemented/rejected transitions write internal notes to all linked tickets, do not email customers or reopen tickets.
+- [ ] Assigned creator/owner followers and manually scheduled activities work without adding external recipients.
+- [ ] Similar requirements are suggested; supervised merge preserves source/history and archives losing record.
+- [ ] Archive/restore works; unlink is not available as an ordinary user operation.
+- [ ] `Umgesetzt` means published, with completion date and optional release data.
+- [ ] No reporting dashboard, AI feature or external integration is needed for MVP signoff.
+
+## 12. Explicit assumptions and items to verify on site
+
+- **Hosting and license:** Odoo 18 Enterprise with installed Helpdesk on Odoo.sh, as reported. Confirm exact module and existing Helpdesk customizations in the target project before writing inherited views.
+- **Pilot access:** app-specific User/Configuration groups with explicit user membership (not blanket `base.group_user`).
+- **Source snapshot timing:** capture ticket `description` at the moment the link is created, including when an existing requirement is linked. Snapshot content never refreshes automatically.
+- **Initial product data:** only the known structure above. Some secondary branches are inferred from previously agreed example areas and can be reorganized later.
+- **Seeding:** production master data in protected initial data records (not demo records), with upgrade-safe handling of user edits.
+- **Customer grouping:** company/commercial partner or raw `res.partner` identity must be validated using the real customer model. Start by counting distinct effective customer organizations; test child contacts explicitly.
+- **Notifications:** Use exclusively internal-note subtypes and test with portal/customer partners; the external email ban applies to this app's messages, not to unrelated existing Odoo processes.
+- **Localization:** user-facing labels German; code identifiers English.
+- **No silent production actions:** only the authorized team can approve merges/promotions and live configuration changes.
