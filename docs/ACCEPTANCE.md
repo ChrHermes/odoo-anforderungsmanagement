@@ -28,6 +28,8 @@ Stand: 21.10.2026. **Vertrag** bedeutet echte Odoo-18-ORM/Views/Mail-Laufzeit mi
 
 Nicht ausgeführt: Odoo-Enterprise-Installation, echte Helpdesk-Custom-Views/-Automationen, Odoo.sh-Build, Staging, Production und visuelle Browserabnahme. Browserwerkzeug konnte die Laufzeit nicht initialisieren (`Importing module "node:process" is not allowed in node_repl`). XML-/Modellprüfungen ersetzen diesen visuellen Nachweis nicht.
 
+Extern reproduziert: GitHub-Läufe [39678680433](https://github.com/ChrHermes/odoo-anforderungsmanagement/actions/runs/39678680433) (`9ef47ad`) und [39679093289](https://github.com/ChrHermes/odoo-anforderungsmanagement/actions/runs/39679093289) (`e300220`) erfolgreich. App-Code seit `9ef47ad` identisch; `e300220` fixiert nur CI-Versionen und dokumentiert Nachweise. Beide Läufe sind ausdrücklich synthetische Community-Verträge.
+
 ## Gezielte Sicherheitsgrenzen
 
 - Private Quellen haben keine normale ACL und keine öffentliche Parent-Relation. Ein Superuser mit bewusst administrativem Zugriff bleibt wie in Odoo üblich vertrauenswürdig; App-/Config-Benutzer erhalten diesen Zugriff nicht.

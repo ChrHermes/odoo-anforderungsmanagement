@@ -42,7 +42,11 @@ Addon-Verzeichnis `addons` auf den Odoo-Addonspfad setzen; Odoo 18 Enterprise mi
 
 Odoo.sh: Projekt und Development-Zuordnung sowie technische Zugriffsbeschränkungen erst bestätigen. GitHub-Branch allein belegt keine sichere Odoo.sh-Konfiguration. Staging benötigt frische Kandidatenfreigabe und neutralisierte Mail-/Integrationsumgebung, Production eine separate Freigabe.
 
-## Manuelle Enterprise-Abnahme
+## GitHub-Nachweise (ausgeführt)
+
+`gh run view 39679093289 --repo ChrHermes/odoo-anforderungsmanagement --json status,conclusion,url,headSha` bestätigt Erfolg für `e300220`. Der vorangegangene Lauf 39678680433 bestätigt den App-Codekandidaten `9ef47ad`; beide sind Community-Vertragsprüfungen, keine Enterprise-Builds. GitHub-Logs enthalten die gleichen Install-/Upgrade-/Erhaltungsmarker und 26/26 Tests. Bei gesperrtem lokalem CLI-Logcache kann der lesende Job-API-Endpunkt verwendet werden: `gh api --allow-escape-sequences repos/ChrHermes/odoo-anforderungsmanagement/actions/jobs/119496559137/logs`. Terminal-Steuerzeichen gegebenenfalls nur in eine lokale Logdatei umleiten.
+
+## Manuelle Enterprise-Abnahme (ausstehend)
 
 1. Frisches Development mit synthetischen Tickets installieren/aktualisieren; Module und Custom-Views prüfen. Nur benannte interne Testbenutzer als Pilot aktivieren.
 2. Ticketaktion verwenden: eigene redaktionelle Beschreibung, unabhängige Priorität, n:m-Verknüpfung, spätere Ticketbeschreibung ändern. Momentaufnahme bleibt gleich.

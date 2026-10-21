@@ -8,7 +8,7 @@
 - Aggregatlesen: 1.000 Anforderungen / 2.000 unterschiedlichen Tickets und Quellen, kalter Cache, 13 SQL-Abfragen. Native `Form`-Erfassung und Wizard-Defaults geprüft, keine visuelle Browserabnahme.
 - Statische Paket-/Python-/XML-Prüfung, Ruff und Formatprüfung bestanden. Reproduzierbare Images und GitHub-Vertragsworkflow vorhanden.
 - `README.md`, `DEVELOPMENT_REPORT.md`, `docs/ACCEPTANCE.md`, Wissensbasis und Runbook dienen der Fortsetzung ohne Chatverlauf.
-- M1–M5-Commits erfolgreich gepusht; Codekandidat `9ef47ad`. GitHub-Vertragslauf 39678680433 erfolgreich abgeschlossen. Workflow wird gegen die gemeldeten Laufzeit-/Runner-Veraltungen fixiert und erneut geprüft. Git-Log ist die maßgebliche vollständige Commitliste.
+- M1–M5-Commits erfolgreich gepusht; App-Codekandidat `9ef47ad`, anschließend ausschließlich CI-/Nachweisänderungen. GitHub-Vertragsläufe 39678680433 und 39679093289 erfolgreich abgeschlossen; letzterer prüft `e300220` mit fixiertem Ubuntu-24.04-/Checkout-Node-24-Workflow. Git-Log ist die maßgebliche vollständige Commitliste.
 - Beide ausschließlich hier erzeugten synthetischen Docker-Teststacks wurden nach den Prüfungen entfernt. Images bleiben als Testcache; lokale ignorierte Testlogs unter `.local/test-results/`.
 
 ## Konkrete nächste Schritte / Blocker
