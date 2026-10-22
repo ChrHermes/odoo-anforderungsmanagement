@@ -15,6 +15,10 @@ Nachweise:
 
 Statische Paket-/XML-/Pythonprüfung und Ruff/Formatierung auf beiden Linien; browserbezogene JavaScript-Syntaxprüfung. Korrigierte Vorläufe und genaue Befehle unter [RUNBOOK](RUNBOOK.md). Noch offen: echte Enterprise-/Custom-Helpdesk-Abnahme beider Versionen, Odoo-20-Browser, macOS/separater Windows-Browser und tatsächliche Major-Migration. Keine Odoo.sh-/Staging-/Production-Aktion. Vorhandene fremde Diffs einschließlich Tasks bleiben unangetastet.
 
+Kandidatencommits: **18 `bc2cc78`**, **20 `c15a70e`**. Beide normalen Vertragsläufe final erneut erfolgreich (18 32/32, 20 34/32), bestehender Browser-Smoke und zusätzlicher UX-Check ebenfalls erfolgreich; vollständige Kategorie-Tooltips und fehlendes Config-Menü beim eingeschränkten Benutzer bestätigt. Individuelle Farbe, referenzierte Daten, private Quellen und Historieninventur nach Upgrade erhalten. Alle 18er Demo-Dienste bleiben healthy unter localhost:8069.
+
+Beide Development-Pushes tatsächlich versucht (`git push origin HEAD:refs/heads/codex/initial-mvp` bzw. `codex/20.0-port`, ohne interaktive Anmeldung). Beide Exit 128: `could not read Username for 'https://github.com': terminal prompts disabled`. Kandidaten bleiben lokal; keine neue Remote-/CI-/Odoo.sh-Ausführung behaupten. Nach sicher eingerichteter Anmeldung die jeweiligen Branches pushen; kein unsicherer Fallback. Dokumentationsabschluss im folgenden Commit, vollständige SHAs im Git-Log.
+
 Terminal-Nachprüfung 22.10.2026: gemeldeter Python-Importfehler mit ungültigem cwd reproduziert; `credentials` im gültigen Checkout mit relativem, `./`- und absolutem Scriptpfad erfolgreich geprüft. Verzeichniswechsel als Abhilfe dokumentiert, keine Anwendungscodeänderung oder Datenrücksetzung. Lokale UI weiterhin HTTP 200, alle drei Dienste healthy.
 
 ## Lokale Docker-Entwicklung – 22.10.2026

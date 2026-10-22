@@ -2,6 +2,8 @@
 
 ## UX-Stand 18/20, 22.10.2026
 
+Kandidaten: 18 `bc2cc78`, 20 `c15a70e`. Final erneut 32/32 beziehungsweise 34/32 Tests und Erhaltungsinventuren erfolgreich; beide Browserprüfungen auf 18 erfolgreich. Screenshots zuletzt nach Kartenabstand/kompakter Farbkonfiguration aktualisiert und visuell geprüft. Development-Push beider Branches Exit 128 mangels HTTPS-Anmeldung; lokal weiterarbeiten, keine neuen CI-/Odoo.sh-Ergebnisse ableiten. Fremde Ausgangsdiffs/Tasks bleiben unberührt.
+
 - Addon 18.0.1.2.0 / 20.0.1.2.0; fünf Produkte mit exakten Defaults: Node #0068b1, Operator #40d0d7, Core #4a0a7c, Nexus #c51a82, Allgemeines #fa4d0f. `color_hex` optional/regexvalidiert; `color_text` berechnet sRGB-Kontrast. Native `color`-Char-Widgets sind in beiden tatsächlich geprüften Images vorhanden; keine Palette oder zusätzliches JS nötig.
 - `_ensure_default_products` aus `data/product_defaults.xml` läuft bei Install/Upgrade. Bestehende XML-ID gewinnt; andernfalls vorhandenes gleichnamiges Produkt übernehmen, nur fehlendes anlegen. Nur leere Farbe ergänzen. Neue XML-IDs noupdate; alte Seeds unverändert geschützt, keine neuen Kategorien. Individuelle Farbe und vorhandenes manuelles Nexus sind durch echte Upgradefixture geprüft.
 - `state.group_expand=True` plus Kanban `default_order="state asc, priority desc, write_date desc"`, Kontext read_group_expand. 18 formatierte read_group, 20 formatted_read_group mit nativem Kontext; leere und gefilterte Gruppen testen. Odoo 20 wertet die Erweiterung ohne diesen Webkontext absichtlich nicht aus. Gruppen-DOM nutzt generische datapoint-IDs, daher schmale XML-Template-Erweiterung für ein ausschließlich model-/stategebundenes Datenattribut; in 20 `this.props`, in 18 `props`. CSS nur `.gc_requirements_kanban`.

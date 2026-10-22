@@ -4,6 +4,8 @@
 
 Versionen 18.0.1.2.0 und 20.0.1.2.0. Native Hex-Farbkonfiguration mit fünf exakten Standardwerten, Nexus/Allgemeines ohne erfundene Kategorien, additive Defaults, vollständige Statusreihenfolge/Leergruppen und kompakte Kartenhierarchie umgesetzt. Farbe bleibt unabhängig von Typ/Priorität; Config-ACL und serverseitige Farbvalidierung geprüft. Ursprüngliche Tickettexte bleiben strikt im privaten Autorisierungspfad, Formular enthält keine neue allgemein lesbare Snapshotkopie.
 
+Geprüfte Kandidaten: 18 `bc2cc78`, 20 `c15a70e`. Finale normale Verträge und beide 18er Browserchecks nochmals erfolgreich; Push beider Linien mangels HTTPS-Anmeldung fehlgeschlagen. Somit lokale Nachweise, kein gehosteter Development-/Enterprise-Build.
+
 | Lauf | 18 | 20 |
 |---|---|---|
 | Frisch / vorheriger Kandidat / echtes Upgrade | 32 / 27 / 32 Tests | 34 / 29 / 32 Tests (frisch 32 App + 2 Core-Webfälle) |
