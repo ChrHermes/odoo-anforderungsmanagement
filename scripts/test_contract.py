@@ -2,6 +2,7 @@
 """Reproducible Community ORM contract suite. NOT Enterprise acceptance."""
 
 import argparse
+import ast
 import io
 from pathlib import Path
 import re
@@ -48,6 +49,22 @@ def main():
         "--baseline-ref", help="Also install a previous Git candidate before testing upgrade to this checkout"
     )
     options = parser.parse_args()
+    if options.baseline_ref:
+        previous = subprocess.run(
+            ["git", "show", options.baseline_ref + ":addons/gc_requirements/__manifest__.py"],
+            cwd=ROOT,
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        ).stdout
+        old_version = ast.literal_eval(previous)["version"].split(".")[:2]
+        new_version = ast.literal_eval((ROOT / "addons/gc_requirements/__manifest__.py").read_text())[
+            "version"
+        ].split(".")[:2]
+        if old_version != new_version:
+            parser.error(
+                "--baseline-ref requires the same Odoo major; this driver does not migrate core databases"
+            )
     run([sys.executable, "scripts/check_static.py"], "static")
     # Keep a Helpdesk-named test addon OUT of versioned Odoo discovery paths.
     # Only this ignored runtime directory receives an actual manifest.

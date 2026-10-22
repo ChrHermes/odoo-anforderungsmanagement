@@ -118,6 +118,12 @@ def prepare(env, audit_capture):
         "activity_id": activity.id,
     }.items():
         parameters.set_param("gc_requirements.contract." + key, value)
+    # Persist creation first: native mail deliberately suppresses tracking of
+    # changes made within the original creation transaction.
+    env.cr.commit()
+    survivor.write({"priority": "2", "assigned_user_id": actor.id})
+    survivor._track_finalize()
+    assert survivor.sudo().message_ids.tracking_value_ids, "Fixture must contain structured history"
     baseline = audit_capture(env, [actor.id, denied.id])
     parameters.set_param("gc_requirements.contract.audit", json.dumps(baseline))
     env.cr.commit()

@@ -39,3 +39,13 @@ Quellenschutz: keine ACL und keine öffentliche Relation zu `gc.requirement.tick
 - 20er API-Befunde/Branchstrategie/Migrationsgate: `docs/COMPATIBILITY.md`. Separater Development-Port statt Versionsswitches in Sicherheitscode; vorhandene Tests nicht abschwächen.
 - `scripts/migration_audit.py` ist nur ein administrativer, lesender Shellprüfer außerhalb des Addons. Inventur mit IDs/Hashes vertraulich und außerhalb Git halten. Er ersetzt keine Datenbankmigration. `test_contract.py --baseline-ref <commit>` prüft zusätzlich das echte Modulupgrade vom vorherigen Git-Code.
 - Vollständige 18->20-Datenmigration und Enterprise-Prüfungen erfordern genehmigten isolierten Zugang; derzeit nicht vorhanden. Keine Staging-/Production-Freigabe ableiten.
+
+- Odoo 20 verwendet `ir.access`, effektive `all_group_ids`, native Constraint-/Domain-/Gruppierungs-APIs, `raw.content` und typisierte Testparameter. Für strukturiertes Chatter-Tracking ist das offizielle zusätzliche `mail_tracking` erforderlich. Der Port darf die Historieninventur nicht auf reinen Nachrichtentext reduzieren.
+
+- Finaler Vertrag 22.10.2026: 18 frisch 27/27, alter Kandidat 26/26, Upgrade 27/27; 20 frisch 27 App + 2 Web, Upgrade 27 App, beide Inventuren/negative Proben bestanden. SQL-Zählerlesen 18 nach Upgrade 13, 20 5 Abfragen. Keine Enterprise-/Odoo.sh-/Major-Migrationsabnahme.
+
+- Für eine echte strukturierte Historien-Fixture erst die Erstellung committen, danach Priorität/Zuweisung ändern und `_track_finalize()` ausführen; im Erstellungs-Transaktionskontext unterdrückt Odoo Tracking. Die Fixture verlangt jetzt ausdrücklich vorhandene Trackingzeilen, bevor sie die Upgradeinventur speichert.
+
+- Aktueller Rechner: Origin HTTPS lesbar, Push ohne Anmeldung nicht möglich. SSH hat keinen bestätigten GitHub-Hostschlüssel; nicht automatisch einrichten/umgehen. Neue Commits lokal halten, bis ein autorisierter sicher konfigurierter GitHub-Zugang verfügbar ist.
+
+- Lokale Commits: Naming `287f078`, separater 20er Port `30735e8`. 20er Worktree `/tmp/gc-requirements-20-port`, Hauptworktree bleibt auf 18. Branches noch nicht gepusht; `git worktree list` und Git-Log sind maßgeblich.

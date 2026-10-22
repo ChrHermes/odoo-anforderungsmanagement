@@ -29,6 +29,13 @@ def _inventory(records, fields):
     return result
 
 
+def _attachment_bytes(attachment):
+    if "raw" in attachment._fields:
+        value = attachment.raw
+        return value.content if hasattr(value, "content") else value or b""
+    return base64.b64decode(attachment.datas or b"")
+
+
 def capture(env, user_ids):
     """Capture all app records, including archived originals, in canonical form.
 
@@ -125,7 +132,7 @@ def capture(env, user_ids):
                     attachment.res_id,
                     attachment.name,
                     attachment.mimetype,
-                    hashlib.sha256(base64.b64decode(attachment.datas or b"")).hexdigest(),
+                    hashlib.sha256(_attachment_bytes(attachment)).hexdigest(),
                 ]
             )
             for attachment in attachments
@@ -160,18 +167,68 @@ def capture(env, user_ids):
     protected_models = admin["ir.model"].search(
         ["|", ("model", "like", "gc.requirement%"), ("model", "=", "helpdesk.ticket")]
     )
-    result["acls"] = _inventory(
-        admin["ir.model.access"].search([("model_id", "in", protected_models.ids)]),
-        ["model_id", "group_id", "active", "perm_read", "perm_write", "perm_create", "perm_unlink"],
-    )
-    rules = admin["ir.rule"].search([("model_id", "in", protected_models.ids)])
-    rule_groups = "group_ids" if "group_ids" in rules._fields else "groups"
-    definitions = _inventory(
-        rules, ["model_id", "active", "domain_force", "perm_read", "perm_write", "perm_create", "perm_unlink"]
-    )
-    result["rules"] = {
-        str(rule.id): [definitions[str(rule.id)], sorted(rule[rule_groups].ids)] for rule in rules
-    }
+    # Canonical policy definitions survive upstream model/field renames. Grouped
+    # policies are split per group; any real semantic difference still fails.
+    policies = []
+    if "ir.access" in admin.registry.models:
+        for policy in admin["ir.access"].search([("model_id", "in", protected_models.ids)]):
+            policies.append(
+                {
+                    "model": policy.model_id.model,
+                    "group": policy.group_id.id,
+                    "kind": "permission" if policy.group_id else "restriction",
+                    "operation": policy.operation,
+                    "domain": policy.domain or "",
+                    "active": policy.active,
+                }
+            )
+    else:
+        for policy in admin["ir.model.access"].search([("model_id", "in", protected_models.ids)]):
+            policies.append(
+                {
+                    "model": policy.model_id.model,
+                    "group": policy.group_id.id,
+                    "kind": "permission",
+                    "operation": "".join(
+                        letter
+                        for letter, name in (
+                            ("c", "perm_create"),
+                            ("r", "perm_read"),
+                            ("u", "perm_write"),
+                            ("d", "perm_unlink"),
+                        )
+                        if policy[name]
+                    ),
+                    "domain": "",
+                    "active": policy.active,
+                }
+            )
+        for policy in admin["ir.rule"].search([("model_id", "in", protected_models.ids)]):
+            for group_id in policy.groups.ids or [False]:
+                policies.append(
+                    {
+                        "model": policy.model_id.model,
+                        "group": group_id,
+                        "kind": "permission" if group_id else "restriction",
+                        "operation": "".join(
+                            letter
+                            for letter, name in (
+                                ("c", "perm_create"),
+                                ("r", "perm_read"),
+                                ("u", "perm_write"),
+                                ("d", "perm_unlink"),
+                            )
+                            if policy[name]
+                        ),
+                        "domain": policy.domain_force or "",
+                        "active": policy.active,
+                    }
+                )
+    result["security"] = sorted(_digest(policy) for policy in policies)
+    for name, target in list(result["xmlids"].items()):
+        if target[0] in {"ir.access", "ir.model.access", "ir.rule"}:
+            # Core migration can change storage model/row IDs, not our XML IDs.
+            result["xmlids"][name] = ["access_policy", name, target[2]]
     # Normalize the upstream group-field rename only in this offline tool.
     group_users_field = "all_user_ids" if "all_user_ids" in admin["res.groups"]._fields else "users"
     result["membership"] = {
@@ -214,8 +271,10 @@ def verify(env, baseline):
                 differences.append("sequence: counter moved backwards")
             expected = {key: value for key, value in expected.items() if key != "next"}
             actual = {key: value for key, value in current[section].items() if key != "next"}
+        elif section == "xmlids":
+            actual = {key: current[section].get(key) for key in expected}
         else:
-            actual = current[section]
+            actual = current.get(section)
         if actual != expected:
             differences.append(section)
     if differences:
