@@ -88,6 +88,21 @@ Cronthreads sind auf 0 gesetzt, vorhandene Cronjobs und ausgehende Mailserver we
 - Der Checkout kann unter `/mnt/c/...` liegen; das wurde hier verwendet. Ein Checkout im Linux-Dateisystem ist bei vielen Dateiänderungen oft schneller. Falls ein Bind-Mount keine Änderungsereignisse weitergibt, `update` ausführen; der zuverlässige Neustart/Upgradepfad bleibt vorhanden.
 - Port 8069 muss frei sein. Bei einem Konflikt meldet Docker den Fehler; keine anderen Container beenden. Falls Browserzugriff fehlschlägt: `status`, `logs` und die install-/seed-/verify-Protokolle prüfen. Bei abgebrochener Erstinstallation gegebenenfalls ausschließlich diese lokalen Daten mit `reset --yes` neu aufbauen.
 
+### Python scheitert schon beim Import mit `FileNotFoundError`
+
+Ein Traceback bei `import argparse` über `_path_importer_cache` / `_path_abspath` deutet auf einen ungültigen aktuellen Verzeichnisbezug der Shell hin. `ll` kann dabei noch Dateien anzeigen. Derselbe Importfehler wurde mit einem gelöschten Arbeitsverzeichnis reproduziert; das Dev-Skript und seine Zugangsdaten waren im gültigen Repository-Verzeichnis lesbar.
+
+Das Verzeichnis über seinen Namen neu betreten, ohne Testdaten zurückzusetzen:
+
+```sh
+gc_repo_dir="$PWD"
+cd /
+cd "$gc_repo_dir"
+python3 scripts/dev.py credentials
+```
+
+Falls der gespeicherte Pfad selbst nicht mehr existiert, den Checkout im neuen Terminal über seinen tatsächlichen absoluten Pfad öffnen. Unter WSL kann zusätzlich `/usr/bin/python3 scripts/dev.py credentials` den Systeminterpreter ausdrücklich auswählen. Dafür sind weder ein Docker-Neustart noch ein Datenbankreset erforderlich.
+
 ## Automatisierte Browserprüfung
 
 Optional zusätzlich Node.js und Playwright installieren, getrennt vom Produkt und Git-ignoriert:

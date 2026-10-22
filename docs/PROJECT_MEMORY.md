@@ -2,6 +2,8 @@
 
 ## Lokale Browserentwicklung, 22.10.2026
 
+- Terminal-Folgefehler: `credentials` kann schon beim Standardbibliotheksimport mit `_path_importer_cache` / `_path_abspath` und `FileNotFoundError` scheitern, wenn der aktuelle Verzeichnisbezug ungültig ist. Derselbe Traceback wurde mit gelöschtem cwd reproduziert. Alle drei Script-Aufrufvarianten im gültigen Checkout erfolgreich geprüft, Passwortausgabe dabei unterdrückt. Abhilfe: über `/` den Checkout erneut betreten, gegebenenfalls WSL-Systempython `/usr/bin/python3` wählen. Kein Datenreset; Docker lief währenddessen healthy, HTTP 200. Anleitung unter LOCAL_DEVELOPMENT.
+
 - Eigener persistenter Stack `compose.dev.yml` / `gc-requirements-dev`, DB `gc_requirements_dev`, PostgreSQL 15, Odoo 18.0-20261015, lokaler Nginx. Einstieg `python3 scripts/dev.py start`, Login `credentials`, Bedienung [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md). Nur Development-Branch `codex/initial-mvp`.
 - Der bisherige isolierte Vertrag wird **nicht** zur UI umgebaut. `dev.py test` ruft unverändert `test_contract.py` auf. Generierte UI-Addons `.local/dev/addons` und Test-Addons `.local/contract-addons` sind getrennt. Nur `addons/gc_requirements` deployen.
 - Enterprise erneut lesend geprüft: GitHub HTTP 404, keine lokal bereitgestellten Quellen gefunden. Aktive Ausgabe ist ausdrücklich **eingeschränkte UI-Demo mit synthetischem Helpdesk**, sichtbar in Login/Kacheln/Webclient. Der optionale Enterprise-Startpfad ist ohne lizenzierte Quellen noch ungetestet. Moduswechsel verlangt lokalen Reset; niemals synthetisches Helpdesk in-place durch Enterprise ersetzen.

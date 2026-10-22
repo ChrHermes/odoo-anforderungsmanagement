@@ -1,5 +1,7 @@
 # Entwicklungsstand
 
+Terminal-Nachprüfung 22.10.2026: gemeldeter Python-Importfehler mit ungültigem cwd reproduziert; `credentials` im gültigen Checkout mit relativem, `./`- und absolutem Scriptpfad erfolgreich geprüft. Verzeichniswechsel als Abhilfe dokumentiert, keine Anwendungscodeänderung oder Datenrücksetzung. Lokale UI weiterhin HTTP 200, alle drei Dienste healthy.
+
 ## Lokale Docker-Entwicklung – 22.10.2026
 
 **Lokale Weboberfläche tatsächlich erreichbar, App installiert und im Browser bedienbar.** Aktiver Branch `codex/initial-mvp`; separater persistenter Stack `gc-requirements-dev` auf Odoo 18.0-20261015 / PostgreSQL 15. Einstieg **http://localhost:8069/local-dev**, Login mit `python3 scripts/dev.py credentials`. [Verständliche Anleitung und Betriebsbefehle](LOCAL_DEVELOPMENT.md).
