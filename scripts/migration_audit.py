@@ -195,6 +195,7 @@ def capture(env, user_ids, *, excluded_security_models=()):
             "prefix": sequence_ms.prefix,
             "padding": sequence_ms.padding,
             "code": sequence_ms.code,
+            "next": sequence_ms.number_next_actual,
         }
     tracking = messages.tracking_value_ids
     if "color_hex" in admin["gc.requirement.product"]._fields:
@@ -210,6 +211,7 @@ def capture(env, user_ids, *, excluded_security_models=()):
     protected_models = admin["ir.model"].search(
         ["|", ("model", "like", "gc.requirement%"), ("model", "=", "helpdesk.ticket")]
     )
+    protected_models = protected_models.filtered(lambda model: model.model not in excluded_security_models)
     # Canonical policy definitions survive upstream model/field renames. Grouped
     # policies are split per group; any real semantic difference still fails.
     policies = []
@@ -219,7 +221,7 @@ def capture(env, user_ids, *, excluded_security_models=()):
                 (
                     "model_id",
                     "in",
-                    protected_models.filtered(lambda model: model.model not in excluded_security_models).ids,
+                    protected_models.ids,
                 )
             ]
         ):
@@ -239,7 +241,7 @@ def capture(env, user_ids, *, excluded_security_models=()):
                 (
                     "model_id",
                     "in",
-                    protected_models.filtered(lambda model: model.model not in excluded_security_models).ids,
+                    protected_models.ids,
                 )
             ]
         ):
@@ -267,7 +269,7 @@ def capture(env, user_ids, *, excluded_security_models=()):
                 (
                     "model_id",
                     "in",
-                    protected_models.filtered(lambda model: model.model not in excluded_security_models).ids,
+                    protected_models.ids,
                 )
             ]
         ):
@@ -337,9 +339,9 @@ def verify(env, baseline, *, allowed_new_product_ids=(), allowed_new_security_mo
     )
     differences = []
     for section, expected in baseline.items():
-        if section == "sequence":
+        if section in ("sequence", "planning_sequence"):
             if current[section]["next"] < expected["next"]:
-                differences.append("sequence: counter moved backwards")
+                differences.append(section + ": counter moved backwards")
             expected = {key: value for key, value in expected.items() if key != "next"}
             actual = {key: value for key, value in current[section].items() if key != "next"}
         elif section == "xmlids":

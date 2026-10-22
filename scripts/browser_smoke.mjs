@@ -86,8 +86,12 @@ try {
         await selectRelation('product_id', 'GridCal Node', 'GridCal Node');
         await selectRelation('category_id', 'Messgeräte', 'GridCal Node / BASE / Messgeräte');
         await page.locator('.odoo-editor-editable').fill('Redaktioneller Text aus einer echten lokalen Browserprüfung.');
-        await page.locator('.o_field_widget[name="priority"] .o_priority_star').nth(2).click();
-        await page.locator('.o_form_button_save').click();
+        // The native priority widget autosaves; await that request instead of
+        // racing its disappearing manual-save button.
+        await Promise.all([
+            page.waitForResponse(response => response.url().includes('/gc.requirement/web_save') && response.status() === 200),
+            page.locator('.o_field_widget[name="priority"] .o_priority_star').nth(2).click(),
+        ]);
         await page.locator('.o_form_button_save').waitFor({state: 'hidden'});
         created = await record(title);
         assert.match(created.reference, /^REQ-\d+$/);

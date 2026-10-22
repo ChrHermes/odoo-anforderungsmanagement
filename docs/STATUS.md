@@ -1,8 +1,15 @@
-# Aktueller Auftrag – Releaseplanung / Worktimes, 22.10.2026
+# Releaseplanung / Worktimes – lokal umgesetzt, 22.10.2026
 
-In Arbeit: `tasks/20261022_releases-milestones.md`. Odoo 18 zuerst, danach vorhandener 20er Branch. Version 1.3.0; native Planung und getrennte GitLab-URL, kein automatischer Requirementstatus-/Veröffentlichungswechsel. Architektur SPEC §14 / D019. Odoo 18: 42 Tests frisch, 32 auf Baseline `a1c1c97`, 42 nach Upgrade; jeweils null Fehler. Erhaltungsinventur und negative Proben bestanden. Auch befüllter Planungsupgrade 42/42 mit Inventur erfolgreich. Browser: Planung, native Bestandsauswahl und Abschlussbestätigung bestanden; Navigation/GitLab-Link und 20er Nachweise noch ausstehend. Zwei Browserselektoren an beobachtetes natives Dialog-/Smartbuttonverhalten angepasst. Frühere Vererbungs- und Test-Exceptionfehler korrigiert, keine Sicherheitsassertion abgeschwächt.
+Auftrag `tasks/20261022_releases-milestones.md`, Versionen 18.0.1.3.0 / 20.0.1.3.0. Native interne Planung, optionale tracked Zuordnung, Produktkonsistenz beider Richtungen, Abschlussbestätigung, Zähler/Filter und eigenständiger GitLab-Worktimes-Link. Planung verändert keine Requirementstatus oder tatsächlichen Veröffentlichungsdaten. SPEC §14 / D019; Odoo-18-Codekandidat `e43cab7`, 20er Port `7213606`, weiterer Prüfabschluss im Git-Log.
 
-Ausgangsänderungen an `.gitattributes`, CI, Icon, Compose, Ruff und Vertragsmanifest bleiben unberührt/außerhalb eigener Commits. Aufgabenbeschreibung wird als beauftragte Quelle mit der Implementierung versioniert. Keine Staging-/Production-Aktionen; Enterprise-/Major-Migrationsgate bleibt offen.
+- Odoo 18: `--baseline-ref a1c1c97` 42/32/42 Tests, anschließend normaler befüllter Install-/Upgradevertrag 42/42; alle null Fehler. Inventuren einschließlich MS-Sequenz, Zuordnung/Worktimes, Planungschatter/-Follower/-Aktivitäten, bestehender Quellen/Filestore/Historie und absichtlicher Korruptionsproben erfolgreich.
+- Odoo 20: `--baseline-ref d509d58` 44/34/42 Tests, anschließend befüllter Vertrag 44/42; aktuell 42 App-Fälle plus zwei native Core-Webfälle bei Neuinstallation. Alle null Fehler; gleichwertige Erhaltungs-/Negativproben erfolgreich.
+- Odoo-18-Demo erfolgreich aktualisiert; sechs neue Pläne und zwölf neue synthetische Anforderungen einmalig ergänzt. Neuer Planungssmoke (4 Schritte), bisheriger Smoke (7) und UX-/Snapshotrechtecheck (4 Gruppen) bestanden, keine JS-Fehler/externen Browserrequests. Abschlusscheckbox sichtbar beschriftet, echter nativer Bestandsauswahldialog und Worktimes-Link (`target=_blank`) nachgewiesen. Relevante Screenshots visuell geprüft; Artefakte ignoriert unter `.local/dev/browser*`.
+- Statische Python/XML/Paket-/ACL-Prüfung sowie Ruff/Formatprüfung auf beiden Branches bestanden; native 20er Unterschiede erhalten. Bisherige Quellenschutz-/Workflow-/Merge-/Mailtests unverändert weiter erfolgreich.
+
+Nur **lokaler Entwicklungsumfang abgeschlossen**. Kein Enterprise-/Custom-Helpdesk-/Mailautomations-/20er Browser-/echter 18→20-Migrationsnachweis. Keine Staging-/Production-Aktion oder Freigabe; kein beobachteter Odoo.sh-Build. Nächster fachlicher Schritt bleibt die autorisierte Enterprise-Development-Integration samt bestehenden Sicherheitsgates. Git-Pushprüfung folgt nach Commit.
+
+Ausgangsänderungen an `.gitattributes`, CI, Icon, Compose, Ruff und Vertragsmanifest im 18er Checkout bleiben unberührt und außerhalb eigener Commits. Die beauftragte Aufgabenbeschreibung ist mitversioniert.
 
 # Entwicklungsstand
 

@@ -207,3 +207,6 @@ Approved scope: tasks/20261022_releases-milestones.md; SPEC §14 supersedes earl
 3. **R3 / Odoo 20:** transfer feature to existing port without replacing its native security/ORM/mail APIs; perform full fresh and previous-/same-feature upgrade contracts, static/Ruff checks; document runtime differences. Commit on each authorized Development branch and attempt permitted non-force pushes. No Staging or Production action.
 
 All prior security/privacy/mail/merge checks remain required. Enterprise 18/20, custom rules/mail automation and actual major migration remain separate open release gates.
+
+
+R1-Nachweis: 18 frisch/alt/Upgrade 42/32/42, Inventur erfolgreich. R2: neuer Planungssmoke sowie bisheriger Smoke und UX-/Quellenschutz im 18er Browser erfolgreich. R3: 20 frisch/alt/Upgrade 44/34/42 (frisch plus zwei Corefälle), Inventur erfolgreich. Diese Ergebnisse schließen nur den ausdrücklich beauftragten lokalen Umfang; M3-/M5-Enterprise-/Staging-/Major-Migrationsgates bleiben offen. Befüllte Zusatzinventuren und Commit-/Pushabschluss siehe STATUS.

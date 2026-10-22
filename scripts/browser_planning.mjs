@@ -103,6 +103,7 @@ try {
         await page.getByRole('button', {name: 'Veröffentlichen', exact: true}).click();
         await page.locator('.modal .alert-warning').waitFor();
         await page.screenshot({path: path.join(output, 'completion-warning.png'), fullPage: true});
+        await page.getByText('Abschluss trotz offener Anforderungen ausdrücklich bestätigen', {exact: true}).waitFor();
         await page.locator('.modal .o_field_widget[name="confirmed"] input').check();
         await page.getByRole('button', {name: 'Abschluss übernehmen', exact: true}).click();
         await page.locator('.modal').waitFor({state: 'hidden'});
@@ -114,13 +115,16 @@ try {
     });
     await step('Anforderungsnavigation, getrennte Planung und nativer GitLab-Link', async () => {
         await page.locator('button[name="action_view_requirements"]').click();
-        await page.getByText(title + ' Requirement', {exact: true}).first().click();
+        await page.locator('.o_switch_view.o_list').click();
+        await page.locator('.o_data_row').filter({hasText: title + ' Requirement'}).click();
         await page.getByRole('tab', {name: 'Weitere Informationen', exact: true}).click();
         await page.locator('.o_field_widget[name="worktimes_url"] input').fill('https://gitlab.example.invalid/worktimes/99');
         await page.locator('.o_field_widget[name="development_url"] input').fill('Independent development reference');
         await page.locator('.o_form_button_save').click();
         await page.locator('.o_form_button_save').waitFor({state: 'hidden'});
         const link = page.getByRole('link', {name: 'In GitLab öffnen', exact: true});
+        await link.scrollIntoViewIfNeeded();
+        await page.screenshot({path: path.join(output, 'worktimes-link.png'), fullPage: true});
         assert.equal(await link.getAttribute('target'), '_blank');
         assert.equal(await link.getAttribute('href'), 'https://gitlab.example.invalid/worktimes/99');
         const rows = await rpc('gc.requirement', 'search_read', [], {domain: [['name', '=', title + ' Requirement']], fields: ['state', 'implemented_version', 'implemented_on', 'milestone_id', 'development_url', 'worktimes_url']});

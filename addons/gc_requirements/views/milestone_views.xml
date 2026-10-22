@@ -91,7 +91,7 @@
         <field name="arch" type="xml"><form string="Abschluss bestätigen">
             <group><field name="milestone_id"/><field name="open_count"/></group>
             <div class="alert alert-warning" role="alert" invisible="open_count == 0">Dieser Planungseintrag enthält noch offene Anforderungen, einschließlich zurückgestellter Anforderungen. Deren Status und Veröffentlichungsangaben bleiben unverändert.</div>
-            <field name="confirmed" invisible="open_count == 0" required="open_count &gt; 0"/>
+            <group invisible="open_count == 0"><field name="confirmed" required="open_count &gt; 0"/></group>
             <footer><button name="action_apply" type="object" string="Abschluss übernehmen" class="btn-primary"/><button string="Abbrechen" special="cancel"/></footer>
         </form></field>
     </record>

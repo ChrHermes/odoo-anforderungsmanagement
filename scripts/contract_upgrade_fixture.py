@@ -230,10 +230,23 @@ def verify(env, audit_verify):
     class ProbeRollback(Exception):
         pass
 
-    for section, record, values in (
+    probes = [
         ("requirements", requirement, {"name": "Synthetic deliberate preservation failure"}),
         ("attachments", attachment, {"datas": base64.b64encode(b"deliberate corruption")}),
-    ):
+    ]
+    if "milestones" in baseline:
+        plan = env["gc.requirement.milestone"].with_user(actor).search([], limit=1)
+        probes.extend(
+            [
+                ("milestones", plan, {"name": "Synthetic planning corruption"}),
+                (
+                    "requirement_planning",
+                    requirement,
+                    {"worktimes_url": "https://gitlab.example.invalid/corrupted"},
+                ),
+            ]
+        )
+    for section, record, values in probes:
         try:
             with env.cr.savepoint():
                 record.write(values)
