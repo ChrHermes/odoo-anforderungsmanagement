@@ -81,3 +81,16 @@ Ein 18->20-Upgrade muss die gesamte Datenbank samt Filestore über den unterstü
 ## D014 – Beobachtete Odoo-20-APIs (22.10.2026)
 
 Der 20er Port verwendet das tatsächlich installierte `ir.access` mit gruppierten Berechtigungen und globalen Einschränkungen statt der entfallenen ACL-/Rule-Modelle. Bestehende Sicherheits-XML-IDs bleiben erhalten; der native Gruppenscope wird ergänzt. Effektive Gruppen (`all_group_ids`), Action-`group_ids`, neue Mail-/Constraint-/Domain-/Gruppierungs-APIs und `raw.content` für physische Anhänge werden nativ verwendet. Die zusätzlich belegte Abhängigkeit `mail_tracking` erhält die aus `mail` ausgelagerten strukturierten Änderungswerte; diese werden nicht aus Tests entfernt. Keine Versionszweige im App-Sicherheitscode. Nur der administrative Inventurprüfer normalisiert beide Coreformate, prüft bestehende XML-ID-Ziele und echte Lesergebnisse. Die tatsächliche Core-/Sicherheitsmetadatenmigration bleibt ohne Enterprise-Upgradebestand offen.
+
+
+## D019 – Gemeinsame Planung ohne Statuskopplung (22.10.2026)
+
+Der Releaseauftrag genehmigt das zusätzliche interne Planungsmodell. Eine kanonische optionale `milestone_id` am Requirement; native Mehrfachauswahl am Plan ist nur berechneter/inverser ORM-Zugriff auf diese Zuordnung. Releases sind produktspezifisch; bei Meilensteinen ist ein Produkt rein informativ. Rückwärtsprüfung bei Planprodukt/-typänderung berücksichtigt auch archivierte Anforderungen. Merge übernimmt keine konkurrierende Planung: Quelle behält ihre Zuordnung, Ziel seine bestehende redaktionelle Planung.
+
+Statuszahlen enthalten aktive lesbare Anforderungen, Archivierte separat, Gesamtzahl einschließlich Archiv. Zurückgestellt bleibt offen; Abgelehnt/Umgesetzt nicht. Fortschritt = Umgesetzt / (aktive ohne Abgelehnte), leer = 0 %. Kein sudo für Planungsanzeigen; zusätzliche kundenspezifische Requirement-Regeln begrenzen Anzeige und Abschlussprüfung. Native gemeinsame Abschlussbeschriftung im Statusbalken, typbezogene Buttons/Banner/Entscheidungsnotiz. Anfang/Ende des optionalen Zeitraums sind Datumsfelder; nur Enddatum genügt für Einzeltermin.
+
+Abschlussdialog prüft unmittelbar erneut; offene Anforderungen erfordern ausdrückliche Bestätigung. Private Identität statt vom RPC fälschbarem Kontextboolean. Abschluss auditieren, keine Anforderungsänderung oder Helpdesk-Notiz; Wiederöffnung erhält früheres Abschlussdatum. Rowlocks nach Berechtigungsprüfung koordinieren Zuordnung und Planprodukt-/Abschlussänderungen. Keine Last-/Mehrprozessgarantie ohne eigenen Nachweis.
+
+Bestehender interner Chatter-Schutz wird als gemeinsames abstraktes Mixin wiederverwendet, direkte Follower-/Aktivitätsconstraints auf beide Modelle erweitert. Das Mixin muss vor den konkreten Modellen geladen werden und selbst mail.thread/activity erben, damit Mailmethoden tatsächlich überschrieben werden. Erste Laufzeitproben deckten falsche MRO/Reihenfolge auf; bestehende Sicherheitsassertionen bleiben unverändert.
+
+Worktimes ist ein eigenes optionales HTTP(S)-URL-Feld mit nativem Link „In GitLab öffnen“ (`target=_blank`), unabhängig von der Entwicklungsreferenz. Kein GitLab-Zugang/API, keine automatische Versions-/Statusübernahme. Neue Stammdaten bestehen nur aus Sequenz/Sicherheits-/Ansichtsdefinitionen; Releases sind Benutzerdaten, keine Produktionsseeds.

@@ -96,3 +96,12 @@ Der Inventurprüfer normalisiert Odoo-18-ACLs/Rules und das beobachtete Odoo-20-
 Odoo 20 am 22.10.2026 im separaten Worktree ausgeführt: `python3 scripts/test_contract.py --keep` mit 29 Tests nach Install (27 App, 2 Web), 27 nach Upgrade und positivem Erhaltungsmarker. PostgreSQL 17 statt 15, eigener Compose-Projektname `gc-requirements-contract-20`, Image-Digests im Branch-Compose. Zusätzliche offizielle Abhängigkeit `mail_tracking`. Alle bisherigen Tests behalten, nur native API-Aufrufe angepasst. Nach abschließender Kontrolle wurde ausschließlich der synthetische 20er Stack entfernt. Enterprise und Major-Migration weiterhin nicht ausgeführt.
 
 Git am 22.10.2026: `git push origin HEAD:refs/heads/codex/initial-mvp` scheitert ohne HTTPS-Anmeldung; lesender SSH-Versuch mit `BatchMode=yes`/`StrictHostKeyChecking=yes` scheitert am fehlenden Hostschlüssel. Kein erfolgreicher Push und kein aktueller Remote-Build. Erst sicher eingerichteten Zugang bereitstellen; keine Hostschlüsselprüfung abschalten.
+
+
+## Releaseplanung / Worktimes, 22.10.2026
+
+`python3 scripts/test_contract.py --baseline-ref a1c1c97`: Odoo 18 frisch 42, Baseline 32, Upgrade 42 Tests, null Fehler; Inventur/negative Proben bestanden. `python3 scripts/test_contract.py` prüft zusätzlich befüllte Planungs-/Worktimes-Daten bei gleichem Funktionsstand. Neue Planungsrichtlinien sind beim Altupgrade ausschließlich für die zwei neuen Modelle erlaubt; bestehende ACL-/Rule-Hashes bleiben strikt.
+
+Lokale Demo aktualisieren: `python3 scripts/dev.py update`; sechs zusätzliche synthetische Pläne und zwölf Anforderungen werden genau einmal ergänzt. Kein Reset erforderlich. Browser: `LD_LIBRARY_PATH="$PWD/.local/browser/system-libs/root/usr/lib/x86_64-linux-gnu" PLAYWRIGHT_BROWSERS_PATH=/tmp/gc-local-browser node scripts/browser_planning.mjs`. Der Test erfasst ein eigenes Release und eine eigene Anforderung, ordnet per echtem nativen Auswahldialog zu, bestätigt den Abschluss trotz offener Anforderung und prüft getrennte Veröffentlichung/GitLab-URL samt neuem Tabziel. Er folgt dem externen GitLab-Link bewusst nicht. Artefakte `.local/dev/browser-planning/`; bestehende Smoke-/UX-Skripte weiterhin ausführen. Ohne lokale Playwright-/Systembibliotheken Anleitung LOCAL_DEVELOPMENT beachten.
+
+Ruff hier nicht global vorhanden: isolierte 0.14.0-Installation `/tmp/gc-release-tools/bin/ruff`, danach `check addons scripts tests` und `format --check addons scripts tests`. Kein neues Addondependency.

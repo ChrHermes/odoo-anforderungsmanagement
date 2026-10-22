@@ -8,3 +8,5 @@ access_decision_user,Status ändern,model_gc_requirement_decision,gc_requirement
 access_from_ticket_user,Anforderung aus Ticket,model_gc_requirement_from_ticket,gc_requirements.group_user,1,1,1,1
 access_source_viewer_user,Autorisierte Quellenanzeige,model_gc_requirement_source_viewer,gc_requirements.group_user,1,1,1,1
 access_merge_user,Duplikate zusammenführen,model_gc_requirement_merge,gc_requirements.group_user,1,1,1,1
+access_milestone_user,Releaseplanung Benutzer,model_gc_requirement_milestone,gc_requirements.group_user,1,1,1,0
+access_milestone_complete_user,Planungsabschluss bestätigen,model_gc_requirement_milestone_complete,gc_requirements.group_user,1,1,1,1

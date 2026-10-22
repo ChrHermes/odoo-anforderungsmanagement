@@ -196,3 +196,14 @@ Product-based auto assignment; restricted approval group; AI-assisted ticket sum
 | 18 -> 20 migration | Full upgraded database/filestore, inventory comparison, exact-ticket privacy/mail tests | Actual migration observed; remains open without authorized infrastructure |
 
 Track results and blockers in `docs/COMPATIBILITY.md`, `docs/ACCEPTANCE.md` and `docs/STATUS.md`. Separate version branches are proposed maintenance lines, not authorization for a hosted Staging/Production branch or automatic promotion.
+
+
+## 11. R1-R3 supplement: release planning and Worktimes
+
+Approved scope: tasks/20261022_releases-milestones.md; SPEC §14 supersedes earlier planning exclusion.
+
+1. **R1 / Odoo 18:** common internal Chatter protection, planning model/reference/security, requirement relation/product guards, audited completion dialog, native views/filter/navigation and Worktimes link. Run all existing plus dedicated planning cases and a previous-candidate upgrade. Keep mandatory Enterprise gates open.
+2. **R2 / local acceptance:** additive synthetic demo, real browser create/edit/select existing requirement/confirmation/Worktimes checks, existing smoke/UX regressions; same-feature upgrade with populated planning inventory. Record exact results and fixes.
+3. **R3 / Odoo 20:** transfer feature to existing port without replacing its native security/ORM/mail APIs; perform full fresh and previous-/same-feature upgrade contracts, static/Ruff checks; document runtime differences. Commit on each authorized Development branch and attempt permitted non-force pushes. No Staging or Production action.
+
+All prior security/privacy/mail/merge checks remain required. Enterprise 18/20, custom rules/mail automation and actual major migration remain separate open release gates.

@@ -76,3 +76,13 @@ Quellenschutz: keine ACL und keine öffentliche Relation zu `gc.requirement.tick
 - Aktueller Rechner: Origin HTTPS lesbar, Push ohne Anmeldung nicht möglich. SSH hat keinen bestätigten GitHub-Hostschlüssel; nicht automatisch einrichten/umgehen. Neue Commits lokal halten, bis ein autorisierter sicher konfigurierter GitHub-Zugang verfügbar ist.
 
 - Lokale Commits: Naming `287f078`, separater 20er Port `30735e8`. 20er Worktree `/tmp/gc-requirements-20-port`, Hauptworktree bleibt auf 18. Branches noch nicht gepusht; `git worktree list` und Git-Log sind maßgeblich.
+
+
+## Releaseplanung / Worktimes, 22.10.2026
+
+- Auftrag `tasks/20261022_releases-milestones.md`, SPEC §14, Entscheidung D019. Neue Version 18.0.1.3.0 / 20.0.1.3.0. Modell `gc.requirement.milestone`, Referenz `MS-####`, optionale kanonische `milestone_id`, `worktimes_url`; keine Änderung tatsächlicher Veröffentlichung oder Requirementstatus durch Planung.
+- `assignment_ids` ist berechnete inverse Many2many-Auswahl vorhandener Requirements über die eine FK-Beziehung, keine weitere Persistenz. Produktwechsel beider Richtungen prüfen, auch archivierte. Acht aktive Statuszähler, Archiv separat, zurückgestellt offen, Abgelehnt aus Fortschrittsnenner entfernt. Aktuelle Benutzerrechte ohne sudo.
+- Gemeinsamer `internal_chatter.py` vor Requirement importieren; Mixin erbt selbst mail.thread/activity. Eine spätere zusätzliche Mixin-Vererbung kann MRO brechen oder core message_post Vorrang geben. Vollständige bestehende Follower-/Nachrichten-Suite muss weiterlaufen.
+- Abschlusswizard mit Pflichtbestätigung bei aktuellen offenen Anforderungen; privater Prozess-Identitätstoken schützt vor gefälschtem RPC-Kontext. Kein Autoabschluss/keine Ticketnotizen; Entscheidung mit Zählern im Chatter. Archivierung erhält Aktivitäten.
+- Lokale Demo: einmalige additive sechs Pläne/zwölf neue Requirements, alle Produkte, produktübergreifend, veröffentlicht mit offenen Anforderungen. Bestehende UI-Daten werden nicht überschrieben. Schema/Views zuerst via `dev.py update` aktualisieren.
+- Ruff/uvx hier nicht im PATH: Ruff 0.14.0 isoliert unter `/tmp/gc-release-tools/bin/ruff` installiert; kein Produktdependency.

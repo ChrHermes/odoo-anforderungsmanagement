@@ -227,5 +227,81 @@ def seed_ux_demo(env):
     print("LOCAL_UX_DEMO_VERIFIED: linked snapshot, denied reader and available product examples")
 
 
+def seed_planning_demo(env):
+    """Add release fixtures once, preserving every existing interactive record."""
+    if env.cr.dbname != "gc_requirements_dev":
+        raise RuntimeError("Local development database required")
+    module = env["ir.module.module"].search([("name", "=", "helpdesk")])
+    if "ui-demo" not in module.with_context(lang="en_US").shortdesc.lower():
+        return
+    params = env["ir.config_parameter"]
+    if params.get_param("gc_local_dev.planning_seeded"):
+        return
+    user = env.ref("gc_local_dev.developer")
+    plans = [
+        ("node", "GridCal Node 2027.1", "release", "planned"),
+        ("operator", "GridCal Operator 2027.1", "release", "active"),
+        ("core", "GridCal Core 2027.2", "release", "draft"),
+        ("nexus", "GridCal Nexus 2026.4", "release", "done"),
+        (None, "SCADA-Ausbau Q2 2027", "milestone", "planned"),
+        ("general", "Übergreifende Dokumentation", "milestone", "cancelled"),
+    ]
+    for index, (product, title, kind, state) in enumerate(plans, 1):
+        product_record = env.ref("gc_requirements.product_" + product) if product else False
+        plan = (
+            env["gc.requirement.milestone"]
+            .with_user(user)
+            .create(
+                {
+                    "name": title,
+                    "kind": kind,
+                    "product_id": product_record.id if product_record else False,
+                    "version": "2027.1" if kind == "release" else False,
+                    "planned_start": "2027-01-01",
+                    "planned_date": "2027-06-30",
+                    "description": "<p>Synthetische lokale Releaseplanung; keine Produktzusage.</p>",
+                    "assigned_user_id": user.id,
+                }
+            )
+        )
+        env["ir.model.data"].create(
+            {
+                "module": "gc_local_dev",
+                "name": "planning_%s" % index,
+                "model": plan._name,
+                "res_id": plan.id,
+                "noupdate": True,
+            }
+        )
+        for offset, req_state in enumerate(("planned", "implemented")):
+            req_product = product_record or env.ref(
+                "gc_requirements.product_" + ("node" if offset else "operator")
+            )
+            env["gc.requirement"].with_user(user).create(
+                {
+                    "name": "Planungsdemo: %s – %s" % (title, req_state),
+                    "description": "<p>Eigenständiges synthetisches Planungsbeispiel.</p>",
+                    "request_type": "feature" if offset else "improvement",
+                    "product_id": req_product.id,
+                    "milestone_id": plan.id,
+                    "state": req_state,
+                    "implemented_version": "DEMO-PUBLISHED" if req_state == "implemented" else False,
+                }
+            )
+        if state == "done":
+            env["gc.requirement.milestone.complete"].with_user(user).create(
+                {
+                    "milestone_id": plan.id,
+                    "confirmed": True,
+                }
+            ).action_apply()
+        else:
+            plan.state = state
+    params.set_param("gc_local_dev.planning_seeded", "True")
+    env.cr.commit()
+    print("LOCAL_PLANNING_DEMO_SEEDED: 6 plans, 12 requirements, published release with open work")
+
+
 seed(env)  # noqa: F821 - Odoo shell supplies env
 seed_ux_demo(env)  # noqa: F821
+seed_planning_demo(env)  # noqa: F821

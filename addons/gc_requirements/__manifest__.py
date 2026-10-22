@@ -1,7 +1,7 @@
 {
     "name": "Anforderungen",
     "summary": "Interne Anforderungen mit geschützten Helpdesk-Quellen",
-    "version": "18.0.1.2.0",
+    "version": "18.0.1.3.0",
     "category": "Productivity",
     "author": "GridCal",
     "license": "LGPL-3",
@@ -16,6 +16,7 @@
         "views/wizard_views.xml",
         "views/requirement_views.xml",
         "views/helpdesk_actions.xml",
+        "views/milestone_views.xml",
         "views/menus.xml",
     ],
     "assets": {

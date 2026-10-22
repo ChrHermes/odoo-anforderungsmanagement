@@ -20,7 +20,7 @@ The catalogue supports exactly these request types:
 2. **Improvement** - improving existing functionality.
 3. **Bug** - defects or incorrect behavior.
 
-Out of scope for MVP: technical debt/refactoring as an independent request type, internal business-process change requests, sprint planning, developer capacity management, time tracking, public portals, customer voting, AI summaries, bespoke reporting, release management and automated integrations to development tools.
+Out of scope for MVP: technical debt/refactoring as an independent request type, internal business-process change requests, sprint planning, developer capacity management, time tracking, public portals, customer voting, AI summaries, bespoke reporting and automated integrations to development tools. The approved internal release/milestone supplement is defined in section 14.
 
 **Participation:** Initially a selected production pilot group. Inside the enabled group, all users can create/edit/comment/prioritize/change the status of requirements. Later the group can be expanded to all internal employees. A dedicated **configuration group** is the only group authorized to manage product/category master data. A more restrictive approval workflow may be introduced later.
 
@@ -48,7 +48,7 @@ Each requirement has an immutable identifier generated from one global sequence:
 
 The requirement priority is **independent** of the priorities of linked Helpdesk tickets. Do not automatically copy/change ticket priorities.
 
-**Version fields are distinct:** `affected_version` (the software version that motivated the request/bug, optional free text) vs. `implemented_version` (released version, optional free text). A centralized software-version catalogue is not part of MVP.
+**Version fields are distinct:** `affected_version` (the software version that motivated the request/bug, optional free text) vs. `implemented_version` (released version, optional free text). Actual released versions remain free text; optional target-release planning is defined in section 14.
 
 ## 3. Product hierarchy and classification
 
@@ -232,3 +232,17 @@ Support is targeted for **Odoo 18 and 20 Enterprise with Helpdesk**. The complet
 Required evidence: (1) fresh 18 install, (2) 18 module upgrade, (3) fresh 20 install, (4) 20 module upgrade, (5) actual migration of existing 18 data through the supported platform upgrade to 20, including the custom addon upgrade. Preserve references/sequence, classifications, links and private snapshots with provenance, customer relations, attachments/filestore, Chatter/tracking, activities, followers, merged originals/redirects and permissions. Repeat exact-ticket read denial and notification tests on the migrated Enterprise environment. A fresh 20 installation plus data recreation is not migration evidence.
 
 The current evidence, branch maintenance proposal and remaining gates are maintained in [COMPATIBILITY.md](docs/COMPATIBILITY.md). Staging and Production still require separate explicit approvals.
+
+
+## 14. Approved internal release / milestone planning (22 October 2026)
+
+Authority: `tasks/20261022_releases-milestones.md`, including its GitLab Worktimes supplement. This explicitly extends the former release-planning exclusion. No sprints, capacity management, public roadmap or integration API is added.
+
+- Shared `gc.requirement.milestone` model: immutable global `MS-####`, required title/type, product (mandatory for release), optional target version, sanitized rich description, optional start/end date, actual completion date, owner, active flag, Chatter/manual activities. Types Release/Meilenstein; states Entwurf/Geplant/Aktiv/Abgeschlossen bzw. Veröffentlicht/Abgesagt. Product-less milestones can span products; a product on a milestone is informative. The common native statusbar uses “Abgeschlossen / Veröffentlicht”; buttons, completion banner and audit note distinguish type.
+- Optional tracked `gc.requirement.milestone_id`, at most one planning entry, freely replaceable/removable. Releases accept only the same product, enforced on requirement creation/product change and reverse release product/type changes, including archived requirements. Existing data start unassigned. Merge keeps each original planning association; survivor planning remains authoritative, consistent with other editorial fields.
+- “Weitere Informationen” separates **Planung**, **Tatsächliche Umsetzung**, **Entwicklung**. Related planning dates are readonly. Target version never replaces actual released version/date/note. Independent optional `worktimes_url` (“Worktimes (GitLab)”) accepts absolute HTTP(S) URLs, offers “In GitLab öffnen” in a new tab and has no synchronization. Existing development references remain unchanged.
+- “Releaseplanung”: native Kanban/list/form/search, existing product colors, owner, dates, type/state filters and monthly date grouping; status distribution, progress and linked requirements. Native selection of existing requirements; navigation to requirement details. Separate “Ohne Planungszuordnung” list/filter.
+- No planning operation changes requirement state or publication data, sends Helpdesk status notes, reopens tickets or creates activities. Completion with open visible requirements requires an explicit checkbox in a fresh confirmation dialog; direct ORM/RPC state writes cannot bypass it. Decision/date remain tracked; reopening retains the historical completion date.
+- Counters use current-user requirement permissions, without sudo. Total includes archived; eight state counts include active only. Archived records count separately. Deferred remain open; implemented/rejected are not open. Progress = implemented / (active minus rejected); empty denominator gives 0%. The UI explains this rule. Confirmation reevaluates current accessible requirements.
+- Pilot group can manage planning, configuration group alone retains product/color administration. Global internal restriction also denies accidentally enabled Portal users. Internal followers, recipients and manual activities use the existing protections; source snapshots remain private and ticket-specific.
+- Additive upgrade: no assignment, state, publication, seed color, ticket snapshot or historical record is rewritten. Both native versions need full install/upgrade/regression tests; Odoo-18 browser smoke when available. Synthetic Helpdesk evidence never replaces Enterprise or an actual 18-to-20 migration.

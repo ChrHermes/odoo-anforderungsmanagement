@@ -24,11 +24,13 @@ msgstr "Abgelehnt"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_needaction
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__message_needaction
 msgid "Action Needed"
 msgstr "Aktion erforderlich"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_ids
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__activity_ids
 msgid "Activities"
 msgstr "Aktivitäten"
 
@@ -39,16 +41,19 @@ msgstr "Aktivität"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_exception_decoration
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr "Darstellung bei Aktivitätsabweichung"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_state
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__activity_state
 msgid "Activity State"
 msgstr "Aktivitätsstatus"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_type_icon
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__activity_type_icon
 msgid "Activity Type Icon"
 msgstr "Symbol des Aktivitätstyps"
 
@@ -59,6 +64,7 @@ msgstr "Aktion"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__active
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__active
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__active
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__active
 msgid "Aktiv"
@@ -163,6 +169,7 @@ msgstr "Archivierte Anforderungen können nicht neu mit Tickets verknüpft werde
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_attachment_count
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__message_attachment_count
 msgid "Attachment Count"
 msgstr "Anzahl Anhänge"
 
@@ -186,6 +193,7 @@ msgstr "Autorisierte Ticketquellen anzeigen"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__decision_reason
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__decision_reason
 msgid "Begründung"
 msgstr "Begründung"
 
@@ -214,11 +222,13 @@ msgstr "Bestätigte Zusammenführung von Anforderungen"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__customer_count
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__customer_count
 msgid "Betroffene Kunden"
 msgstr "Betroffene Kunden"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__affected_version
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__affected_version
 msgid "Betroffene Version"
 msgstr "Betroffene Version"
 
@@ -289,6 +299,7 @@ msgstr "Bitte wählen Sie einen aktiven Funktionspfad."
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__create_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__create_uid
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__create_uid
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__create_uid
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__create_uid
@@ -301,6 +312,7 @@ msgstr "Erstellt von"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__create_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__create_date
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__create_date
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__create_date
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__create_date
@@ -346,6 +358,7 @@ msgstr "Dieses Original wurde zusammengeführt:"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__display_name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__display_name
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__display_name
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__display_name
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__display_name
@@ -394,6 +407,7 @@ msgstr "Eine Begründung ist erforderlich."
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__development_url
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__development_url
 msgid "Entwicklungsreferenz"
 msgstr "Entwicklungsreferenz"
 
@@ -420,6 +434,7 @@ msgstr "Ergebnis: %(tickets)s eindeutige Tickets, %(customers)s Kundenorganisati
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__merged_source_ids
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__merged_source_ids
 #: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
 msgid "Erhaltene Originale"
 msgstr "Erhaltene Originale"
@@ -431,6 +446,7 @@ msgstr "Erstellen / verknüpfen"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__creator_user_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__creator_user_id
 msgid "Erstellt von"
 msgstr "Erstellt von"
 
@@ -448,11 +464,13 @@ msgstr "Fehler"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_follower_ids
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__message_follower_ids
 msgid "Followers"
 msgstr "Follower"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_partner_ids
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Follower (Kontakte)"
 
@@ -464,6 +482,7 @@ msgstr "Font-Awesome-Symbol, z. B. fa-tasks"
 #. module: gc_requirements
 #: model:ir.model,name:gc_requirements.model_gc_requirement_category
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__category_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__category_id
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__name
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__category_id
 msgid "Funktionsbereich"
@@ -505,6 +524,7 @@ msgstr "Gruppieren nach"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__has_message
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__has_message
 msgid "Has Message"
 msgstr "Hat Nachrichten"
 
@@ -521,6 +541,7 @@ msgstr "Hoch"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__id
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__id
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__id
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__id
@@ -533,6 +554,7 @@ msgstr "ID"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_exception_icon
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__activity_exception_icon
 msgid "Icon"
 msgstr "Symbol"
 
@@ -565,6 +587,7 @@ msgstr "In Umsetzung"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_is_follower
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__message_is_follower
 msgid "Is Follower"
 msgstr "Ist Follower"
 
@@ -607,6 +630,7 @@ msgstr "Kurzer Titel der Anforderung"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__write_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__write_uid
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__write_uid
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__write_uid
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__write_uid
@@ -619,6 +643,7 @@ msgstr "Zuletzt aktualisiert von"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__write_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__write_date
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__write_date
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__write_date
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__write_date
@@ -631,6 +656,7 @@ msgstr "Zuletzt aktualisiert am"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__manual_customer_ids
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__manual_customer_ids
 msgid "Manuell betroffene Kunden"
 msgstr "Manuell betroffene Kunden"
 
@@ -641,11 +667,13 @@ msgstr "Meine Anforderungen"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_has_error
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__message_has_error
 msgid "Message Delivery error"
 msgstr "Fehler bei der Nachrichtenzustellung"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_ids
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__message_ids
 msgid "Messages"
 msgstr "Nachrichten"
 
@@ -661,6 +689,7 @@ msgstr "Momentaufnahme"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__my_activity_date_deadline
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr "Fälligkeit meiner Aktivität"
 
@@ -695,16 +724,19 @@ msgstr "Neuer Status"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_date_deadline
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Fälligkeit der nächsten Aktivität"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_summary
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__activity_summary
 msgid "Next Activity Summary"
 msgstr "Zusammenfassung der nächsten Aktivität"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_type_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__activity_type_id
 msgid "Next Activity Type"
 msgstr "Typ der nächsten Aktivität"
 
@@ -720,11 +752,13 @@ msgstr "Normal"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_needaction_counter
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Anzahl Aktionen"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_has_error_counter
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__message_has_error_counter
 msgid "Number of errors"
 msgstr "Anzahl Fehler"
 
@@ -740,6 +774,7 @@ msgstr "Anzahl Nachrichten mit Zustellfehler"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__reference
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__reference
 msgid "Nummer"
 msgstr "Nummer"
 
@@ -790,6 +825,7 @@ msgstr "Pfad"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__priority
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__priority
 #: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
 msgid "Priorität"
 msgstr "Priorität"
@@ -801,6 +837,7 @@ msgstr "Private unveränderliche Ticketquelle"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__product_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__product_id
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__product_id
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__product_id
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__name
@@ -828,6 +865,7 @@ msgstr "Quellticket"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__description
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__description
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__description
 msgid "Redaktionelle Beschreibung"
 msgstr "Redaktionelle Beschreibung"
@@ -845,6 +883,7 @@ msgstr "Reihenfolge"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_user_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__activity_user_id
 msgid "Responsible User"
 msgstr "Verantwortlicher Benutzer"
 
@@ -855,6 +894,7 @@ msgstr "Schließen"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__state
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__state
 msgid "Status"
 msgstr "Status"
 
@@ -895,6 +935,7 @@ msgstr "Ticketquellen und ihre Herkunft sind unveränderlich."
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__ticket_count
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__ticket_count
 #: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
 #: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_kanban
 msgid "Tickets"
@@ -902,6 +943,7 @@ msgstr "Tickets"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__name
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__name
 msgid "Titel"
 msgstr "Titel"
@@ -920,6 +962,7 @@ msgstr "Titel, Beschreibung, Typ und Produkt sind erforderlich."
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__request_type
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__request_type
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__request_type
 #: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
 msgid "Typ"
@@ -943,6 +986,7 @@ msgstr "Umgesetzt bedeutet: veröffentlicht oder produktiv verfügbar."
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__implementation_note
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__implementation_note
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__implementation_note
 msgid "Umsetzungshinweis"
 msgstr "Umsetzungshinweis"
@@ -971,6 +1015,7 @@ msgstr "Ursprüngliche Anforderung"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__assigned_user_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__assigned_user_id
 #: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
 msgid "Verantwortlich"
 msgstr "Verantwortlich"
@@ -996,12 +1041,14 @@ msgstr "Verknüpfte Anforderungen"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__implemented_on
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__implemented_on
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__implemented_on
 msgid "Veröffentlicht am"
 msgstr "Veröffentlicht am"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__implemented_version
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__implemented_version
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__implemented_version
 msgid "Veröffentlichte Version"
 msgstr "Veröffentlichte Version"
@@ -1084,6 +1131,7 @@ msgstr "Zusammenführungsverweise werden ausschließlich durch den bestätigten 
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__merged_into_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__merged_into_id
 msgid "Zusammengeführt in"
 msgstr "Zusammengeführt in"
 
@@ -1095,6 +1143,7 @@ msgstr "Zusammengeführt:"
 
 #. module: gc_requirements
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__similar_requirement_ids
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_milestone__similar_requirement_ids
 #: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__similar_requirement_ids
 msgid "Ähnliche Anforderungen"
 msgstr "Ähnliche Anforderungen"

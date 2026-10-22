@@ -1,6 +1,8 @@
 <odoo>
     <menuitem id="menu_root" name="Anforderungen" sequence="35" groups="group_user" web_icon="gc_requirements,static/description/icon.svg"/>
     <menuitem id="menu_requirements" name="Anforderungen" parent="menu_root" action="action_requirements" sequence="10"/>
+    <menuitem id="menu_milestones" name="Releaseplanung" parent="menu_root" action="action_milestones" sequence="20"/>
+    <menuitem id="menu_unplanned" name="Ohne Planungszuordnung" parent="menu_root" action="action_unplanned_requirements" sequence="30"/>
     <menuitem id="menu_configuration" name="Konfiguration" parent="menu_root" groups="group_config" sequence="90"/>
     <menuitem id="menu_products" name="Produkte" parent="menu_configuration" action="action_products" sequence="10"/>
     <menuitem id="menu_categories" name="Funktionsbereiche" parent="menu_configuration" action="action_categories" sequence="20"/>

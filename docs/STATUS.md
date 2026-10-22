@@ -1,3 +1,9 @@
+# Aktueller Auftrag – Releaseplanung / Worktimes, 22.10.2026
+
+In Arbeit: `tasks/20261022_releases-milestones.md`. Odoo 18 zuerst, danach vorhandener 20er Branch. Version 1.3.0; native Planung und getrennte GitLab-URL, kein automatischer Requirementstatus-/Veröffentlichungswechsel. Architektur SPEC §14 / D019. Odoo 18: 42 Tests frisch, 32 auf Baseline `a1c1c97`, 42 nach Upgrade; jeweils null Fehler. Erhaltungsinventur und negative Proben bestanden. Auch befüllter Planungsupgrade 42/42 mit Inventur erfolgreich. Browser: Planung, native Bestandsauswahl und Abschlussbestätigung bestanden; Navigation/GitLab-Link und 20er Nachweise noch ausstehend. Zwei Browserselektoren an beobachtetes natives Dialog-/Smartbuttonverhalten angepasst. Frühere Vererbungs- und Test-Exceptionfehler korrigiert, keine Sicherheitsassertion abgeschwächt.
+
+Ausgangsänderungen an `.gitattributes`, CI, Icon, Compose, Ruff und Vertragsmanifest bleiben unberührt/außerhalb eigener Commits. Aufgabenbeschreibung wird als beauftragte Quelle mit der Implementierung versioniert. Keine Staging-/Production-Aktionen; Enterprise-/Major-Migrationsgate bleibt offen.
+
 # Entwicklungsstand
 
 ## UX-Feinschliff und Produktfarben – 22.10.2026
