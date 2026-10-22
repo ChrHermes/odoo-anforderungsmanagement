@@ -210,3 +210,8 @@ All prior security/privacy/mail/merge checks remain required. Enterprise 18/20, 
 
 
 R1-Nachweis: 18 frisch/alt/Upgrade 42/32/42, Inventur erfolgreich. R2: neuer Planungssmoke sowie bisheriger Smoke und UX-/Quellenschutz im 18er Browser erfolgreich. R3: 20 frisch/alt/Upgrade 44/34/42 (frisch plus zwei Corefälle), Inventur erfolgreich. Diese Ergebnisse schließen nur den ausdrücklich beauftragten lokalen Umfang; M3-/M5-Enterprise-/Staging-/Major-Migrationsgates bleiben offen. Befüllte Zusatzinventuren und Commit-/Pushabschluss siehe STATUS.
+
+
+## 12. Release status refinement
+
+Task `tasks/20261022_release-refining.md`, SPEC §14.1: verify the original stored state; reuse the completion transient for all manual target states; guard date/history; clarify implementation count/bar/empty captions. Test both kinds across all states with zero, open, fully implemented, rejected and archived requirements; direct ORM/forged-context refusal, record permissions, native tracking and repeated completion. Preserve the entire existing suite and populated upgrade inventories. Run 18/20 install/upgrade contracts and the local 18 browser flow plus existing regressions. Enterprise/custom Helpdesk, 20 browser and real major migration remain separate open gates; no Staging/Production authorization.

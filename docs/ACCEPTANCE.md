@@ -76,3 +76,8 @@ Erweiterte Inventur erhält Klassifikation, Referenz/Sequenz, private Snapshots 
 ## Odoo-20-Port, 22.10.2026
 
 Separater Development-Branch `codex/20.0-port`, Version `20.0.1.1.0`. Echte Odoo-20.0-20261015-Community-Laufzeit mit synthetischem Helpdesk: Neuinstallation 27 App-Tests plus 2 Webtests erfolgreich; Modulupgrade 27 App-Tests erfolgreich. Dieselbe Daten-/Rechteinventur einschließlich strukturiertem Tracking und physischem Filestore sowie negative Korruptionsproben erfolgreich. Gesamtumfang der bisherigen App-Tests bleibt erhalten. Native APIs und zusätzliche `mail_tracking`-Abhängigkeit dokumentiert. **Kein Enterprise-Kompatibilitäts- oder echter 18->20-Migrationsnachweis**.
+
+
+## Release-Statuskorrektur 1.3.1, 22.10.2026
+
+SPEC §14.1 / D020. 49 App-Testfälle auf 18 und 20: freie manuelle Statusauswahl beider Typen ohne Anforderungen, Status bleibt bei Requirementänderung/Zuordnung/Archiv/100 % unverändert, bestätigter Abschluss mit offenen Anforderungen, Warnung auch für Abgelehnte/Archivierte, Datums-/Historienschutz und native Chatterprotokollierung. Vorhandene Sicherheits-/Mail-/Merge-/Quellenschutzfälle bleiben enthalten. Altupgrade 18 49/42/49, 20 51/44/49; befüllter Vertrag 49/49 bzw. 51/49. Daten-/Rechteinventuren und negative Proben erfolgreich. Browser- und Commit-/Pushabschluss siehe STATUS. Enterprise-/20er Browser-/Major-Migrationsgates bleiben offen.

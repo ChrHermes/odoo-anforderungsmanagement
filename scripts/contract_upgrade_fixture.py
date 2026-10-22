@@ -129,6 +129,15 @@ def prepare(env, audit_capture):
                 }
             )
         )
+        # Persist historical completion + reopening on both kinds before -u.
+        planning.write({"state": "done", "completed_on": "2026-10-01"})
+        planning.write({"state": "active"})
+        historical = (
+            env["gc.requirement.milestone"]
+            .with_user(actor)
+            .create({"name": "Synthetic preserved completed milestone", "kind": "milestone"})
+        )
+        historical.write({"state": "done", "completed_on": "2026-10-02"})
         survivor.write(
             {"milestone_id": planning.id, "worktimes_url": "https://gitlab.example.invalid/worktimes/17"}
         )

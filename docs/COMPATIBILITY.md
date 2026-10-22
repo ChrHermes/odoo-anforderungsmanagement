@@ -92,3 +92,8 @@ Implementierung zuerst auf `codex/initial-mvp` (18), Übertragung auf bestehende
 Neue Gruppierungsabweichung tatsächlich beobachtet und korrigiert: 18 liefert Recordsets, 20 IDs für Many2one-Gruppen. Security-/Mail-/Constraint-APIs bleiben nativ. Der 20er Port übernimmt keine fiktive lokale 20er Webumgebung; alle Browsernachweise beziehen sich auf die laufende synthetische 18er UI. Die erweiterten befüllten Erhaltungsprüfungen samt gezielter Korruptionsproben und finale Commit-/Pushnachweise stehen im STATUS.
 
 Final geprüft: 18 `e43cab7` / `0b71c26`, 20 `7213606`; normale befüllte Verträge zuletzt nochmals 42/42 beziehungsweise 44/42 einschließlich negativer Planungs-/Worktimes-Inventurproben und MS-Zähler erfolgreich. Beide Development-Pushes scheitern tatsächlich mit Exit 128 an fehlendem GitHub-HTTPS-Login. Reine Nachweiscommits danach ändern keinen App-Code. Keine aktuellen Remote-/Enterprise-/Odoo.sh-Nachweise ableiten.
+
+
+## Release-Statuskorrektur 1.3.1
+
+Identischer Fachumfang und 49 App-Tests auf beiden Development-Linien, vorhandene native 20er Gruppen-/Security-/Constraint-/Mail-/read_group-APIs erhalten. Altupgrade vom letzten Planungsstand: 18 `661513b` mit 49/42/49, 20 `854dbe2` mit 51/44/49; weiterer befüllter Install-/Upgradevertrag 49/49 bzw. 51/49, Inventuren einschließlich beider Planarten/historischer Abschlussdaten erfolgreich. Kein neuer gespeicherter Status und keine Datentransformation. Native Form-/Kanban-/Listen-/Suchansichten unter beiden Laufzeiten geladen; tatsächliche Browsernachweise beziehen sich weiterhin nur auf die lokale 18er Demo. Enterprise und Major-Migration bleiben offen.

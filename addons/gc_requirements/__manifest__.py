@@ -1,7 +1,7 @@
 {
     "name": "Anforderungen",
     "summary": "Interne Anforderungen mit geschützten Helpdesk-Quellen",
-    "version": "20.0.1.3.0",
+    "version": "20.0.1.3.1",
     "category": "Productivity",
     "author": "GridCal",
     "license": "LGPL-3",
