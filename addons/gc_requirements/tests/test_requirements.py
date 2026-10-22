@@ -84,5 +84,5 @@ class TestRequirements(RequirementCase):
                 ("model", "in", ["gc.requirement.product", "gc.requirement.category"]),
             ]
         )
-        self.assertEqual(len(seeds), 18)
+        self.assertEqual(len(seeds), 20)
         self.assertTrue(all(seeds.mapped("noupdate")))

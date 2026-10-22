@@ -16,6 +16,13 @@ def prepare(env, audit_capture):
     check_environment(env)
     node = env.ref("gc_requirements.product_node")
     node.write({"name": "SYNTHETIC UPGRADE SENTINEL", "sequence": 987})
+    if "color_hex" in node._fields:
+        node.color_hex = "#123456"
+    # Older candidates have no Nexus seed yet. Simulate an existing manually
+    # created product that the upgrade must adopt instead of duplicating.
+    nexus = env.ref("gc_requirements.product_nexus", raise_if_not_found=False)
+    if not nexus:
+        nexus = env["gc.requirement.product"].create({"name": "GridCal Nexus", "sequence": 73})
     category = env.ref("gc_requirements.category_node_modbus")
     category.write({"name": "SYNTHETIC EDITED CATEGORY", "active": False})
     actor = (
@@ -116,6 +123,8 @@ def prepare(env, audit_capture):
         "denied_id": denied.id,
         "survivor_id": survivor.id,
         "activity_id": activity.id,
+        "nexus_id": nexus.id,
+        "node_color": node.color_hex if "color_hex" in node._fields else "",
     }.items():
         parameters.set_param("gc_requirements.contract." + key, value)
     # Persist creation first: native mail deliberately suppresses tracking of
@@ -137,6 +146,17 @@ def verify(env, audit_verify):
     assert node.name == "SYNTHETIC UPGRADE SENTINEL" and node.sequence == 987
     assert category.name == "SYNTHETIC EDITED CATEGORY" and not category.active
     parameters = env["ir.config_parameter"]
+    if "color_hex" in node._fields:
+        assert node.color_hex == (parameters.get_param("gc_requirements.contract.node_color") or "#0068b1")
+        assert env.ref("gc_requirements.product_nexus").id == int(
+            parameters.get_param("gc_requirements.contract.nexus_id")
+        )
+        assert (
+            env["gc.requirement.product"]
+            .with_context(active_test=False)
+            .search_count([("name", "=", "GridCal Nexus")])
+            == 1
+        )
     actor = env["res.users"].browse(int(parameters.get_param("gc_requirements.contract.actor_id")))
     requirement = (
         env["gc.requirement"]
@@ -153,7 +173,12 @@ def verify(env, audit_verify):
     assert base64.b64decode(attachment.datas) == b"synthetic upgrade evidence"
     assert attachment.res_id == requirement.id
     baseline = json.loads(parameters.get_param("gc_requirements.contract.audit"))
-    audit_verify(env, baseline)
+    allowed_products = [env.ref("gc_requirements." + key).id for key in ("product_nexus", "product_general")]
+
+    def verify_inventory():
+        return audit_verify(env, baseline, allowed_new_product_ids=allowed_products)
+
+    verify_inventory()
     assert not requirement.active and requirement.merged_into_id.id == int(
         parameters.get_param("gc_requirements.contract.survivor_id")
     )
@@ -177,7 +202,7 @@ def verify(env, audit_verify):
             with env.cr.savepoint():
                 record.write(values)
                 try:
-                    audit_verify(env, baseline)
+                    verify_inventory()
                 except ValueError as error:
                     assert section in str(error)
                 else:
@@ -185,7 +210,7 @@ def verify(env, audit_verify):
                 raise ProbeRollback()
         except ProbeRollback:
             pass
-    audit_verify(env, baseline)
+    verify_inventory()
     print(
         "CONTRACT_UPGRADE_VERIFIED: naming, hierarchy, references, snapshots/provenance, customers, merge originals, history, activities, physical attachments, memberships and access boundaries; negative audit probes passed"
     )

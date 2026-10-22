@@ -28,11 +28,18 @@ def main():
     assert manifest["application"] and manifest["installable"]
     assert set(manifest["depends"]) == {"base", "mail", "helpdesk"}
     loaded = set(manifest["data"])
+    assets = {name for bundle in manifest.get("assets", {}).values() for name in bundle}
+    for name in assets:
+        assert (ADDON.parent / name).is_file(), name
     for name in loaded:
         assert (ADDON / name).is_file(), name
     xml_files = list(ADDON.rglob("*.xml"))
     for path in xml_files:
         root = ET.parse(path).getroot()
+        if path.is_relative_to(ADDON / "static"):
+            assert root.tag == "templates", path
+            assert "gc_requirements/" + str(path.relative_to(ADDON)) in assets, path
+            continue
         assert root.tag == "odoo", path
         assert not root.findall(".//tree"), "Odoo 18 needs <list>"
         assert str(path.relative_to(ADDON)) in loaded, "Unloaded XML: %s" % path

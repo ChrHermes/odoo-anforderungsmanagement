@@ -111,6 +111,14 @@ def prepare(mode=None, enterprise_path=None):
         }
         private_file(credential_file, json.dumps(credentials, indent=2) + "\n")
     credentials = json.loads(credential_file.read_text())
+    if "restricted_password" not in credentials:
+        credentials.update(
+            {
+                "restricted_login": "ohne-helpdesk@example.invalid",
+                "restricted_password": secrets.token_urlsafe(24),
+            }
+        )
+        private_file(credential_file, json.dumps(credentials, indent=2) + "\n")
     private_file(LOCAL / "postgres-password", credentials["database_password"] + "\n")
     addons = LOCAL / "addons"
     addons.mkdir(exist_ok=True)
@@ -225,11 +233,16 @@ def main():
     parser.add_argument("--mode", choices=["demo", "enterprise"])
     parser.add_argument("--enterprise-path", help="Lizenzierter lokaler Odoo-18-Enterprise-Addonpfad")
     parser.add_argument(
+        "--restricted", action="store_true", help="credentials: Demo-Benutzer ohne Helpdesk-Rechte anzeigen"
+    )
+    parser.add_argument(
         "--yes",
         action="store_true",
         help="Nur für reset: lokale Dev-DB UND Filestore unwiderruflich entfernen",
     )
     options = parser.parse_args()
+    if options.restricted and options.command != "credentials":
+        parser.error("--restricted ist nur für credentials vorgesehen.")
     if options.command in ("start", "update", "reset"):
         branch_guard()
     if options.command == "start":
@@ -290,6 +303,7 @@ def main():
                 log="update",
             )
             shell_script("dev_verify.py", "verify-update")
+            shell_script("dev_seed.py", "seed-update")
             # Recreate the proxy so Nginx resolves the current Odoo container IP.
             execute(COMPOSE + ["up", "-d", "--wait", "--force-recreate", "web"])
             wait_web()
@@ -310,10 +324,17 @@ def main():
         elif options.command == "status":
             execute(COMPOSE + ["ps"])
         elif options.command == "credentials":
+            if options.restricted and settings()["mode"] != "demo":
+                raise RuntimeError(
+                    "Der eingeschränkte Beispielzugang existiert nur im synthetischen Demomodus."
+                )
             credentials = json.loads((LOCAL / "credentials.json").read_text())
+            prefix = "restricted_" if options.restricted else ""
+            if prefix + "password" not in credentials:
+                raise RuntimeError("Demo-Zugang zuerst mit 'start' vorbereiten.")
             print(
                 "http://localhost:8069/local-dev\nLogin: %s\nPasswort: %s"
-                % (credentials["login"], credentials["password"])
+                % (credentials[prefix + "login"], credentials[prefix + "password"])
             )
         elif options.command == "verify":
             shell_script("dev_verify.py", "verify")

@@ -1,5 +1,16 @@
+import re
+
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
+
+
+PRODUCT_DEFAULTS = (
+    ("product_node", "GridCal Node", "#0068b1", 10),
+    ("product_operator", "GridCal Operator", "#40d0d7", 20),
+    ("product_core", "GridCal Core", "#4a0a7c", 30),
+    ("product_nexus", "GridCal Nexus", "#c51a82", 40),
+    ("product_general", "GridCal Allgemeines", "#fa4d0f", 50),
+)
 
 
 class RequirementProduct(models.Model):
@@ -11,6 +22,55 @@ class RequirementProduct(models.Model):
     active = fields.Boolean(default=True, string="Aktiv")
     sequence = fields.Integer(default=10, string="Reihenfolge")
     description = fields.Text(string="Beschreibung", translate=True)
+    color_hex = fields.Char(string="Produktfarbe (Hex)", help="Optionaler Farbwert im Format #RRGGBB.")
+    color_text = fields.Char(string="Kontrastfarbe", compute="_compute_color_text")
+
+    @api.constrains("color_hex")
+    def _check_color_hex(self):
+        for product in self:
+            if product.color_hex and not re.fullmatch(r"#[0-9a-fA-F]{6}", product.color_hex):
+                raise ValidationError(_("Die Produktfarbe muss ein Hex-Wert im Format #RRGGBB sein."))
+
+    @api.depends("color_hex")
+    def _compute_color_text(self):
+        def luminance(color):
+            channels = [int(color[index : index + 2], 16) / 255 for index in (1, 3, 5)]
+            linear = [
+                value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4 for value in channels
+            ]
+            return sum(value * weight for value, weight in zip(linear, (0.2126, 0.7152, 0.0722), strict=True))
+
+        dark = luminance("#212529")
+        for product in self:
+            background = luminance(product.color_hex or "#6c757d")
+            white_ratio = 1.05 / (background + 0.05)
+            dark_ratio = (max(background, dark) + 0.05) / (min(background, dark) + 0.05)
+            product.color_text = "#ffffff" if white_ratio >= dark_ratio else "#212529"
+
+    @api.model
+    def _ensure_default_products(self):
+        """Install/upgrade only: adopt existing seeds, fill missing colors, never reset edits."""
+        products = self.with_context(active_test=False, lang=False)
+        for xmlid, name, color, sequence in PRODUCT_DEFAULTS:
+            product = self.env.ref("gc_requirements." + xmlid, raise_if_not_found=False)
+            if product and product._name != self._name:
+                raise ValidationError(_("Die Produktreferenz %(reference)s ist ungültig.", reference=xmlid))
+            if not product:
+                # Reuse a manually created matching product, including archived ones.
+                product = products.search([("name", "=", name)], order="id", limit=1)
+                if not product:
+                    product = products.create({"name": name, "sequence": sequence})
+                self.env["ir.model.data"].create(
+                    {
+                        "module": "gc_requirements",
+                        "name": xmlid,
+                        "model": self._name,
+                        "res_id": product.id,
+                        "noupdate": True,
+                    }
+                )
+            if not product.color_hex:
+                product.color_hex = color
 
     @api.ondelete(at_uninstall=False)
     def _prevent_deletion(self):

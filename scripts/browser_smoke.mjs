@@ -132,7 +132,7 @@ try {
             assert.equal(sources.length, 1);
             assert.match(sources[0].description_snapshot, /Synthetische Originalbeschreibung 3/);
             await page.getByRole('tab', {name: 'Kunden & Tickets', exact: true}).click();
-            await page.getByRole('button', {name: 'Autorisierte Ticketquellen anzeigen', exact: true}).click();
+            await page.getByRole('button', {name: 'Ursprüngliche Ticketbeschreibungen anzeigen', exact: true}).click();
             await page.getByText('Synthetische Originalbeschreibung 3. Keine Kundendaten.', {exact: true}).waitFor();
             await page.screenshot({path: path.join(output, 'source.png'), fullPage: true});
         });

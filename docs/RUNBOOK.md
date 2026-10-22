@@ -1,5 +1,15 @@
 # Installations- und Testhandbuch
 
+## UX-/Farbnachweise, 22.10.2026
+
+Versionen `18.0.1.2.0` und `20.0.1.2.0` auf ihren Development-Branches. Odoo 18: `python3 scripts/test_contract.py --baseline-ref 1caf1c3` erfolgreich mit 32 Tests frisch, 27 im alten Kandidaten, 32 nach Upgrade plus Erhaltungsinventur/negative Proben. Odoo 20 im zugeordneten Worktree: `python3 scripts/test_contract.py --baseline-ref 30735e8` erfolgreich mit 34 Tests frisch (32 App + 2 Core-Webfälle), 29 im alten Kandidaten, 32 nach Upgrade plus Erhaltungsinventur. Kein Enterprise-/Major-Migrationsnachweis.
+
+Die zusätzliche normale `python3 scripts/test_contract.py`-Prüfung setzt vor einem echten Upgrade die individuelle Node-Farbe `#123456`; Inventur und Fixture prüfen danach ihren Erhalt. Beim Altversionsupgrade wird ein vorhandenes manuelles Nexus-Produkt übernommen, ohne Duplikat. Der Testtreiber lädt **vor** dem Upgrade den zum alten Schema passenden Altcode; erst `-u` verwendet den aktuellen Code. Die generische Inventur bleibt standardmäßig streng; ausschließlich der konkrete Vertrag nennt die erlaubten zusätzlichen Produkt-IDs.
+
+Browserbefehle im 18er Hauptcheckout mit den in LOCAL_DEVELOPMENT beschriebenen lokalen Bibliotheksvariablen: `node scripts/browser_ux.mjs` und `node scripts/browser_smoke.mjs`. UX prüft echte Formularbedienung, fünf Standardfarben, Kontrast, leere/schmale Kanbangruppen, Produkthex-Bearbeitung samt Rücksetzung und getrennte erlaubte/gesperrte Browsersitzungen einschließlich generischer RPC-/Exportverweigerung. Screenshots in `.local/dev/browser-ux/`: Kanban, Endspalten, schmaler Viewport, Produktkonfiguration, autorisierter/gesperrter Snapshot und kein Ticket. Diese wurden visuell geprüft. Das bestehende Smoke-Skript prüft weiter Neu/Bearbeiten/Workflow/Notiz/Aktivität/Ticketwizard. Keine echte 20er Browser-/Enterprise-Abnahme behaupten.
+
+Korrigierte Vorläufe: Test verglich Produktreihenfolge trotz absichtlicher Sequenzänderung (jetzt Datensatzmenge), Altcode-/Schemasynchronität im Testtreiber, fehlendes natives `read_group_expand` im 20er Web-API-Test und sprachabhängiger synthetischer Modulname. Der initiale Browseraufruf scheiterte vor vollständiger Felddeklaration/Modulaktualisierung; finaler UX-Browserlauf erfolgreich. Zwei parallel gestartete Nachläufe endeten vor Ausgabe mit SIGTERM; sie gelten nicht als bestandene Prüfungen. Der getrennte 20er Nachlauf sowie anschließend vorhandener Browser-Smoke und UX-Check vollständig erfolgreich wiederholt.
+
 ## Persistente lokale Browserumgebung (22.10.2026)
 
 Anleitung: [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md). `python3 scripts/dev.py start` installiert/startet ausschließlich den eigenen UI-Stack; `credentials`, `status`, `stop`, `update`, `reset --yes`, `logs`, `test` und `verify` sind die lokalen Betriebsbefehle. `compose.test.yaml` und der bestehende Testtreiber bleiben unverändert. Ausschließlich synthetische Daten; derzeit gekennzeichnete UI-Demo, Enterprise-Zugriff weiter HTTP 404.

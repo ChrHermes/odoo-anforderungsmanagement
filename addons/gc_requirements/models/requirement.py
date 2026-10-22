@@ -33,7 +33,9 @@ class Requirement(models.Model):
         required=True,
         tracking=True,
     )
-    state = fields.Selection(STATES, string="Status", default="new", required=True, tracking=True, index=True)
+    state = fields.Selection(
+        STATES, string="Status", default="new", required=True, tracking=True, index=True, group_expand=True
+    )
     priority = fields.Selection(
         [("0", "Normal"), ("1", "Mittel"), ("2", "Hoch"), ("3", "Dringend")],
         string="Priorität",
@@ -52,6 +54,10 @@ class Requirement(models.Model):
     category_id = fields.Many2one(
         "gc.requirement.category", string="Funktionsbereich", ondelete="restrict", tracking=True
     )
+    product_color_hex = fields.Char(related="product_id.color_hex", string="Produktfarbe")
+    product_color_text = fields.Char(related="product_id.color_text", string="Produkt-Kontrastfarbe")
+    category_path = fields.Char(string="Relativer Funktionspfad", compute="_compute_category_path")
+
     assigned_user_id = fields.Many2one(
         "res.users",
         string="Verantwortlich",
@@ -81,6 +87,13 @@ class Requirement(models.Model):
     _sql_constraints = [
         ("reference_unique", "unique(reference)", "Die Anforderungsnummer muss eindeutig sein.")
     ]
+
+    @api.depends("category_id.complete_name", "product_id.name")
+    def _compute_category_path(self):
+        for requirement in self:
+            prefix = (requirement.product_id.name or "") + " / "
+            full_path = requirement.category_id.complete_name or ""
+            requirement.category_path = full_path.removeprefix(prefix)
 
     def _check_app_user(self):
         if self.env.user.share or not self.env.user.has_group("gc_requirements.group_user"):

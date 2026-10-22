@@ -156,6 +156,8 @@ def capture(env, user_ids):
         "permissions": {},
     }
     tracking = messages.tracking_value_ids
+    if "color_hex" in admin["gc.requirement.product"]._fields:
+        result["product_colors"] = _inventory(admin["gc.requirement.product"].search([]), ["color_hex"])
     result["tracking"] = _inventory(
         tracking,
         sorted(
@@ -261,7 +263,7 @@ def capture(env, user_ids):
     return result
 
 
-def verify(env, baseline):
+def verify(env, baseline, *, allowed_new_product_ids=()):
     """Fail on any preservation/access difference; never modify or repair data."""
     current = capture(env, [int(value) for value in baseline["permissions"]])
     differences = []
@@ -272,6 +274,13 @@ def verify(env, baseline):
             expected = {key: value for key, value in expected.items() if key != "next"}
             actual = {key: value for key, value in current[section].items() if key != "next"}
         elif section == "xmlids":
+            actual = {key: current[section].get(key) for key in expected}
+        elif section in ("products", "product_colors") and allowed_new_product_ids:
+            # Explicitly enumerated additive master data is allowed for a reviewed
+            # addon upgrade. Every pre-existing record/hash must still match.
+            additions = set(current[section]) - set(expected)
+            if not additions.issubset({str(value) for value in allowed_new_product_ids}):
+                differences.append(section + ": unexpected new products")
             actual = {key: current[section].get(key) for key in expected}
         else:
             actual = current.get(section)

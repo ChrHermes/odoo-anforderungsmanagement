@@ -1,5 +1,17 @@
 # Technische Entscheidungen
 
+## D017 – Produktfarben und additive Seeds (22.10.2026)
+
+Der explizite UX-Auftrag genehmigt Nexus und Allgemeines zusätzlich zu den bisherigen drei Produkten und legt die fünf Hex-Defaults fest. Native Char-Farbe mit `widget="color"` und Hex-Textfeld statt Palette/Custom-JavaScript; Regexvalidierung serverseitig, Kontrast über relative sRGB-Luminanz und Vergleich weißer/dunkler Schrift. Bestehende Config-ACL bleibt maßgeblich. Keine spekulativen neuen Kategorien.
+
+Der private XML-Funktionsinitializer läuft bei Install/Upgrade, liest zuerst bestehende XML-IDs, übernimmt sonst einen vorhandenen gleichnamigen Datensatz einschließlich archivierter Produkte und erzeugt nur fehlende Produkte. Bei mehreren bereits vorhandenen gleichnamigen Einträgen wird der älteste übernommen; kein Datensatz wird gelöscht oder zusammengeführt. Nur leere Farben werden ergänzt; Namen, Reihenfolgen, Aktivstatus, Kategorien und individuelle Farben bleiben erhalten. Neue Bindings sind `noupdate`. Die Erhaltungsinventur gestattet additive Produktdatensätze ausschließlich über ausdrücklich enumerierte neue Seed-IDs; bestehende Hashes und alle übrigen Sicherheits-/Historiendaten bleiben strikt geprüft.
+
+## D018 – Native Kanban-Reihenfolge und unveränderter Quellenschutz (22.10.2026)
+
+`group_expand=True` der Selection liefert alle Status in Definitionsreihenfolge, die Kanbanansicht verlangt `state asc` und aktiviert den nativen Web-Gruppenkontext. In 20 ist `formatted_read_group` mit `read_group_expand=True` erforderlich, in 18 die vorhandene formatierte `read_group`-API. Die gruppenspezifische XML-Erweiterung setzt nur bei `gc.requirement`/`state` ein Datenattribut; Styles sind auf die App-Kanbanansicht begrenzt. Produktbadges mit Hex-/Kontrastfarbe, relative Kategorie plus vollständigem Tooltip, dezente Typbadges und zwei subtile Endspalten. Kein eigenes Kanban-JavaScript.
+
+Die bestehende Quelle-Architektur ist korrekt: mehrere Demo-Anforderungen haben tatsächlich null Tickets, andere haben lesbare immutable Quellen. Der Reiter unterscheidet diesen Leerfall ausdrücklich. Ein eindeutiger Button öffnet weiterhin denselben frisch autorisierten privaten Viewer; keine neue allgemein lesbare Kopie. Lokale Demodaten ergänzen idempotent zwei Produktbeispiele und einen App-/Export-Benutzer ohne Helpdesk- oder Config-Rechte, nur nach DB- und synthetischer Modulprüfung. Modulmetadaten dabei in `en_US` prüfen: Odoos deutscher Helpdesk-Katalog kann den synthetischen Modulnamen als generisches „Kundendienst“ übersetzen.
+
 ## D015 – Persistente lokale UI und isolierter Testvertrag (22.10.2026)
 
 Der neue ausdrückliche Auftrag erlaubt eine eingeschränkte interaktive Demo bei fehlenden Enterprise-Quellen. Eigenes Compose-Projekt `gc-requirements-dev`, Datenbank `gc_requirements_dev`, persistente PostgreSQL-15-/Odoo-Volumes und nur localhost:8069. Die vorhandene Contract-Umgebung bleibt unverändert separat. Die Demo generiert ihre eigene ignorierte synthetische Helpdesk-Kopie und minimale native Ansichten aus den bestehenden Vorlagen; weder diese Kopie noch die lokale QWeb-Einstiegshilfe sind deploybare App-Bestandteile. Login, Kacheleinstieg und Webclient kennzeichnen den Modus. Keine Enterprise-Abnahme daraus ableiten.

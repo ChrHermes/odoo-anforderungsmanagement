@@ -1,5 +1,12 @@
 # Änderungen
 
+## 18.0.1.2.0 – UX und Produktfarben, Development
+
+- Fünf Produkte einschließlich Nexus/Allgemeines mit exakten initialen Hex-Farben, nativer Farb-/Hex-Bearbeitung und automatischem Schriftkontrast. Additive Seedpflege erhält vorhandene Farben/Namen/Kategorien und übernimmt bestehende Produkte ohne Duplikate.
+- Acht Kanban-Status in Workflowreihenfolge einschließlich leerer Gruppen, subtile Endspalten, kompakte Produkt-/Typbadges und relative Funktionspfade mit vollständigem Tooltip.
+- Deutlicher Ticket-Leerfall und klar beschrifteter autorisierter Originalbeschreibungsviewer; private Snapshot-Architektur bleibt erhalten.
+- Zusätzliche UX-/Rechte-/Upgradeprüfungen und echte lokale Browsernachweise. Gleichwertige Umsetzung separat für Odoo 20; Enterprise-Abnahme weiterhin offen.
+
 ## 18.0.1.1.0 – Anforderungen, Development
 
 - Sichtbarer App-/Launcher-/Gruppenname „Anforderungen“, stabile technische IDs und deutsche Übersetzungen einschließlich geerbter Labels.

@@ -102,8 +102,27 @@ def main():
         audit = (ROOT / "scripts/migration_audit.py").read_text()
         fixture = (ROOT / "scripts/contract_upgrade_fixture.py").read_text()
         shell = COMPOSE + ["run", "--rm", "-T", "odoo", "odoo", "shell"] + ODOO + ["--no-http"]
+        prepare_shell = shell
+        if options.baseline_ref:
+            # Before -u, registry code MUST match the installed old schema.
+            # Loading today's fields against yesterday's DB can access missing columns.
+            prepare_shell = (
+                COMPOSE
+                + [
+                    "run",
+                    "--rm",
+                    "-T",
+                    "-v",
+                    str(baseline / "addons") + ":/mnt/extra-addons:ro",
+                    "odoo",
+                    "odoo",
+                    "shell",
+                ]
+                + ODOO
+                + ["--no-http"]
+            )
         run(
-            shell,
+            prepare_shell,
             "prepare-upgrade",
             audit + "\npreservation_verify = verify\n" + fixture + "\nprepare(env, capture)\n",
             marker="CONTRACT_UPGRADE_PREPARED",

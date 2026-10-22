@@ -1,5 +1,20 @@
 # Entwicklungsstand
 
+## UX-Feinschliff und Produktfarben – 22.10.2026
+
+Auftrag `tasks/20261022_ux-refining.md` auf den getrennten Development-Linien umgesetzt, Versionen **18.0.1.2.0** / **20.0.1.2.0**. Fünf konfigurierbare Hex-Farben mit serverseitiger Validierung/Schriftkontrast, Nexus/Allgemeines ohne neue Kategorien, additive idempotente Defaults ohne Überschreiben von Nutzerfarben oder Namen. Native Farb-/Hex-Eingabe unter Konfiguration → Produkte. Kanban zeigt alle acht Status in Workflowreihenfolge einschließlich leerer Gruppen, dezente rechte Endbereiche, kompakte Produkt-/Typbadges und sekundäre relative Pfade mit vollständigem Tooltip. Sterne, Verantwortliche, Zähler und Aktivitäten bleiben bestehen.
+
+Ticketquellen waren nicht generell defekt: mehrere Beispiele haben tatsächlich keine Verknüpfung, andere enthalten bereits lesbare immutable Snapshots. Der Reiter unterscheidet jetzt „Keine Helpdesk-Tickets verknüpft“ vom klar benannten autorisierten Originalbeschreibungsviewer. Private Modelle, aktuelle Ticket-/Feld-/Parent-Rechte und generische Zugriffssperren unverändert. Die lokale synthetische Demo ergänzt ausschließlich fehlende zwei Produktbeispiele sowie einen internen Benutzer ohne Helpdesk-/Config-Rechte; Zugang über `python3 scripts/dev.py credentials --restricted`.
+
+Nachweise:
+
+- 18: `python3 scripts/test_contract.py --baseline-ref 1caf1c3`: 32 frisch / 27 Altversion / 32 Upgrade; Inventur und negative Korruptionsproben erfolgreich. Zusätzlicher normaler Vertragslauf: 32/32, individuelle Node-Farbe `#123456` über tatsächliches `-u` erhalten.
+- 20 im eigenen Worktree: `python3 scripts/test_contract.py --baseline-ref 30735e8`: 34 frisch (32 App + 2 Core-Webfälle) / 29 Altversion / 32 Upgrade; Inventur erfolgreich. Zusätzlicher normaler Vertragslauf: 34/32, individueller Farberhalt und negative Proben bestanden. Alle bisherigen Tests bleiben erhalten.
+- Echter Browser-UX-Test mit zwei Sitzungen bestanden: exakte fünf Farben/Kontrast, Produktkonfiguration, acht geordnete/leere Gruppen, schmaler Viewport, lesbarer/gesperrter Viewer und Read/Search/Group/Export/Count-Abweisung. Keine JS-Fehler/externen Browserrequests. Screenshots einschließlich Konfiguration und Snapshot visuell geprüft; Pfade unter [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md).
+- Lokale 18er Oberfläche aktualisiert und weiterhin unter localhost:8069 aktiv; Benutzerarbeit/Daten nicht zurückgesetzt. Zusätzlicher Kartenabstand und kompakter Farbkonfigurationsbereich nach visueller Prüfung übernommen. Datenbank-/Mail-/Netzisolation bleibt bestehen.
+
+Statische Paket-/XML-/Pythonprüfung und Ruff/Formatierung auf beiden Linien; browserbezogene JavaScript-Syntaxprüfung. Korrigierte Vorläufe und genaue Befehle unter [RUNBOOK](RUNBOOK.md). Noch offen: echte Enterprise-/Custom-Helpdesk-Abnahme beider Versionen, Odoo-20-Browser, macOS/separater Windows-Browser und tatsächliche Major-Migration. Keine Odoo.sh-/Staging-/Production-Aktion. Vorhandene fremde Diffs einschließlich Tasks bleiben unangetastet.
+
 Terminal-Nachprüfung 22.10.2026: gemeldeter Python-Importfehler mit ungültigem cwd reproduziert; `credentials` im gültigen Checkout mit relativem, `./`- und absolutem Scriptpfad erfolgreich geprüft. Verzeichniswechsel als Abhilfe dokumentiert, keine Anwendungscodeänderung oder Datenrücksetzung. Lokale UI weiterhin HTTP 200, alle drei Dienste healthy.
 
 ## Lokale Docker-Entwicklung – 22.10.2026

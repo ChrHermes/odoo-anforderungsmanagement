@@ -1,11 +1,13 @@
 <odoo>
     <record id="view_product_list" model="ir.ui.view">
         <field name="name">gc.requirement.product.list</field><field name="model">gc.requirement.product</field>
-        <field name="arch" type="xml"><list delete="0"><field name="sequence" widget="handle"/><field name="name"/><field name="active"/></list></field>
+        <field name="arch" type="xml"><list delete="0"><field name="sequence" widget="handle"/><field name="name"/><field name="color_hex" widget="color" readonly="1"/><field name="color_hex" string="Hex-Wert"/><field name="active"/></list></field>
     </record>
     <record id="view_product_form" model="ir.ui.view">
         <field name="name">gc.requirement.product.form</field><field name="model">gc.requirement.product</field>
-        <field name="arch" type="xml"><form delete="0"><sheet><group><field name="name"/><field name="sequence"/><field name="active"/><field name="description"/></group></sheet></form></field>
+        <field name="arch" type="xml"><form delete="0"><sheet><group><field name="name"/>
+            <label for="color_hex"/><div class="d-flex align-items-center gap-3" style="max-width: 16rem"><field name="color_hex" widget="color" nolabel="1"/><field name="color_hex" id="color_hex" placeholder="#0068b1" nolabel="1"/></div>
+            <field name="sequence"/><field name="active"/><field name="description"/></group></sheet></form></field>
     </record>
     <record id="view_category_list" model="ir.ui.view">
         <field name="name">gc.requirement.category.list</field><field name="model">gc.requirement.category</field>

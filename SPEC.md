@@ -77,9 +77,13 @@ GridCal Operator
   Anlagenverwaltung
   Benutzerverwaltung
 GridCal Core
+GridCal Nexus
+GridCal Allgemeines
 ```
 
-The final six non-nested category labels outside the explicit example paths are **seed assumptions** based on earlier named areas; they may be renamed/reparented in the app. No other top-level products are seeded. `GridCal Core` initially has no subcategories. Seed master data must exist in Production on module installation, not only in development demo data.
+The final six non-nested category labels outside the explicit example paths are **seed assumptions** based on earlier named areas; they may be renamed/reparented in the app. The approved UX supplement of 22 October 2026 (`tasks/20261022_ux-refining.md`) adds GridCal Nexus and GridCal Allgemeines. No speculative subcategories are seeded for Core, Nexus or Allgemeines. Seed master data must exist on module installation, not only in development demo data.
+
+Product colors are editable only by the configuration group and store exact six-digit hex values. Initial defaults are Node `#0068b1`, Operator `#40d0d7`, Core `#4a0a7c`, Nexus `#c51a82`, Allgemeines `#fa4d0f`. Installation/upgrades fill missing colors only, preserve user colors/renamed products and categories, and reuse existing matching products rather than create duplicates. Cards show a compact colored product badge with a readable foreground; a missing color uses a neutral fallback. Type and three-star priority remain independent.
 
 ## 4. Helpdesk integration
 
@@ -139,6 +143,8 @@ Use standard Odoo Chatter and activities, not a custom chat/tasks subsystem:
 ## 7. Views and everyday UX
 
 The app appears as **Anforderungen** in the Odoo app launcher, with its own root menu. **Kanban is the landing view**, grouped by state, with an immediately available **List** view. No custom frontend or dashboard is required.
+
+The approved UX supplement fixes the status-column order to Neu, In Prüfung, Bewertet, Geplant, In Umsetzung, Umgesetzt, Zurückgestellt, Abgelehnt, including empty groups. The final two columns receive a subtle visual separation. Product classification is emphasized; category paths are smaller and relative to the separately displayed product, with full paths still available. Request types have distinct restrained badges. In Kunden & Tickets, an explicit empty state distinguishes no linked tickets from linked sources that the user cannot read; the authorized original-description viewer remains protected on every read.
 
 Each informative Kanban card should show:
 

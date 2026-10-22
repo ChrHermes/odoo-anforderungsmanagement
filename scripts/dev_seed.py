@@ -145,4 +145,87 @@ def seed(env):
     print("LOCAL_DEV_SEEDED: 8 requirements, all states/priorities, 3 tickets, manual activity")
 
 
+def seed_ux_demo(env):
+    """Add only missing local synthetic UX fixtures, including a denied reader."""
+    if env.cr.dbname != "gc_requirements_dev":
+        raise RuntimeError("Local development database required")
+    helpdesk = env["ir.module.module"].search([("name", "=", "helpdesk")])
+    if "ui-demo" not in helpdesk.with_context(lang="en_US").shortdesc.lower():
+        return
+    credentials = json.loads(Path("/run/local-dev/credentials.json").read_text())
+
+    def remember(name, record):
+        env["ir.model.data"].create(
+            {
+                "module": "gc_local_dev",
+                "name": name,
+                "model": record._name,
+                "res_id": record.id,
+                "noupdate": True,
+            }
+        )
+        return record
+
+    restricted = env.ref("gc_local_dev.restricted_developer", raise_if_not_found=False)
+    if not restricted:
+        restricted = (
+            env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Demo ohne Helpdesk-Rechte",
+                    "login": credentials["restricted_login"],
+                    "password": credentials["restricted_password"],
+                    "email": credentials["restricted_login"],
+                    "lang": "de_DE",
+                    "notification_type": "inbox",
+                    "action_id": env.ref("gc_requirements.action_requirements").id,
+                    "groups_id": [
+                        Command.set(
+                            [
+                                env.ref(key).id
+                                for key in (
+                                    "base.group_user",
+                                    "base.group_allow_export",
+                                    "gc_requirements.group_user",
+                                )
+                            ]
+                        )
+                    ],
+                }
+            )
+        )
+        remember("restricted_developer", restricted)
+    user = env.ref("gc_local_dev.developer")
+    for key, title in (
+        ("nexus", "Nexus-Schnittstellen übersichtlicher darstellen"),
+        ("general", "Produktübergreifende Hinweise verständlicher formulieren"),
+    ):
+        xmlid = "requirement_ux_" + key
+        if not env.ref("gc_local_dev." + xmlid, raise_if_not_found=False):
+            product = env.ref("gc_requirements.product_" + key, raise_if_not_found=False)
+            if product:
+                remember(
+                    xmlid,
+                    env["gc.requirement"]
+                    .with_user(user)
+                    .create(
+                        {
+                            "name": title,
+                            "description": "<p>Synthetisches UX-Beispiel ohne Funktionsbereich und ohne Ticketquelle.</p>",
+                            "product_id": product.id,
+                            "request_type": "improvement" if key == "general" else "feature",
+                        }
+                    ),
+                )
+    requirement = env.ref("gc_local_dev.requirement_1")
+    assert requirement.with_user(user).get_authorized_sources(), "Demo needs a nonempty authorized snapshot"
+    assert not requirement.with_user(restricted).get_authorized_sources(), (
+        "Restricted demo must not read snapshots"
+    )
+    env.cr.commit()
+    print("LOCAL_UX_DEMO_VERIFIED: linked snapshot, denied reader and available product examples")
+
+
 seed(env)  # noqa: F821 - Odoo shell supplies env
+seed_ux_demo(env)  # noqa: F821

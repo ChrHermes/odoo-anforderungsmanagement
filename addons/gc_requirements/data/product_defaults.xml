@@ -1,0 +1,4 @@
+<odoo>
+    <!-- Executed on install AND upgrade. The private ORM initializer only fills gaps. -->
+    <function model="gc.requirement.product" name="_ensure_default_products"/>
+</odoo>
