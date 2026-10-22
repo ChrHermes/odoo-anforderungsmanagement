@@ -1,0 +1,29 @@
+<odoo>
+    <template id="launcher" name="Lokale Entwicklung">
+        <t t-call="web.layout">
+            <t t-set="head"><meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <t t-call-assets="web.assets_frontend" t-js="false"/>
+            </t>
+            <main class="container py-5">
+                <h1>Lokale Entwicklung</h1>
+                <p class="alert alert-warning" role="status">__MODE_LABEL__</p>
+                <p>Ausschließlich synthetische Daten. Externer Mailversand und Cronjobs sind deaktiviert.</p>
+                <div class="d-flex gap-4 flex-wrap">
+                    <a t-attf-href="/odoo/action-#{requirement_action}" aria-label="Anforderungen" class="card p-4 text-center text-decoration-none" style="width: 210px">
+                        <img src="/gc_requirements/static/description/icon.svg" width="96" height="96" alt="Anforderungen" class="mx-auto mb-3"/>
+                        <strong>Anforderungen</strong>
+                    </a>
+                    <a t-if="ticket_action" t-attf-href="/odoo/action-#{ticket_action}" class="card p-4 text-center text-decoration-none justify-content-center" style="width: 210px">
+                        <strong>Helpdesk (UI-Demo)</strong><span>Synthetische Tickets</span>
+                    </a>
+                </div>
+                <p class="mt-4">Anforderungen öffnen startet das native Kanban-Board. Im App-Menü stehen auch Konfiguration und weitere Anwendungen bereit.</p>
+            </main>
+        </t>
+    </template>
+    <template id="login_warning" inherit_id="web.login_layout" name="Lokale Entwicklungskennzeichnung">
+        <xpath expr="//div[hasclass('container')]" position="before">
+            <div class="alert alert-warning text-center mb-0" role="status">__MODE_LABEL__</div>
+        </xpath>
+    </template>
+</odoo>

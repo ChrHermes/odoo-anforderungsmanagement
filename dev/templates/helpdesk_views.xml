@@ -1,0 +1,32 @@
+<odoo>
+    <record id="local_ticket_list" model="ir.ui.view">
+        <field name="name">local.synthetic.helpdesk.list</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml"><list>
+            <field name="name" string="Ticket (synthetisch)"/>
+            <field name="partner_id" string="Kunde"/>
+            <field name="team_id" string="Team"/>
+            <field name="stage_id" string="Phase"/>
+            <field name="priority" string="Priorität" widget="priority"/>
+        </list></field>
+    </record>
+    <record id="local_ticket_form" model="ir.ui.view">
+        <field name="name">local.synthetic.helpdesk.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml"><form string="Helpdesk – synthetische UI-Demo">
+            <sheet>
+                <div class="alert alert-warning" role="status">Synthetisches Helpdesk. Kein Odoo Enterprise, keine Enterprise-Abnahme.</div>
+                <h1><field name="name" string="Titel"/></h1>
+                <group><field name="partner_id" string="Kunde"/><field name="team_id" string="Team"/>
+                    <field name="stage_id" string="Phase"/><field name="priority" string="Priorität" widget="priority"/>
+                </group>
+                <field name="description" string="Ticketbeschreibung"/>
+            </sheet><chatter/>
+        </form></field>
+    </record>
+    <record id="local_tickets" model="ir.actions.act_window">
+        <field name="name">Helpdesk (UI-Demo)</field><field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="local_helpdesk_root" name="Helpdesk (UI-Demo)" action="local_tickets" groups="group_helpdesk_user" sequence="40"/>
+</odoo>

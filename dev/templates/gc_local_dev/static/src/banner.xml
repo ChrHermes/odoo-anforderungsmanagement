@@ -1,0 +1,10 @@
+<templates xml:space="preserve">
+    <t t-name="gc_local_dev.Banner" t-inherit="web.WebClient" t-inherit-mode="extension">
+        <xpath expr="//ActionContainer" position="before">
+            <div class="bg-warning text-dark text-center py-1 px-2 flex-shrink-0" role="status" data-local-dev="true">
+                <strong>__MODE_LABEL__</strong>
+                <span> · </span><a href="/local-dev" class="text-dark text-decoration-underline">App-Kacheln</a>
+            </div>
+        </xpath>
+    </t>
+</templates>

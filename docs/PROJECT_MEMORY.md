@@ -1,5 +1,16 @@
 # Projektwissen
 
+## Lokale Browserentwicklung, 22.10.2026
+
+- Eigener persistenter Stack `compose.dev.yml` / `gc-requirements-dev`, DB `gc_requirements_dev`, PostgreSQL 15, Odoo 18.0-20261015, lokaler Nginx. Einstieg `python3 scripts/dev.py start`, Login `credentials`, Bedienung [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md). Nur Development-Branch `codex/initial-mvp`.
+- Der bisherige isolierte Vertrag wird **nicht** zur UI umgebaut. `dev.py test` ruft unverändert `test_contract.py` auf. Generierte UI-Addons `.local/dev/addons` und Test-Addons `.local/contract-addons` sind getrennt. Nur `addons/gc_requirements` deployen.
+- Enterprise erneut lesend geprüft: GitHub HTTP 404, keine lokal bereitgestellten Quellen gefunden. Aktive Ausgabe ist ausdrücklich **eingeschränkte UI-Demo mit synthetischem Helpdesk**, sichtbar in Login/Kacheln/Webclient. Der optionale Enterprise-Startpfad ist ohne lizenzierte Quellen noch ungetestet. Moduswechsel verlangt lokalen Reset; niemals synthetisches Helpdesk in-place durch Enterprise ersetzen.
+- Fixtures: 8 Anforderungen, alle Status/Prioritäten, echte Produkt-/Kategorieseeds, 3 synthetische Tickets, getrennte Redaktion/Momentaufnahme, zwei Kontakte derselben Organisation, interne Notiz und manuell angelegte Aktivität. Seeds sind einmalig; Stop/Start überschreibt keine Änderungen. Odoo benötigt selbst bei internen Notizen eine Absenderadresse: Entwicklungskonto nutzt ausschließlich `example.invalid`.
+- In dieser Docker-Version funktionieren Hostports nicht auf ausschließlich internem Netz. Proxy mit einzigem Loopback-Port; Odoo/DB intern ohne Egress. Socketprobe auf externes Ziel abgewiesen. Keine Cronthreads, Cronjobs oder aktiven ausgehenden Mailserver; SMTP-Fallback 127.0.0.1:1. D015/D016 erläutern die Abgrenzung.
+- Odoo-Core-Dateileser bei `--dev=xml`: `NoneType + str` für kompakte `arch`-Felder. `reload,qweb` funktioniert; Python-Watchdog im Log bestätigt. Views/Schema via `dev.py update` aktualisieren. Der Anwendungsquellcode bleibt unverändert.
+- Echte Browserprüfung ist auf diesem Rechner jetzt ausführbar: Playwright 1.56.1 / Chromium 141, lokale Bibliotheken unter `.local/browser/system-libs`, Browsercache `/tmp/gc-local-browser`; Aufruf im lokalen Entwicklungshandbuch. `scripts/browser_smoke.mjs` prüft Kachel, Kanban/Liste, Create/Edit, Kategorie, Priorität/Status, Notiz, Aktivität und synthetischen Ticketwizard samt autorisiertem Viewer. Bilder/Ergebnis bleiben ignoriert in `.local/dev/browser`. Kein Enterprise-Nachweis.
+- Rücksetzung nur `python3 scripts/dev.py reset --yes`; löscht ausschließlich dieses Compose-Projekt und seine beiden Volumes. Zugangsdaten und Diagnosebilder bleiben lokal. Nicht mit dem gesonderten Test-Cleanup verwechseln.
+
 Stand: 22.10.2026. Verbindliche Fachentscheidungen stehen in `SPEC.md`, technische Regeln in `TECHNICAL_DESIGN.md`, Prüfgates in `IMPLEMENTATION.md` und Arbeitsregeln in `AGENTS.md`.
 
 - Eigenständiges internes Odoo-18-Enterprise-Addon `addons/gc_requirements`, native Python/XML-Komponenten, deutsche Oberfläche. Abhängigkeiten: `base`, `mail`, `helpdesk`.

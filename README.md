@@ -6,6 +6,10 @@ Native interne Odoo-App (18 als primäre Plattform, 20 als separates Portierungs
 
 Versionsnachweise und Branch-/Migrationsstrategie: [COMPATIBILITY](docs/COMPATIBILITY.md). Eine Odoo-20-Portierung und ein Modulupgrade ersetzen keine vollständige Datenbankmigration.
 
+## Lokal im Browser
+
+`python3 scripts/dev.py start` startet die separate persistente Odoo-18-Entwicklungsumgebung. Zugang mit `python3 scripts/dev.py credentials` anzeigen und [localhost:8069/local-dev](http://localhost:8069/local-dev) öffnen. Ohne lizenzierte Enterprise-Quellen läuft eine ausdrücklich eingeschränkte UI-Demo mit synthetischem Helpdesk. [Anleitung, Updates, Reset und Browserprüfung](docs/LOCAL_DEVELOPMENT.md). Die bestehende isolierte Contract-Testumgebung bleibt separat.
+
 ## Installation auf Development
 
 1. Odoo **18 Enterprise** mit installiertem Helpdesk und Mail bereitstellen. Bestehende Helpdesk-Customizations und deren Record Rules inventarisieren.

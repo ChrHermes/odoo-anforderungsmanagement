@@ -1,5 +1,19 @@
 # Entwicklungsstand
 
+## Lokale Docker-Entwicklung – 22.10.2026
+
+**Lokale Weboberfläche tatsächlich erreichbar, App installiert und im Browser bedienbar.** Aktiver Branch `codex/initial-mvp`; separater persistenter Stack `gc-requirements-dev` auf Odoo 18.0-20261015 / PostgreSQL 15. Einstieg **http://localhost:8069/local-dev**, Login mit `python3 scripts/dev.py credentials`. [Verständliche Anleitung und Betriebsbefehle](LOCAL_DEVELOPMENT.md).
+
+Enterprise-Zugriff erneut nicht vorhanden: GitHub `odoo/enterprise` HTTP 404, keine bereitgestellten lokalen Quellen gefunden. Deshalb ausdrücklich gekennzeichnete **eingeschränkte UI-Demo mit synthetischem Helpdesk**, keine Enterprise-Abnahme. Optionale lizenzierte Quellen können beim ersten Start read-only eingebunden werden; dieser Pfad bleibt ohne Quellen ungetestet. Moduswechsel benötigt den gezielten lokalen Reset.
+
+- Frischer Dev-Install/Seed/Verifier und echtes Modulupgrade bestanden. Acht Beispiele decken alle Status/Prioritäten ab, dazu Hierarchie, drei synthetische Tickets, mehrere Kontakte derselben Organisation und manuelle Zusammenarbeit.
+- Echte Chromium-Browserprüfung vollständig bestanden: Anmeldung/Kachel, Kanban/Liste, Anlegen/Bearbeiten, eigene Beschreibung/Produkt/Funktionsbereich, drei Sterne, Statusdialog, interne Notiz, manuelle Aktivität, Ticketwizard und autorisierter Quellenviewer. Screenshots von Kacheln, Kanban, Detail und Quelle zusätzlich visuell geprüft; kein JavaScriptfehler oder externer Browserrequest. Belege lokal unter `.local/dev/browser/`, nicht in Git.
+- Nach `update` und `stop`/`start` ist die interaktiv angelegte Anforderung einschließlich Referenz, Bearbeitung, Status, Priorität, Aktivität, Chatternotiz und privater Quelle nachweislich erhalten. `reset --yes` entfernt ausschließlich Dev-Stack/Dev-Volumes; anschließende Neuinstallation erfolgreich. Keine anderen Docker-Projekte oder die isolierte Contract-Umgebung verändert.
+- `python3 scripts/dev.py test`: 27/27 Tests nach Install, 27/27 nach Upgrade, vollständige Erhaltungsinventur/negative Proben erfolgreich. Das Contract-Cleanup lässt die UI bestehen. Statische Paket-/XML-/Pythonprüfung, Ruff, Formatierung und JavaScript-Syntaxprüfung erfolgreich; vorhandene fremde CRLF-Diffs bleiben außerhalb unserer Änderungen.
+- Nur 127.0.0.1:8069 veröffentlicht. Odoo/DB intern ohne externe Route; externe Socketprobe scheitert erwartungsgemäß. Cronthreads/Cronjobs/Mailserver deaktiviert, SMTP auf geschlossenem Loopbackport. Watchdog bestätigt Python-Autoreload; Views/Schema benötigen `update`.
+
+Weiterhin offen: lizenziertes Enterprise-Helpdesk/Custom-Rules/Automationen, Enterprise-UI und Enterprise-Abnahme; macOS/Apple-Silicon und separater Windows-Browser nicht live geprüft. Keine Odoo.sh-, Staging- oder Production-Aktion. Vorhandene Nutzeränderungen bleiben unberührt; Code und Nachweise werden getrennt von ihnen committed.
+
 ## Naming-/Versionsauftrag – 22.10.2026
 
 N1: Oberfläche auf **Anforderungen**, technische IDs unverändert, Version `18.0.1.1.0`. Deutscher Katalog und Locale-Test ergänzen die bisherige Suite. Finale Install-/Upgradeprüfung einschließlich Katalog vom alten Kandidaten `36085f5` besteht mit 27/26/27 Tests. Statische Prüfung, Ruff und Formatprüfung bestanden. Erweiterte Vorher-/Nachher-Inventur prüft Daten, Archivoriginale, Provenienz, Historie, Aktivitäten, Filestore und Rechte; negative Korruptionsproben greifen.

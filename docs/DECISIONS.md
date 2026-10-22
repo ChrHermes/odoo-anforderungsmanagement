@@ -1,5 +1,17 @@
 # Technische Entscheidungen
 
+## D015 – Persistente lokale UI und isolierter Testvertrag (22.10.2026)
+
+Der neue ausdrückliche Auftrag erlaubt eine eingeschränkte interaktive Demo bei fehlenden Enterprise-Quellen. Eigenes Compose-Projekt `gc-requirements-dev`, Datenbank `gc_requirements_dev`, persistente PostgreSQL-15-/Odoo-Volumes und nur localhost:8069. Die vorhandene Contract-Umgebung bleibt unverändert separat. Die Demo generiert ihre eigene ignorierte synthetische Helpdesk-Kopie und minimale native Ansichten aus den bestehenden Vorlagen; weder diese Kopie noch die lokale QWeb-Einstiegshilfe sind deploybare App-Bestandteile. Login, Kacheleinstieg und Webclient kennzeichnen den Modus. Keine Enterprise-Abnahme daraus ableiten.
+
+Enterprise benötigt ausdrücklich lokal bereitgestellte lizenzierte 18er Addons, ausschließlich read-only, ohne synthetischen Fallback. Modus-/Pfadwechsel erfordert den gezielten Reset nur dieser lokalen Datenbank samt Filestore. Ein synthetisch installiertes Helpdesk wird niemals stillschweigend auf Enterprise aktualisiert. Zugangsdaten entstehen zufällig außerhalb Git; keine produktiven Konten oder Daten.
+
+## D016 – Lokaler Proxy und bestätigte Odoo-Entwicklungsoptionen (22.10.2026)
+
+Auf Docker 28.3.2 wurde ein auf ausschließlich internem Netz publizierter Port tatsächlich nicht am Host bereitgestellt. Daher verbindet ein Nginx mit festem Upstream das interne Odoo-Netz mit einem separaten Browsernetz und veröffentlicht ausschließlich 127.0.0.1:8069. Odoo/PostgreSQL haben selbst keinen externen Netzpfad; ein externer Socket-Verbindungsversuch wurde mit „Network is unreachable“ abgewiesen. Cronthreads und Cronjobs deaktiviert, SMTP auf geschlossenem Loopbackport, Mailserver deaktiviert. Der Proxy löst den lokalen Dienstnamen nach Container-Neuerstellung neu auf.
+
+`--dev=xml` des gepinnten Odoo-18-Images scheitert im Core-Dateilesepfad an gültigen kompakten XML-Architekturen (`field_arch.text is None`). Deshalb `--dev=reload,qweb` mit bestätigtem Watchdog und standardmäßiger Modulaktualisierung für XML-/Schemaänderungen. Keine Änderung am Core oder am bestehenden Produktcode. Ein eigener Playwright-Smokecheck verwendet die tatsächlichen deutschen UI-Elemente und den benannten App-/Config-/Helpdesk-Benutzer statt Superuser-RPC als Ersatz für Bedienung.
+
 ## D001 – Autorität und Offline-Implementierung (21.10.2026)
 
 SPEC-Fachregeln bleiben verbindlich. Der aktuelle Auftrag gestattet bei fehlendem Enterprise-Zugriff statische/isolierte Entwicklung über M1 hinaus. Entsprechender Code gilt als implementiert, aber nicht als freigegeben. Insbesondere M3-Vertraulichkeits-/Mailgate und M5-Enterprise-Abnahme dürfen dadurch nicht als bestanden ausgewiesen werden.

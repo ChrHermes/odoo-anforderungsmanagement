@@ -1,5 +1,13 @@
 # Abnahmenachweise
 
+## Ergänzung: lokale UI-Demo, 22.10.2026
+
+Die lokale persistente Odoo-18-Weboberfläche unter localhost:8069 ist tatsächlich erreichbar und mit benanntem internem Entwicklungsbenutzer bedienbar. Playwright/Chromium prüft Anmeldung, eigene lokale App-Kachel, native Kanban-/Listenansichten, Erstellen/Bearbeiten mit eigener Redaktion und Produkt-/Kategoriezuordnung, drei Sterne, Statuswizard, Chatternotiz, manuelle Aktivität sowie Ticketverknüpfung/Quellenviewer im **synthetischen Helpdesk**. Alle sieben Browserprüfschritte bestanden, keine JS-Fehler oder externen Browserrequests; Screenshots von Launcher, Kanban, Detail und Quelle visuell geprüft. Wiederholung nach lokalem Reset ebenfalls erfolgreich.
+
+Moduleupgrade und Stop/Start erhalten die interaktiv angelegten Daten einschließlich Aktivität, Notiz und Momentaufnahme. Bestehender Contract-Testtreiber weiterhin separat: 27/27 nach Install, 27/27 nach Upgrade und erfolgreiche Erhaltungsinventur. Anleitung und Nachweise: [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md), [RUNBOOK](RUNBOOK.md). Dies schließt die zuvor fehlende lokale Browserprüfung für den synthetischen Modus; **Enterprise-/Custom-Helpdesk-, macOS-/Apple-Silicon- und separater Windows-Browsernachweis bleiben offen**. Keine Odoo.sh-/Staging-/Production-Freigabe.
+
+## Historische Nachweise
+
 Stand: 21.10.2026. **Vertrag** bedeutet echte Odoo-18-ORM/Views/Mail-Laufzeit mit ausdrücklich synthetischem Helpdesk-Modell, nicht Odoo Enterprise. Ein bestandener Vertrag ist kein bestandenes Enterprise-/Staging-Gate. SPEC-Checkliste bleibt bis zur fachlichen Abnahme unverändert.
 
 | SPEC §11 | Implementierung / automatisierter Nachweis | Enterprise-/UI-Abnahme |

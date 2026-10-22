@@ -1,5 +1,19 @@
 # Installations- und Testhandbuch
 
+## Persistente lokale Browserumgebung (22.10.2026)
+
+Anleitung: [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md). `python3 scripts/dev.py start` installiert/startet ausschließlich den eigenen UI-Stack; `credentials`, `status`, `stop`, `update`, `reset --yes`, `logs`, `test` und `verify` sind die lokalen Betriebsbefehle. `compose.test.yaml` und der bestehende Testtreiber bleiben unverändert. Ausschließlich synthetische Daten; derzeit gekennzeichnete UI-Demo, Enterprise-Zugriff weiter HTTP 404.
+
+Tatsächlich ausgeführt: frischer Dev-Install, Seed und Neutralisierungs-/Zugriffsprüfung; `python3 scripts/dev.py test` mit **27/27** Tests nach Install, **27/27** nach Upgrade und erfolgreicher Vorher-/Nachher-Inventur samt negativen Proben. Contract-Cleanup beendet nur seinen Stack, die UI läuft weiter. `python3 scripts/dev.py update` führt ein echtes Modulupgrade der bereits im Browser benutzten Entwicklungsdatenbank erfolgreich aus.
+
+Zusätzlich ausgeführt: `python3 scripts/dev.py stop` gefolgt von `start`. Anschließender Browser-/Benutzer-RPC-Check bestätigt unveränderte Referenz, bearbeiteten Titel, Prüfstatus, drei Sterne, manuelle Aktivität, interne Notiz und Ticketmomentaufnahme aus der interaktiven Erfassung. `reset --yes` gefolgt von `start` entfernt/reproduziert ausschließlich diesen lokalen Stack samt seinen beiden Volumes; frische Installation/Seed und anschließender vollständiger Browsercheck erneut bestanden. Der Reset ohne `--yes` wurde erwartungsgemäß verweigert. Login-Ausgabebefehl mit unterdrückter Geheimnisausgabe geprüft; kein globales Docker-Cleanup.
+
+Playwright-/Chromium-Browserprüfung tatsächlich bestanden: Anmeldung/Kachel, native Kanban- und Listenansicht, manuelles Erstellen mit eigener Beschreibung/Produkt/Kategorie/drei Sternen, Bearbeiten, Statuswizard, interne Notiz, manuelle Aktivität, synthetischer Ticketwizard und autorisierter Quellenviewer. Keine JavaScriptfehler oder externen Browserrequests. Screenshots in `.local/dev/browser/` werden zusätzlich visuell betrachtet. **Kein Ersatz für Enterprise-Helpdesk-UI und echte Custom-Record-Rules.**
+
+Docker-Portprüfung bestätigt `HostIp=127.0.0.1`, `HostPort=8069`; HTTP-Login liefert 200. Odoo hat nur das interne Netz, keinen Gateway und keine veröffentlichten Hostports. Externe Socketprobe scheitert erwartungsgemäß mit `Network is unreachable`. Startkonfiguration/Verifier bestätigen Cronthreads 0, deaktivierte Cron-/Mailserver und SMTP-Loopbackport 1. Watchdog für Python-Autoreload im Startlog bestätigt.
+
+Vorläufe fanden einen fehlenden synthetischen Chatter-Absender und den Odoo-Core-Fehler in `--dev=xml`; beides im lokalen Umfeld behoben (gültige `example.invalid`-Adresse und `reload,qweb`). Browserselektoren auf beobachtete deutsche Labels/Selectionwerte angepasst; finaler Smokecheck vollständig bestanden. Globale `git diff --check` meldet vorhandene fremde CRLF-Diffs; nur eigene/staged Änderungen separat auf Whitespace prüfen, keine fremden Dateien normalisieren.
+
 ## Wiederaufnahme
 
 `docs/STATUS.md`, `PROJECT_MEMORY.md`, `DECISIONS.md`, `DEVELOPMENT_REPORT.md` und anschließend Spezifikationen lesen. `git status --short --branch`, `git log -8 --oneline`, `git remote -v` prüfen. Development-Arbeit nur auf `codex/initial-mvp` (18) und dem separat beauftragten `codex/20.0-port` (20). Keine lokalen Nutzerdiffs überschreiben.

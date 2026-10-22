@@ -1,0 +1,9 @@
+{
+    "name": "Lokale Entwicklungsumgebung (niemals deployen)",
+    "version": "18.0.1.0.0",
+    "license": "LGPL-3",
+    "depends": ["gc_requirements", "web"],
+    "data": ["views.xml"],
+    "assets": {"web.assets_backend": ["gc_local_dev/static/src/banner.xml"]},
+    "installable": True,
+}
