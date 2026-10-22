@@ -14,6 +14,8 @@ Docker-Portprüfung bestätigt `HostIp=127.0.0.1`, `HostPort=8069`; HTTP-Login l
 
 Vorläufe fanden einen fehlenden synthetischen Chatter-Absender und den Odoo-Core-Fehler in `--dev=xml`; beides im lokalen Umfeld behoben (gültige `example.invalid`-Adresse und `reload,qweb`). Browserselektoren auf beobachtete deutsche Labels/Selectionwerte angepasst; finaler Smokecheck vollständig bestanden. Globale `git diff --check` meldet vorhandene fremde CRLF-Diffs; nur eigene/staged Änderungen separat auf Whitespace prüfen, keine fremden Dateien normalisieren.
 
+Kandidat `95880cd` lokal committed. Development-Push mit `GIT_TERMINAL_PROMPT=0 git push origin HEAD:refs/heads/codex/initial-mvp` tatsächlich versucht, Exit 128 mangels HTTPS-Benutzeranmeldung. Nicht gepusht, kein neuer CI-/Odoo.sh-Build beobachtet. Nach autorisierter Einrichtung des GitHub-Zugangs denselben Befehl wiederholen. Lokale UI bleibt davon unabhängig aktiv.
+
 ## Wiederaufnahme
 
 `docs/STATUS.md`, `PROJECT_MEMORY.md`, `DECISIONS.md`, `DEVELOPMENT_REPORT.md` und anschließend Spezifikationen lesen. `git status --short --branch`, `git log -8 --oneline`, `git remote -v` prüfen. Development-Arbeit nur auf `codex/initial-mvp` (18) und dem separat beauftragten `codex/20.0-port` (20). Keine lokalen Nutzerdiffs überschreiben.

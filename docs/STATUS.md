@@ -12,7 +12,9 @@ Enterprise-Zugriff erneut nicht vorhanden: GitHub `odoo/enterprise` HTTP 404, ke
 - `python3 scripts/dev.py test`: 27/27 Tests nach Install, 27/27 nach Upgrade, vollständige Erhaltungsinventur/negative Proben erfolgreich. Das Contract-Cleanup lässt die UI bestehen. Statische Paket-/XML-/Pythonprüfung, Ruff, Formatierung und JavaScript-Syntaxprüfung erfolgreich; vorhandene fremde CRLF-Diffs bleiben außerhalb unserer Änderungen.
 - Nur 127.0.0.1:8069 veröffentlicht. Odoo/DB intern ohne externe Route; externe Socketprobe scheitert erwartungsgemäß. Cronthreads/Cronjobs/Mailserver deaktiviert, SMTP auf geschlossenem Loopbackport. Watchdog bestätigt Python-Autoreload; Views/Schema benötigen `update`.
 
-Weiterhin offen: lizenziertes Enterprise-Helpdesk/Custom-Rules/Automationen, Enterprise-UI und Enterprise-Abnahme; macOS/Apple-Silicon und separater Windows-Browser nicht live geprüft. Keine Odoo.sh-, Staging- oder Production-Aktion. Vorhandene Nutzeränderungen bleiben unberührt; Code und Nachweise werden getrennt von ihnen committed.
+Weiterhin offen: lizenziertes Enterprise-Helpdesk/Custom-Rules/Automationen, Enterprise-UI und Enterprise-Abnahme; macOS/Apple-Silicon und separater Windows-Browser nicht live geprüft. Keine Odoo.sh-, Staging- oder Production-Aktion. Vorhandene Nutzeränderungen bleiben unberührt. Implementierung samt Browsercheck und Dokumentation: **`95880cd`**. Finaler Browserdatensatz nach Reset: `REQ-0009`, In Prüfung, Priorität 3, manuelle Aktivität und Ticketquelle; die Oberfläche läuft weiter.
+
+Development-Push erneut tatsächlich versucht: `GIT_TERMINAL_PROMPT=0 git push origin HEAD:refs/heads/codex/initial-mvp`, Exit 128, `could not read Username for 'https://github.com': terminal prompts disabled`. Der Kandidat bleibt lokal; kein aktueller CI-/Odoo.sh-Build behauptet. Kein unsicherer SSH-/Credential-Fallback. Nach sicher eingerichtetem GitHub-Zugang denselben Development-Push wiederholen. Die abschließenden Nachweise stehen im nachfolgenden Dokumentationscommit (Git-Log maßgeblich).
 
 ## Naming-/Versionsauftrag – 22.10.2026
 
