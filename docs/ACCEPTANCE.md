@@ -1,5 +1,7 @@
 # Abnahmenachweise
 
+Abschluss UX, 22.10.2026: Kandidaten 18 `bc2cc78`, 20 `c15a70e`. Finale normale Verträge erneut 32/32 (18) beziehungsweise 34/32 (20) einschließlich Farberhalt/Inventur bestanden, beide 18er Browserchecks inklusive Tooltips und negativem Config-/Snapshotzugriff erfolgreich. Beide Branch-Pushes tatsächlich versucht und mangels HTTPS-Anmeldung mit Exit 128 gescheitert (`could not read Username`). Kein aktueller Remote-/CI-/Odoo.sh-/Enterprise-Nachweis. Die laufende lokale 18er Demo bleibt davon unabhängig. Dokumentationsabschluss im nachfolgenden Commit.
+
 ## UX- und Produktfarben-Kandidat, 22.10.2026
 
 Versionen 18.0.1.2.0 und 20.0.1.2.0. Native Hex-Farbkonfiguration mit fünf exakten Standardwerten, Nexus/Allgemeines ohne erfundene Kategorien, additive Defaults, vollständige Statusreihenfolge/Leergruppen und kompakte Kartenhierarchie umgesetzt. Farbe bleibt unabhängig von Typ/Priorität; Config-ACL und serverseitige Farbvalidierung geprüft. Ursprüngliche Tickettexte bleiben strikt im privaten Autorisierungspfad, Formular enthält keine neue allgemein lesbare Snapshotkopie.

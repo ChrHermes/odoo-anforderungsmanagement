@@ -1,5 +1,7 @@
 # Entwicklungsstand
 
+Abschluss UX, 22.10.2026: Kandidaten 18 `bc2cc78`, 20 `c15a70e`. Finale normale Verträge erneut 32/32 (18) beziehungsweise 34/32 (20) einschließlich Farberhalt/Inventur bestanden, beide 18er Browserchecks inklusive Tooltips und negativem Config-/Snapshotzugriff erfolgreich. Beide Branch-Pushes tatsächlich versucht und mangels HTTPS-Anmeldung mit Exit 128 gescheitert (`could not read Username`). Kein aktueller Remote-/CI-/Odoo.sh-/Enterprise-Nachweis. Die laufende lokale 18er Demo bleibt davon unabhängig. Dokumentationsabschluss im nachfolgenden Commit.
+
 ## UX-Auftrag 22.10.2026 – Odoo 20
 
 Version 20.0.1.2.0: fünf Produktfarben mit nativem Hex-/Farbwidget, additive duplikatfreie Seeds Nexus/Allgemeines, native Statusgruppenerweiterung, kompakte Karten/relative Kategorien/Typbadges, subtile Endspalten und klarer Originalbeschreibungsviewer/Leerfall. Native 20er Sicherheits-/Mail-/Domain-APIs bleiben erhalten. Gruppen-Template verwendet this.props; formatierte Gruppenprüfung den Webkontext read_group_expand=True.

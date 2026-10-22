@@ -19,6 +19,8 @@ Ein Vertragslauf nutzt echte Odoo-ORM-, Mail- und XML-Laufzeit, aber ein ausdrü
 
 ## Branch- und Wartungsstrategie
 
+UX-Kandidaten vom 22.10.2026: 18 `bc2cc78`, 20 `c15a70e`. Altversions- und anschließende normale Farberhaltungs-Verträge erfolgreich, lokale 18er Browserprüfungen bestanden. Beide Development-Pushes mangels HTTPS-Anmeldung Exit 128; keine neuen Remote-/CI-/Odoo.sh-Ergebnisse.
+
 - `codex/initial-mvp`: bestehender autorisierter Development-Branch für 18, Manifest `18.0.1.2.0`.
 - `codex/20.0-port`: separate Development-Portierung mit gleichwertigem UX-Stand, Manifest `20.0.1.2.0`. Kein Merge des 20er Sicherheits-/API-Codes in 18.
 - Gemeinsame Fehlerkorrekturen zuerst auf der primären 18er Linie, danach gezielt nach 20 übernehmen und dort vollständig testen. Versionsbedingte Korrekturen nur in ihrer Linie. Gleiche Modelle/XML-IDs und gleichwertige Testassertionen behalten; keine doppelte App und keine parallele Datenhaltung.
