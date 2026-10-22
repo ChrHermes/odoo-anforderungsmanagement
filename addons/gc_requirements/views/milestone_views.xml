@@ -1,0 +1,106 @@
+<odoo>
+    <record id="view_milestone_kanban" model="ir.ui.view">
+        <field name="name">gc.requirement.milestone.kanban</field><field name="model">gc.requirement.milestone</field>
+        <field name="arch" type="xml"><kanban class="gc_requirements_kanban" default_group_by="state" default_order="state asc, planned_date asc" quick_create="0" records_draggable="0" group_create="0" group_delete="0">
+            <field name="product_color_hex"/><field name="product_color_text"/><field name="product_id"/>
+            <templates><t t-name="card">
+                <div class="d-flex justify-content-between gap-2"><field name="reference" class="text-muted small"/><field name="kind" class="badge text-bg-light"/></div>
+                <field name="name" class="gc_requirement_title fw-bold mt-1 mb-2"/>
+                <span t-if="record.product_id.raw_value" class="gc_product_badge" t-att-style="'background-color: ' + (record.product_color_hex.raw_value || '#6c757d') + '; color: ' + (record.product_color_text.raw_value || '#ffffff')"><field name="product_id"/></span>
+                <span t-else="" class="text-muted small">Produktübergreifend</span>
+                <div class="mt-2"><field name="version"/></div>
+                <div class="text-muted small"><field name="planned_start"/> – <field name="planned_date"/></div>
+                <field name="progress" widget="progressbar"/>
+                <div class="small"><field name="requirement_count"/> gesamt · <field name="open_count"/> offen · <field name="archived_count"/> archiviert</div>
+                <div class="small text-muted mt-1">
+                    Neu <field name="new_count"/> · Prüfung <field name="review_count"/> · Bewertet <field name="evaluated_count"/><br/>
+                    Geplant <field name="planned_count"/> · Umsetzung <field name="in_progress_count"/> · Umgesetzt <field name="implemented_count"/><br/>
+                    Zurückgestellt <field name="deferred_count"/> · Abgelehnt <field name="rejected_count"/>
+                </div>
+                <footer><button name="action_view_requirements" type="object" string="Anforderungen" class="btn btn-link p-0"/><field name="activity_ids" widget="kanban_activity"/><field name="assigned_user_id" widget="many2one_avatar_user" class="ms-auto"/></footer>
+            </t></templates>
+        </kanban></field>
+    </record>
+    <record id="view_milestone_list" model="ir.ui.view">
+        <field name="name">gc.requirement.milestone.list</field><field name="model">gc.requirement.milestone</field>
+        <field name="arch" type="xml"><list delete="0">
+            <field name="reference"/><field name="name"/><field name="kind"/><field name="product_id"/><field name="product_color_hex" widget="color" optional="show"/>
+            <field name="version" optional="show"/><field name="planned_start" optional="hide"/><field name="planned_date"/><field name="state"/>
+            <field name="requirement_count"/><field name="open_count"/><field name="archived_count" optional="hide"/><field name="progress" widget="progressbar"/>
+            <field name="new_count" optional="hide"/><field name="review_count" optional="hide"/><field name="evaluated_count" optional="hide"/>
+            <field name="planned_count" optional="hide"/><field name="in_progress_count" optional="hide"/><field name="implemented_count" optional="hide"/><field name="deferred_count" optional="hide"/><field name="rejected_count" optional="hide"/>
+            <field name="assigned_user_id" optional="show"/>
+            <button name="action_view_requirements" type="object" icon="fa-list" string="Anforderungen"/>
+        </list></field>
+    </record>
+    <record id="view_milestone_form" model="ir.ui.view">
+        <field name="name">gc.requirement.milestone.form</field><field name="model">gc.requirement.milestone</field>
+        <field name="arch" type="xml"><form delete="0">
+            <header>
+                <button name="action_complete" type="object" string="Veröffentlichen" class="btn-primary" invisible="kind != 'release' or state == 'done'"/>
+                <button name="action_complete" type="object" string="Abschließen" class="btn-primary" invisible="kind != 'milestone' or state == 'done'"/>
+                <field name="state" widget="statusbar" options="{'clickable': False}"/>
+            </header>
+            <sheet>
+                <div class="oe_button_box" name="button_box"><button name="action_view_requirements" type="object" class="oe_stat_button" icon="fa-list"><field name="requirement_count" widget="statinfo" string="Anforderungen"/></button></div>
+                <field name="active" invisible="1"/>
+                <widget name="web_ribbon" title="Archiviert" bg_color="text-bg-warning" invisible="active"/>
+                <div class="oe_title"><h3><field name="reference"/></h3><h1><field name="name" placeholder="Release oder Meilenstein benennen"/></h1></div>
+                <div class="alert alert-success" role="status" invisible="state != 'done'">
+                    <span invisible="kind != 'release'">Veröffentlicht</span><span invisible="kind != 'milestone'">Abgeschlossen</span>
+                </div>
+                <group><group string="Planung">
+                    <field name="kind"/><field name="product_id" required="kind == 'release'" options="{'no_create': True}"/>
+                    <field name="version" invisible="kind != 'release'"/><field name="assigned_user_id" widget="many2one_avatar_user"/>
+                    <field name="state"/>
+                </group><group string="Termine">
+                    <field name="planned_start"/><field name="planned_date"/><field name="completed_on"/>
+                </group></group>
+                <notebook>
+                    <page string="Anforderungen">
+                        <p>Zuordnungen ändern keine Anforderungsstatus und keine tatsächlichen Veröffentlichungsdaten. Bestehende Anforderungen über „Hinzufügen“ auswählen; Entfernen löst nur die Zuordnung.</p>
+                        <field name="assignment_ids" context="{'active_test': False}" domain="[('active', '=', True)] if kind == 'milestone' else [('active', '=', True), ('product_id', '=', product_id)]" options="{'no_create': True}">
+                            <list create="0" delete="1">
+                                <field name="reference"/><field name="name"/><field name="state"/><field name="request_type"/><field name="priority" widget="priority"/><field name="product_id"/><field name="active"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Beschreibung"><field name="description"/></page>
+                    <page string="Fortschritt">
+                        <group><group><field name="requirement_count"/><field name="archived_count"/><field name="open_count"/><field name="progress" widget="progressbar"/></group>
+                        <group><field name="new_count"/><field name="review_count"/><field name="evaluated_count"/><field name="planned_count"/><field name="in_progress_count"/><field name="implemented_count"/><field name="deferred_count"/><field name="rejected_count"/></group></group>
+                        <p class="text-muted">Statuszahlen enthalten aktive Anforderungen. Archivierte werden separat gezählt. Zurückgestellte bleiben offen; Abgelehnte zählen nicht als offen. Fortschritt: Umgesetzt / aktive Anforderungen ohne Abgelehnte. Alle Anzeigen berücksichtigen Ihre Leserechte.</p>
+                    </page>
+                </notebook>
+            </sheet><chatter/>
+        </form></field>
+    </record>
+    <record id="view_milestone_search" model="ir.ui.view">
+        <field name="name">gc.requirement.milestone.search</field><field name="model">gc.requirement.milestone</field>
+        <field name="arch" type="xml"><search>
+            <field name="name" filter_domain="['|', ('name', 'ilike', self), ('reference', 'ilike', self)]"/><field name="product_id"/><field name="kind"/><field name="state"/><field name="assigned_user_id"/>
+            <filter name="releases" string="Releases" domain="[('kind', '=', 'release')]"/><filter name="milestones" string="Meilensteine" domain="[('kind', '=', 'milestone')]"/>
+            <separator/><filter name="planned_period" string="Geplanter Zeitraum" date="planned_date"/>
+            <filter name="without_date" string="Ohne Termin" domain="[('planned_date', '=', False)]"/>
+            <separator/><filter name="archived" string="Archiviert" domain="[('active', '=', False)]"/>
+            <group><filter name="by_product" string="Produkt" context="{'group_by': 'product_id'}"/><filter name="by_kind" string="Typ" context="{'group_by': 'kind'}"/><filter name="by_state" string="Status" context="{'group_by': 'state'}"/><filter name="by_date" string="Geplanter Monat" context="{'group_by': 'planned_date:month'}"/></group>
+        </search></field>
+    </record>
+    <record id="view_milestone_complete_form" model="ir.ui.view">
+        <field name="name">gc.requirement.milestone.complete.form</field><field name="model">gc.requirement.milestone.complete</field>
+        <field name="arch" type="xml"><form string="Abschluss bestätigen">
+            <group><field name="milestone_id"/><field name="open_count"/></group>
+            <div class="alert alert-warning" role="alert" invisible="open_count == 0">Dieser Planungseintrag enthält noch offene Anforderungen, einschließlich zurückgestellter Anforderungen. Deren Status und Veröffentlichungsangaben bleiben unverändert.</div>
+            <group invisible="open_count == 0"><field name="confirmed" required="open_count &gt; 0"/></group>
+            <footer><button name="action_apply" type="object" string="Abschluss übernehmen" class="btn-primary"/><button string="Abbrechen" special="cancel"/></footer>
+        </form></field>
+    </record>
+    <record id="action_milestones" model="ir.actions.act_window">
+        <field name="name">Releaseplanung</field><field name="res_model">gc.requirement.milestone</field><field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_milestone_search"/><field name="context">{'read_group_expand': True}</field>
+    </record>
+    <record id="action_unplanned_requirements" model="ir.actions.act_window">
+        <field name="name">Ohne Planungszuordnung</field><field name="res_model">gc.requirement</field><field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('milestone_id', '=', False)]</field><field name="search_view_id" ref="view_requirement_search"/>
+    </record>
+</odoo>

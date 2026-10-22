@@ -63,3 +63,16 @@ Quellenschutz: keine ACL und keine öffentliche Relation zu `gc.requirement.tick
 - Für eine echte strukturierte Historien-Fixture erst die Erstellung committen, danach Priorität/Zuweisung ändern und `_track_finalize()` ausführen; im Erstellungs-Transaktionskontext unterdrückt Odoo Tracking. Die Fixture verlangt jetzt ausdrücklich vorhandene Trackingzeilen, bevor sie die Upgradeinventur speichert.
 
 - Aktueller Rechner: Origin HTTPS lesbar, Push ohne Anmeldung nicht möglich. SSH hat keinen bestätigten GitHub-Hostschlüssel; nicht automatisch einrichten/umgehen. Neue Commits lokal halten, bis ein autorisierter sicher konfigurierter GitHub-Zugang verfügbar ist.
+
+
+## Releaseplanung / Worktimes, 22.10.2026
+
+- Auftrag `tasks/20261022_releases-milestones.md`, SPEC §14, Entscheidung D019. Neue Version 18.0.1.3.0 / 20.0.1.3.0. Modell `gc.requirement.milestone`, Referenz `MS-####`, optionale kanonische `milestone_id`, `worktimes_url`; keine Änderung tatsächlicher Veröffentlichung oder Requirementstatus durch Planung.
+- `assignment_ids` ist berechnete inverse Many2many-Auswahl vorhandener Requirements über die eine FK-Beziehung, keine weitere Persistenz. Produktwechsel beider Richtungen prüfen, auch archivierte. Acht aktive Statuszähler, Archiv separat, zurückgestellt offen, Abgelehnt aus Fortschrittsnenner entfernt. Aktuelle Benutzerrechte ohne sudo.
+- Gemeinsamer `internal_chatter.py` vor Requirement importieren; Mixin erbt selbst mail.thread/activity. Eine spätere zusätzliche Mixin-Vererbung kann MRO brechen oder core message_post Vorrang geben. Vollständige bestehende Follower-/Nachrichten-Suite muss weiterlaufen.
+- Abschlusswizard mit Pflichtbestätigung bei aktuellen offenen Anforderungen; privater Prozess-Identitätstoken schützt vor gefälschtem RPC-Kontext. Kein Autoabschluss/keine Ticketnotizen; Entscheidung mit Zählern im Chatter. Archivierung erhält Aktivitäten.
+- Im 18er Hauptcheckout lokale Demo: einmalige additive sechs Pläne/zwölf neue Requirements, alle Produkte, produktübergreifend, veröffentlicht mit offenen Anforderungen. Bestehende UI-Daten werden nicht überschrieben. Schema/Views zuerst via `dev.py update` aktualisieren.
+- Ruff/uvx hier nicht im PATH: Ruff 0.14.0 isoliert unter `/tmp/gc-release-tools/bin/ruff` installiert; kein Produktdependency.
+
+- Native Odoo-20-`read_group` gibt bei Many2one-Gruppierung IDs zurück, 18er `_read_group` Recordsets. Portzähler verwenden IDs; Constraint/ir.access/all_group_ids und `_notify_get_recipients(message, **kwargs)` bleiben 20-spezifisch. Altvertrag 18 42/32/42 und 20 44/34/42 erfolgreich; Enterprise-/Majorupgrade-/20er Browsernachweise offen.
+- Alle drei 18er Browsersuiten bestanden. PriorityField spart nicht nur manuelles Speichern, sondern speichert nativ sofort beim Sternklick; Smoke wartet explizit auf web_save statt gegen den verschwindenden Savebutton zu klicken. Nur Test korrigiert. Neuer Planungssmoke verwendet echten Many2many-Auswahldialog und die native Liste für Detailnavigation.

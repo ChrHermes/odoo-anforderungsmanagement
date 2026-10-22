@@ -73,3 +73,20 @@ Eine zusätzliche Historienprobe deckte eine leere Trackingfixture im ursprüngl
 Development-Push ist auf diesem Rechner mangels HTTPS-Anmeldung bzw. bestätigtem SSH-Zugang nicht möglich; keine neuen Remote-/CI-/Odoo.sh-Ergebnisse behaupten. Änderungen werden lokal auf den beiden Development-Branches committed.
 
 Die abschließende 20er Detailprobe bestätigt zwei erhaltene strukturierte Trackingzeilen sowie die ursprünglichen SQL-Constraintnamen `gc_requirement_reference_unique` und `gc_requirement_ticket_source_requirement_ticket_unique`. Beide synthetischen Teststacks wurden anschließend entfernt. Statische Prüfung, Ruff und Formatprüfung sind auf beiden Linien bestanden.
+
+
+## Releaseplanung / Worktimes 1.3.0 (22.10.2026)
+
+Implementierung zuerst auf `codex/initial-mvp` (18), Übertragung auf bestehenden `codex/20.0-port` (20). Gleiche neuen Modelle, technischen IDs und Testassertionen; API-/Securityunterschiede des Ports bleiben erhalten. Odoo 18: bisheriger Kandidat `a1c1c97`, Install 42 / Baseline 32 / Upgrade 42 Tests erfolgreich einschließlich Erhaltungsinventur; weitere befüllte Upgrade-/Browser- und 20er Ergebnisse im STATUS nachtragen. Keine Enterprise- oder 18→20-Migrationsabnahme.
+
+
+| Releaseplanungsprüfung | Odoo 18 | Odoo 20 |
+|---|---|---|
+| Altversionsvertrag (frisch / alt / Upgrade) | 42 / 32 / 42, bestanden | 44 / 34 / 42, bestanden |
+| Baseline | `a1c1c97` | `d509d58` |
+| App-Testfälle aktueller Stand | 42 | 42 (+2 Core-Webfälle frisch) |
+| Neuer lokaler Planungssmoke | Bestanden, 4 Schritte | Nicht ausgeführt |
+| Bestehender Browser-Smoke / UX / Datenschutz | Beide bestanden | Nicht ausgeführt |
+| Enterprise / echter Majorupgrade | Offen | Offen |
+
+Neue Gruppierungsabweichung tatsächlich beobachtet und korrigiert: 18 liefert Recordsets, 20 IDs für Many2one-Gruppen. Security-/Mail-/Constraint-APIs bleiben nativ. Der 20er Port übernimmt keine fiktive lokale 20er Webumgebung; alle Browsernachweise beziehen sich auf die laufende synthetische 18er UI. Die erweiterten befüllten Erhaltungsprüfungen samt gezielter Korruptionsproben und finale Commit-/Pushnachweise stehen im STATUS.

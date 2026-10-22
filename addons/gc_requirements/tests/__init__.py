@@ -6,3 +6,4 @@ from . import test_merge
 from . import test_performance
 from . import test_naming
 from . import test_ux
+from . import test_milestones

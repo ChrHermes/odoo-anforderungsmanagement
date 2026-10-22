@@ -36,7 +36,7 @@ def _attachment_bytes(attachment):
     return base64.b64decode(attachment.datas or b"")
 
 
-def capture(env, user_ids):
+def capture(env, user_ids, *, excluded_security_models=()):
     """Capture all app records, including archived originals, in canonical form.
 
     Elevated reads are confined to this administrator CLI script. Public addon
@@ -155,6 +155,48 @@ def capture(env, user_ids):
         },
         "permissions": {},
     }
+    if "milestone_id" in requirements._fields:
+        result["requirement_planning"] = _inventory(requirements, ["milestone_id", "worktimes_url"])
+        milestones = admin["gc.requirement.milestone"].search([], order="id")
+        result["milestones"] = _inventory(
+            milestones,
+            [
+                "reference",
+                "name",
+                "kind",
+                "product_id",
+                "version",
+                "description",
+                "planned_start",
+                "planned_date",
+                "completed_on",
+                "state",
+                "assigned_user_id",
+                "active",
+                "requirement_ids",
+            ],
+        )
+        planning_messages = admin["mail.message"].search([("model", "=", "gc.requirement.milestone")])
+        messages |= planning_messages
+        result["planning_messages"] = _inventory(
+            planning_messages, ["body", "author_id", "subtype_id", "res_id"]
+        )
+        result["planning_followers"] = _inventory(
+            admin["mail.followers"].search([("res_model", "=", "gc.requirement.milestone")]),
+            ["res_id", "partner_id", "subtype_ids"],
+        )
+        result["planning_activities"] = _inventory(
+            admin["mail.activity"].search([("res_model", "=", "gc.requirement.milestone")]),
+            ["res_id", "activity_type_id", "user_id", "summary", "note", "date_deadline"],
+        )
+        sequence_ms = admin.ref("gc_requirements.sequence_milestone")
+        result["planning_sequence"] = {
+            "id": sequence_ms.id,
+            "prefix": sequence_ms.prefix,
+            "padding": sequence_ms.padding,
+            "code": sequence_ms.code,
+            "next": sequence_ms.number_next_actual,
+        }
     tracking = messages.tracking_value_ids
     if "color_hex" in admin["gc.requirement.product"]._fields:
         result["product_colors"] = _inventory(admin["gc.requirement.product"].search([]), ["color_hex"])
@@ -169,11 +211,20 @@ def capture(env, user_ids):
     protected_models = admin["ir.model"].search(
         ["|", ("model", "like", "gc.requirement%"), ("model", "=", "helpdesk.ticket")]
     )
+    protected_models = protected_models.filtered(lambda model: model.model not in excluded_security_models)
     # Canonical policy definitions survive upstream model/field renames. Grouped
     # policies are split per group; any real semantic difference still fails.
     policies = []
     if "ir.access" in admin.registry.models:
-        for policy in admin["ir.access"].search([("model_id", "in", protected_models.ids)]):
+        for policy in admin["ir.access"].search(
+            [
+                (
+                    "model_id",
+                    "in",
+                    protected_models.ids,
+                )
+            ]
+        ):
             policies.append(
                 {
                     "model": policy.model_id.model,
@@ -185,7 +236,15 @@ def capture(env, user_ids):
                 }
             )
     else:
-        for policy in admin["ir.model.access"].search([("model_id", "in", protected_models.ids)]):
+        for policy in admin["ir.model.access"].search(
+            [
+                (
+                    "model_id",
+                    "in",
+                    protected_models.ids,
+                )
+            ]
+        ):
             policies.append(
                 {
                     "model": policy.model_id.model,
@@ -205,7 +264,15 @@ def capture(env, user_ids):
                     "active": policy.active,
                 }
             )
-        for policy in admin["ir.rule"].search([("model_id", "in", protected_models.ids)]):
+        for policy in admin["ir.rule"].search(
+            [
+                (
+                    "model_id",
+                    "in",
+                    protected_models.ids,
+                )
+            ]
+        ):
             for group_id in policy.groups.ids or [False]:
                 policies.append(
                     {
@@ -263,14 +330,18 @@ def capture(env, user_ids):
     return result
 
 
-def verify(env, baseline, *, allowed_new_product_ids=()):
+def verify(env, baseline, *, allowed_new_product_ids=(), allowed_new_security_models=()):
     """Fail on any preservation/access difference; never modify or repair data."""
-    current = capture(env, [int(value) for value in baseline["permissions"]])
+    current = capture(
+        env,
+        [int(value) for value in baseline["permissions"]],
+        excluded_security_models=allowed_new_security_models,
+    )
     differences = []
     for section, expected in baseline.items():
-        if section == "sequence":
+        if section in ("sequence", "planning_sequence"):
             if current[section]["next"] < expected["next"]:
-                differences.append("sequence: counter moved backwards")
+                differences.append(section + ": counter moved backwards")
             expected = {key: value for key, value in expected.items() if key != "next"}
             actual = {key: value for key, value in current[section].items() if key != "next"}
         elif section == "xmlids":

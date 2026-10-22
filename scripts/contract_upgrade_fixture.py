@@ -109,11 +109,31 @@ def prepare(env, audit_capture):
     env["ir.access"].create(
         {
             "name": "Synthetic upgrade exact ticket restriction",
-            "operation": "crud",
             "model_id": env["ir.model"]._get_id("helpdesk.ticket"),
+            "operation": "crud",
             "domain": "[('id', '=', %s)] if user.id == %s else [(1, '=', 1)]" % (ticket.id, denied.id),
         }
     )
+    if "milestone_id" in requirement._fields:
+        planning = (
+            env["gc.requirement.milestone"]
+            .with_user(actor)
+            .create(
+                {
+                    "name": "Synthetic preserved release",
+                    "product_id": node.id,
+                    "version": "TARGET-2027.1",
+                    "planned_start": "2027-01-01",
+                    "planned_date": "2027-03-01",
+                    "assigned_user_id": actor.id,
+                }
+            )
+        )
+        survivor.write(
+            {"milestone_id": planning.id, "worktimes_url": "https://gitlab.example.invalid/worktimes/17"}
+        )
+        planning.message_post(body="Synthetic preserved planning decision")
+        planning.activity_schedule("mail.mail_activity_data_todo", user_id=actor.id)
     parameters = env["ir.config_parameter"]
     for key, value in {
         "requirement_id": requirement.id,
@@ -176,9 +196,25 @@ def verify(env, audit_verify):
     allowed_products = [env.ref("gc_requirements." + key).id for key in ("product_nexus", "product_general")]
 
     def verify_inventory():
-        return audit_verify(env, baseline, allowed_new_product_ids=allowed_products)
+        new_models = (
+            ()
+            if "milestones" in baseline
+            else (
+                "gc.requirement.milestone",
+                "gc.requirement.milestone.complete",
+            )
+        )
+        return audit_verify(
+            env, baseline, allowed_new_product_ids=allowed_products, allowed_new_security_models=new_models
+        )
 
     verify_inventory()
+    if "milestones" not in baseline:
+        assert (
+            not env["gc.requirement"]
+            .with_context(active_test=False)
+            .search(["|", ("milestone_id", "!=", False), ("worktimes_url", "!=", False)])
+        ), "Existing requirements must start without planning/worktimes data"
     assert not requirement.active and requirement.merged_into_id.id == int(
         parameters.get_str("gc_requirements.contract.survivor_id")
     )
@@ -192,10 +228,23 @@ def verify(env, audit_verify):
     class ProbeRollback(Exception):
         pass
 
-    for section, record, values in (
+    probes = [
         ("requirements", requirement, {"name": "Synthetic deliberate preservation failure"}),
         ("attachments", attachment, {"raw": b"deliberate corruption"}),
-    ):
+    ]
+    if "milestones" in baseline:
+        plan = env["gc.requirement.milestone"].with_user(actor).search([], limit=1)
+        probes.extend(
+            [
+                ("milestones", plan, {"name": "Synthetic planning corruption"}),
+                (
+                    "requirement_planning",
+                    requirement,
+                    {"worktimes_url": "https://gitlab.example.invalid/corrupted"},
+                ),
+            ]
+        )
+    for section, record, values in probes:
         try:
             with env.cr.savepoint():
                 record.write(values)

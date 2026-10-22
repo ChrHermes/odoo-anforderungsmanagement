@@ -1,3 +1,13 @@
+# Releaseplanung / Worktimes – lokale Nachweise, 22.10.2026
+
+42 aktuelle App-Tests auf beiden Versionslinien erfolgreich. Odoo 18: frisch/alt/Upgrade 42/32/42, zusätzlicher befüllter Vertrag 42/42. Odoo 20: 44/34/42 beziehungsweise befüllt 44/42, frisch zwei zusätzliche native Core-Webfälle. Normale ORM-Produktvalidierung beider Richtungen einschließlich archivierter Anforderungen, unabhängige Status/Veröffentlichung, Bestätigung ohne RPC-Kontextbypass, berechtigungsgesteuerte Zähler, Portal-/Außenseiterabweisung, interne Follower/Notizen/Aktivitäten, URLs und native XML-Ansichten geprüft. Vollständige alte Suite bleibt erhalten.
+
+Upgradeinventur erhält bestehende Anforderungen samt privaten Snapshots, Mergeoriginalen, strukturierter Historie und physischem Anhang sowie neue Planungseinträge, Zuordnungen, Worktimes, Planungsnachrichten/-Follower/-Aktivitäten und MS-Sequenz. Negative Proben erkennen gezielte Planungs-/Worktimes-Korruption. Bisherige individuelle Farbe bleibt erhalten, keine automatische Planung für Altdaten.
+
+Neuer lokaler 18er Planungssmoke sowie bisheriger Smoke/UX-/Quellenschutz erfolgreich; native Bestandsauswahl, Warnung und beschriftete Bestätigung, Detailnavigation, getrennte tatsächliche Veröffentlichungsdaten, editierbare Worktimes-URL und Link mit neuem Tabziel geprüft. Keine externen Browserrequests/JS-Fehler. Screenshotgruppen `.local/dev/browser-planning`, `browser`, `browser-ux`; Planungsübersicht, Abschlussdialog und Worktimes visuell geprüft. Lokale Demo einmalig additiv erweitert, kein Datenreset.
+
+**Synthetischer Helpdesk ist keine Enterprise-Abnahme.** Reale 18/20-Enterprise-Regeln, Automationen, 20er Browser und vollständige Major-Migration bleiben offen. Keine Staging-/Production-Freigabe; konkrete Commit-/Pushnachweise in STATUS und Git-Log.
+
 # Abnahmenachweise
 
 Abschluss UX, 22.10.2026: Kandidaten 18 `bc2cc78`, 20 `c15a70e`. Finale normale Verträge erneut 32/32 (18) beziehungsweise 34/32 (20) einschließlich Farberhalt/Inventur bestanden, beide 18er Browserchecks inklusive Tooltips und negativem Config-/Snapshotzugriff erfolgreich. Beide Branch-Pushes tatsächlich versucht und mangels HTTPS-Anmeldung mit Exit 128 gescheitert (`could not read Username`). Kein aktueller Remote-/CI-/Odoo.sh-/Enterprise-Nachweis. Die laufende lokale 18er Demo bleibt davon unabhängig. Dokumentationsabschluss im nachfolgenden Commit.

@@ -18,7 +18,7 @@ STATES = [
 class Requirement(models.Model):
     _name = "gc.requirement"
     _description = "Anforderung"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["gc.requirement.internal.chatter"]
     _order = "priority desc, write_date desc, id desc"
     _rec_names_search = ["reference", "name"]
 

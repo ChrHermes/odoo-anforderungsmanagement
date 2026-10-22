@@ -6,4 +6,11 @@
         <field name="padding">4</field>
         <field name="company_id" eval="False"/>
     </record>
+    <record id="sequence_milestone" model="ir.sequence">
+        <field name="name">Release / Meilenstein</field>
+        <field name="code">gc.requirement.milestone</field>
+        <field name="prefix">MS-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
 </odoo>
