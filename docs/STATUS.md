@@ -1,5 +1,13 @@
 # Entwicklungsstand
 
+## UX-Auftrag 22.10.2026 – Odoo 20
+
+Version 20.0.1.2.0: fünf Produktfarben mit nativem Hex-/Farbwidget, additive duplikatfreie Seeds Nexus/Allgemeines, native Statusgruppenerweiterung, kompakte Karten/relative Kategorien/Typbadges, subtile Endspalten und klarer Originalbeschreibungsviewer/Leerfall. Native 20er Sicherheits-/Mail-/Domain-APIs bleiben erhalten. Gruppen-Template verwendet this.props; formatierte Gruppenprüfung den Webkontext read_group_expand=True.
+
+Ausgeführt: python3 scripts/test_contract.py --baseline-ref 30735e8 mit 34/29/32 Tests, Inventur und negativen Proben; zusätzlicher normaler Vertrag mit 34/32 Tests einschließlich individuell gesetzter Farbe #123456 über echtes Upgrade. 32 App-Tests plus zwei Core-Webfälle beim frischen Install. Statische Prüfung, Ruff/Formatierung erfolgreich. Alte Tests bleiben erhalten, nur die neue erwartete Produktzahl ist fünf statt drei. Keine Enterprise-Abnahme.
+
+Primärer 18er Hauptcheckout: reale lokale Browser-UX-Prüfung einschließlich farbiger Karten, Produktkonfiguration, Leergruppen/schmalem Viewport sowie erlaubtem/gesperrtem Snapshot und API-/Exportabwehr erfolgreich. Bilder dort in .local/dev/browser-ux. Hier kein separater 20er Browserlauf und keine Übernahme der 18er Docker-UI-Infrastruktur. Keine Staging-/Production-/Odoo.sh-Aktion. Finale Commit-/Pushnachweise werden nach dem Kandidatencommit ergänzt.
+
 ## Naming-/Versionsauftrag – 22.10.2026
 
 N1: Oberfläche auf **Anforderungen**, technische IDs unverändert, Version `18.0.1.1.0`. Deutscher Katalog und Locale-Test ergänzen die bisherige Suite. Finale Install-/Upgradeprüfung einschließlich Katalog vom alten Kandidaten `36085f5` besteht mit 27/26/27 Tests. Statische Prüfung, Ruff und Formatprüfung bestanden. Erweiterte Vorher-/Nachher-Inventur prüft Daten, Archivoriginale, Provenienz, Historie, Aktivitäten, Filestore und Rechte; negative Korruptionsproben greifen.

@@ -5,3 +5,4 @@ from . import test_security
 from . import test_merge
 from . import test_performance
 from . import test_naming
+from . import test_ux

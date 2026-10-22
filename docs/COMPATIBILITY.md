@@ -7,20 +7,20 @@ Stand: 22.10.2026. Sichtbarer Name **Anforderungen**, technischer Modulname `gc_
 | Prüfung | Odoo 18 | Odoo 20 |
 |---|---|---|
 | Offizielle Community-Laufzeit | `18.0-20261015`, per Digest fixiert | `20.0-20261015`, Odoo-Digest `61e3c71b…`, PostgreSQL 17 (Digest fixiert) |
-| Frische Vertragsinstallation | 27 Tests bestanden | 27 App-Tests plus 2 zusätzliche Webtests bestanden |
-| Modulupgrade im Vertrag | 27 Tests bestanden; bisheriger Kandidat `36085f5` vorher mit 26 Tests installiert | 27 App-Tests bestanden |
+| Frische Vertragsinstallation | 32 Tests bestanden | 32 App-Tests plus 2 zusätzliche Core-Webfälle bestanden |
+| Modulupgrade im Vertrag | 32 Tests bestanden; bisheriger UX-Vorläufer `1caf1c3` vorher mit 27 Tests installiert | 32 App-Tests bestanden; UX-Vorläufer `30735e8` vorher mit 29 Tests installiert |
 | Daten-/Filestore-Erhalt im Vertrag | Erweiterte Inventur und negative Korruptionsproben bestanden | Dieselben Prüfungen einschließlich strukturierter Historie bestanden |
 | Enterprise-Helpdesk: Install/Upgrade | Nicht ausgeführt | Nicht ausgeführt |
 | Enterprise-/Custom-Regeln und Mailautomationen | Nicht ausgeführt | Nicht ausgeführt |
-| Browser-/Launcher-/Widget-Abnahme | Nicht ausgeführt | Nicht ausgeführt |
+| Browser-/Launcher-/Widget-Abnahme | Lokale synthetische UX-Demo geprüft, Enterprise offen | Nicht ausgeführt |
 | Tatsächliche Datenbankmigration 18 -> 20 | **Nicht ausgeführt; blockiert durch fehlenden lizenzierten Zielzugang und freigegebenen Upgradeweg** | Kein Ersatz durch Neuinstallation/Import oder `-u` |
 
 Ein Vertragslauf nutzt echte Odoo-ORM-, Mail- und XML-Laufzeit, aber ein ausdrücklich synthetisches Helpdesk-Modell. Das belegt die geprüften App-Pfade, niemals vollständige Enterprise-Kompatibilität. Alte Prüfungen bleiben erhalten; neue Sprach-/Erhaltungsprüfungen ergänzen sie. Ergebnisse gelten nur für den jeweiligen Git-Kandidaten und Image-Digest.
 
 ## Branch- und Wartungsstrategie
 
-- `codex/initial-mvp`: bestehender autorisierter Development-Branch für 18, Manifest `18.0.1.1.0`.
-- `codex/20.0-port`: separate Development-Portierung vom gemeinsamen Naming-/Teststand, Manifest `20.0.1.1.0`. Kein Merge des 20er Sicherheits-/API-Codes in 18.
+- `codex/initial-mvp`: bestehender autorisierter Development-Branch für 18, Manifest `18.0.1.2.0`.
+- `codex/20.0-port`: separate Development-Portierung mit gleichwertigem UX-Stand, Manifest `20.0.1.2.0`. Kein Merge des 20er Sicherheits-/API-Codes in 18.
 - Gemeinsame Fehlerkorrekturen zuerst auf der primären 18er Linie, danach gezielt nach 20 übernehmen und dort vollständig testen. Versionsbedingte Korrekturen nur in ihrer Linie. Gleiche Modelle/XML-IDs und gleichwertige Testassertionen behalten; keine doppelte App und keine parallele Datenhaltung.
 - Nach Abnahme können menschlich eingerichtete Wartungsbranches `18.0` und `20.0` sinnvoll sein. Dies ist ein Vorschlag, keine Anlage/Promotion von Odoo.sh-Branches. Git-Push allein belegt weder Odoo.sh-Zuordnung noch sichere Deploymentrechte.
 - Jeder Branch prüft sein natives Manifest und seine fixierte Laufzeit. Ein künstliches Manifest-Umschreiben innerhalb einer Testmatrix würde Versionsunterschiede verdecken.
@@ -60,8 +60,8 @@ Lizenzierter Enterprise-Zugriff fehlt; `git ls-remote` kann das private Reposito
 
 ## Laufnachweise, 22.10.2026
 
-- 18: `python3 scripts/test_contract.py --baseline-ref 36085f50b66102a85515fd004abae59120848af1`, finaler Lauf mit 27/26/27 Tests und Inventur erfolgreich. Zählerlesen: frisch 12, nach Upgrade 13 SQL-Abfragen für 1.000 REQs/2.000 Tickets. Cleanup erfolgreich. Naming-Codecommit `287f078`; gemeinsamer Inventur-/Treiberabschluss folgt im Git-Log.
-- 20: auf `codex/20.0-port` `python3 scripts/test_contract.py --keep`, frischer Install 29 Tests (27 App + 2 Web), Upgrade 27, jeweils null Fehler; Vorher-/Nachher-Inventur und negative Proben erfolgreich. Zählerlesen jeweils 5 SQL-Abfragen bei identischer Fixture. Kein Last-/Parallelbenutzerbenchmark. Logs im jeweiligen ignorierten `.local/test-results/`.
+- 18: `python3 scripts/test_contract.py --baseline-ref 36085f50b66102a85515fd004abae59120848af1`, finaler Lauf mit 27/26/27 Tests und Inventur erfolgreich. Zählerlesen: frisch 12, nach Upgrade 13 SQL-Abfragen für 1.000 REQs/2.000 Tickets. Cleanup erfolgreich. Naming-Codecommit `287f078`; gemeinsamer Inventur-/Treiberabschluss im aktuellen Git-Log.
+- 20: Code-/Dokumentationskandidat `30735e8` auf `codex/20.0-port` `python3 scripts/test_contract.py --keep`, frischer Install 29 Tests (27 App + 2 Web), Upgrade 27, jeweils null Fehler; Vorher-/Nachher-Inventur und negative Proben erfolgreich. Zählerlesen jeweils 5 SQL-Abfragen bei identischer Fixture. Kein Last-/Parallelbenutzerbenchmark. Logs im jeweiligen ignorierten `.local/test-results/`.
 - Fehlgeschlagene 20er Vorläufe wurden korrigiert: entfallene ACL-/Rule-Modelle, alte Suchgruppenattribute, Anhangs-`datas` bzw. lazy BinaryValue, typisierte Systemparameter und ausgelagertes strukturiertes Tracking. Kein Test entfernt oder umgangen.
 - Statische Paket-/Python-/XML-/ACL-Prüfung, Ruff und Formatprüfung werden pro Versionslinie ausgeführt. Ablehnung einer anderen Majorversion als Vertragsbaseline explizit geprüft.
 - Odoo.sh-/Enterprise-/Major-Migrations- und visuelle Nachweise bleiben offen. Ein lokaler Vertragslauf belegt keinen gehosteten Development-Build.

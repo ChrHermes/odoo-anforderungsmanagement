@@ -2,12 +2,21 @@
     <record id="view_requirement_kanban" model="ir.ui.view">
         <field name="name">gc.requirement.kanban</field><field name="model">gc.requirement</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="state" quick_create="0" records_draggable="0" group_create="0" group_delete="0">
+            <kanban class="gc_requirements_kanban" default_group_by="state" default_order="state asc, priority desc, write_date desc" quick_create="0" records_draggable="0" group_create="0" group_delete="0">
+                <field name="product_color_hex"/><field name="product_color_text"/><field name="category_id"/>
                 <templates><t t-name="card">
-                    <field name="reference" class="text-muted"/>
-                    <field name="name" class="fw-bold fs-5"/>
-                    <field name="request_type"/><field name="product_id"/><field name="category_id"/>
-                    <div><field name="customer_count"/> Kunden · <field name="ticket_count"/> Tickets</div>
+                    <div class="gc_requirement_heading d-flex align-items-center justify-content-between gap-2">
+                        <field name="reference" class="text-muted small"/>
+                        <span t-attf-class="gc_requirement_type gc_requirement_type_#{record.request_type.raw_value}"><field name="request_type"/></span>
+                    </div>
+                    <field name="name" class="gc_requirement_title fw-bold mt-1 mb-2"/>
+                    <div class="gc_requirement_classification">
+                        <span class="gc_product_badge" t-att-style="'background-color: ' + (record.product_color_hex.raw_value || '#6c757d') + '; color: ' + (record.product_color_text.raw_value || '#ffffff')">
+                            <field name="product_id"/>
+                        </span>
+                        <div t-if="record.category_path.raw_value" class="gc_category_path text-muted small mt-1" t-att-title="record.category_id.value"><field name="category_path"/></div>
+                    </div>
+                    <div class="small text-muted mt-2"><field name="customer_count"/> Kunden · <field name="ticket_count"/> Tickets</div>
                     <footer><field name="priority" widget="priority"/><field name="activity_ids" widget="kanban_activity"/><field name="assigned_user_id" widget="many2one_avatar_user" class="ms-auto"/></footer>
                 </t></templates>
             </kanban>
@@ -42,8 +51,13 @@
                 <notebook><page string="Beschreibung"><field name="description"/></page>
                     <page string="Kunden &amp; Tickets">
                         <group><field name="manual_customer_ids" widget="many2many_tags" options="{'no_create': True}"/></group>
-                        <p>Kunden aus Tickets werden zusätzlich nach Organisation gezählt. Details geschützter Tickets sind nur mit aktuellen Helpdesk-Leserechten sichtbar.</p>
-                        <button name="action_view_sources" type="object" string="Autorisierte Ticketquellen anzeigen" class="btn-secondary"/>
+                        <div class="alert alert-info" role="status" invisible="ticket_count != 0">Keine Helpdesk-Tickets verknüpft.</div>
+                        <div invisible="ticket_count == 0">
+                            <h3>Ursprüngliche Ticketbeschreibungen</h3>
+                            <p>Die beim Verknüpfen gespeicherte Originalbeschreibung bleibt unverändert. Der Viewer zeigt jedes berechtigt lesbare Ticket mit Nummer, Titel, Kunde und seiner eigenen Momentaufnahme.</p>
+                            <button name="action_view_sources" type="object" string="Ursprüngliche Ticketbeschreibungen anzeigen" class="btn-primary"/>
+                            <p class="text-muted small mt-2">Nur mit aktuellen Leserechten auf das jeweilige Helpdesk-Ticket. Kunden aus Tickets werden zusätzlich nach Organisation gezählt; der aktuelle Ticketverlauf bleibt im Helpdesk.</p>
+                        </div>
                     </page>
                     <page string="Weitere Informationen"><group><field name="affected_version"/><field name="implemented_version"/><field name="implemented_on"/><field name="implementation_note"/><field name="development_url"/><field name="decision_reason" readonly="1"/></group></page>
                     <page string="Erhaltene Originale" invisible="not merged_source_ids">
@@ -69,6 +83,7 @@
     </record>
     <record id="action_requirements" model="ir.actions.act_window">
         <field name="name">Anforderungen</field><field name="res_model">gc.requirement</field><field name="view_mode">kanban,list,form</field>
+        <field name="context">{'read_group_expand': True}</field>
         <field name="search_view_id" ref="view_requirement_search"/>
         <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Erfassen Sie eine neue Anforderung.</p><p>Redaktionelle Beschreibung und Ticketquellen werden getrennt aufbewahrt.</p></field>
     </record>

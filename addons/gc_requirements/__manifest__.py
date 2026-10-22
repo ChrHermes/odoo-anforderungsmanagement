@@ -1,7 +1,7 @@
 {
     "name": "Anforderungen",
     "summary": "Interne Anforderungen mit geschützten Helpdesk-Quellen",
-    "version": "20.0.1.1.0",
+    "version": "20.0.1.2.0",
     "category": "Productivity",
     "author": "GridCal",
     "license": "LGPL-3",
@@ -11,12 +11,19 @@
         "security/ir.access.csv",
         "data/sequence.xml",
         "data/initial_products.xml",
+        "data/product_defaults.xml",
         "views/product_category_views.xml",
         "views/wizard_views.xml",
         "views/requirement_views.xml",
         "views/helpdesk_actions.xml",
         "views/menus.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "gc_requirements/static/src/scss/requirements.scss",
+            "gc_requirements/static/src/xml/kanban_groups.xml",
+        ],
+    },
     "application": True,
     "installable": True,
     "auto_install": False,

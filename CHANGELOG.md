@@ -1,5 +1,9 @@
 # Änderungen
 
+## 20.0.1.2.0 – UX und Produktfarben, Development
+
+Fünf native Hex-Produktfarben mit validiertem Kontrast und upgradefesten additiven Defaults, Nexus/Allgemeines ohne neue Kategorien, alle acht Status/Leergruppen in Workflowreihenfolge, kompakte Produkt-/Typbadges und relative Kategoriepfade. Geschützter Originalbeschreibungsviewer mit expliziter Leeranzeige. Gegenüber der 18er Linie ausschließlich native API-/Templateanpassungen; Sicherheitsregeln erhalten. Vollständige Install-/Upgrade-/Farberhaltungsprüfungen bestanden; Enterprise und 20er Browser weiter offen.
+
 ## 20.0.1.1.0 – Separater Development-Port
 
 - Native Odoo-20-APIs für Zugriffsregeln, effektive Gruppen, Actions, SQL-Constraints, Suche/Gruppierung und Mail-Empfänger; fachliche Modelle und vorhandene XML-IDs erhalten.

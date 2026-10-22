@@ -14,9 +14,9 @@ Versionsnachweise und Branch-/Migrationsstrategie: [COMPATIBILITY](docs/COMPATIB
 2. **Nur `addons/gc_requirements`** auf den Addonspfad deployen. `tests/contract_addons/helpdesk` ist ein synthetischer Testvertrag und darf niemals auf Enterprise/Odoo.sh installiert werden. In Odoo.sh muss das Unterverzeichnis `addons` tatsächlich im Addonspfad gefunden werden; im Buildlog prüfen.
 3. App-Liste aktualisieren, **Anforderungen** installieren. Zunächst ausschließlich Development und synthetische Daten verwenden.
 4. Benannten internen Pilotmitarbeitern die Gruppe **Anforderungen: Benutzer** geben; Stammdatenadministratoren zusätzlich **Konfiguration**. Helpdesk-Rechte werden separat vergeben und nicht durch die App erweitert.
-5. Unter Konfiguration Produkte/Funktionsbereiche prüfen. Die drei Produkte und 15 Kategorien werden bei Installation angelegt; Benutzeränderungen bleiben beim Upgrade erhalten.
+5. Unter Konfiguration Produkte/Funktionsbereiche prüfen. Die fünf Produkte und 15 Kategorien werden bei Installation angelegt; Benutzeränderungen bleiben beim Upgrade erhalten.
 
-Die Ticketaktionen stehen im nativen **Aktionenmenü**: „Anforderung erstellen/verknüpfen“ und „Verknüpfte Anforderungen“. Eine echte Ticketbeschreibung wird erst beim Verknüpfen unveränderlich erfasst. Die redaktionelle Beschreibung muss der Mitarbeiter selbst formulieren. In „Kunden & Tickets“ öffnet „Autorisierte Ticketquellen anzeigen“ nur aktuell erlaubte Quellen.
+Die Ticketaktionen stehen im nativen **Aktionenmenü**: „Anforderung erstellen/verknüpfen“ und „Verknüpfte Anforderungen“. Eine echte Ticketbeschreibung wird erst beim Verknüpfen unveränderlich erfasst. Die redaktionelle Beschreibung muss der Mitarbeiter selbst formulieren. In „Kunden & Tickets“ öffnet „Ursprüngliche Ticketbeschreibungen anzeigen“ nur aktuell erlaubte Quellen.
 
 ## Tests auf einem neuen Rechner
 

@@ -1,5 +1,22 @@
 # Abnahmenachweise
 
+## UX- und Produktfarben-Kandidat, 22.10.2026
+
+Versionen 18.0.1.2.0 und 20.0.1.2.0. Native Hex-Farbkonfiguration mit fünf exakten Standardwerten, Nexus/Allgemeines ohne erfundene Kategorien, additive Defaults, vollständige Statusreihenfolge/Leergruppen und kompakte Kartenhierarchie umgesetzt. Farbe bleibt unabhängig von Typ/Priorität; Config-ACL und serverseitige Farbvalidierung geprüft. Ursprüngliche Tickettexte bleiben strikt im privaten Autorisierungspfad, Formular enthält keine neue allgemein lesbare Snapshotkopie.
+
+| Lauf | 18 | 20 |
+|---|---|---|
+| Frisch / vorheriger Kandidat / echtes Upgrade | 32 / 27 / 32 Tests | 34 / 29 / 32 Tests (frisch 32 App + 2 Core-Webfälle) |
+| Zusätzlicher aktueller Install-/Upgrade-Vertrag | 32 / 32 | 34 / 32 |
+| Individuelle Farbe über Upgrade | #123456 erhalten | #123456 erhalten |
+| Nexus bereits manuell vorhanden | Dieselbe ID übernommen, kein Duplikat | Dieselbe ID übernommen, kein Duplikat |
+| Daten-/Rechteinventur, negative Proben | Bestanden | Bestanden |
+| Reale Browser-UX-/Rechteprüfung | Lokale synthetische UI-Demo bestanden | Nicht ausgeführt |
+
+Playwright prüft alle acht Gruppen auch ohne Suchtreffer, Standardfarben/Schriftkontrast, Hex-Eingabe und Wiederherstellung der Ausgangsfarbe, schmale Ansicht, Typ-/Produktbadges, relative Kategoriepfade, autorisierten Originalviewer und klare Ticket-Leeranzeige. Ein zweiter interner App-Benutzer ohne Helpdesk-/Config-Rechte erhält keine Momentaufnahme im Viewer/Adapter/read/search/group/export/count. Keine JavaScriptfehler/externen Browserrequests. Screenshots in `.local/dev/browser-ux/` visuell geprüft: `kanban.png`, `kanban-terminal.png`, `kanban-narrow.png`, `product-configuration.png`, `authorized-snapshot.png`, `denied-snapshot.png`, `no-tickets.png`.
+
+Die bestehende Suite einschließlich genauer synthetischer Ticket-Record-Rules, Rechteentzug und alternativer generischer Schnittstellen bleibt erhalten. **Community-Vertrag und lokale synthetische UI sind keine Enterprise-Abnahme.** Tatsächliche Enterprise-/Custom-Regeln, Mailautomationen, Odoo-20-Browser, fremde Hostplattformen und vollständiger Major-Upgrade bleiben offen. Keine Staging-/Production-Aktion oder Freigabe.
+
 Stand: 21.10.2026. **Vertrag** bedeutet echte Odoo-18-ORM/Views/Mail-Laufzeit mit ausdrücklich synthetischem Helpdesk-Modell, nicht Odoo Enterprise. Ein bestandener Vertrag ist kein bestandenes Enterprise-/Staging-Gate. SPEC-Checkliste bleibt bis zur fachlichen Abnahme unverändert.
 
 | SPEC §11 | Implementierung / automatisierter Nachweis | Enterprise-/UI-Abnahme |

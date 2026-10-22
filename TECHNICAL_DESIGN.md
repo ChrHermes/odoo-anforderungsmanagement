@@ -1,5 +1,11 @@
 # Technical design - Odoo 18/20 addon `gc_requirements`
 
+UX supplement (22 October 2026): product `color_hex` with strict server-side hex validation, computed contrast, native `widget="color"` plus an editable hex text field. A private initializer loaded via `data/product_defaults.xml` fills only missing values, preserves `noupdate` seeds and adopts existing Nexus/Allgemeines records before binding protected XML IDs. Existing requirements and category trees are unchanged. Addon version `18.0.1.2.0` / `20.0.1.2.0`.
+
+Status uses native Selection `group_expand=True`, canonical `state asc` view order and the web grouping context. Odoo 18's `read_group` and Odoo 20's `formatted_read_group(..., context read_group_expand=True)` are tested separately. A scoped inherited native Kanban XML template annotates requirement/state groups only; CSS applies solely under `.gc_requirements_kanban`. Odoo 20 uses its native `this.props` template expression. No custom JavaScript, alternative status model or generic renderer patch.
+
+Ticket snapshots retain the existing private model and freshly authorized transient viewer. The form only adds an explicit no-ticket hint and a clearly labeled original-description button; no snapshot text is added to requirement fields, searches, chatter or generic exports. The local synthetic demo has a separate internal app user without Helpdesk access; it is not an Enterprise acceptance environment.
+
 **Companion documents:** [SPEC.md](SPEC.md), [IMPLEMENTATION.md](IMPLEMENTATION.md), [AGENTS.md](AGENTS.md).  
 **Status:** Proposed implementation design; verify the target Odoo.sh database before coding Helpdesk view inheritance and permissions.
 
