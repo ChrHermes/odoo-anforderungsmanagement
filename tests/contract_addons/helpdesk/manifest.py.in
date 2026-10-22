@@ -1,7 +1,7 @@
 # Template only: deliberately NOT an Odoo-discoverable __manifest__.py.
 {
     "name": "TEST ONLY: synthetic Helpdesk contract (not Enterprise)",
-    "version": "18.0.0.0.0",
+    "version": "20.0.0.0.0",
     "license": "LGPL-3",
     "depends": ["mail"],
     "data": ["security.xml"],

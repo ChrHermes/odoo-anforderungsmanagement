@@ -1,7 +1,7 @@
-name: Odoo 18 Community contract (not Enterprise acceptance)
+name: Odoo 20 Community contract (not Enterprise acceptance)
 on:
   push:
-    branches: [codex/initial-mvp]
+    branches: [codex/20.0-port]
     paths: ["addons/**", "scripts/**", "tests/**", "compose.test.yaml", ".github/workflows/**", "ruff.toml"]
   pull_request:
     paths: ["addons/**", "scripts/**", "tests/**", "compose.test.yaml", ".github/workflows/**", "ruff.toml"]

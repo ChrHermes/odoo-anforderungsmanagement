@@ -1,5 +1,3 @@
-import base64
-
 from odoo import Command
 from odoo.exceptions import AccessError, ValidationError
 from odoo.tests import tagged
@@ -30,7 +28,7 @@ class TestMerge(HelpdeskCase):
             .create(
                 {
                     "name": "synthetic.txt",
-                    "datas": base64.b64encode(b"synthetic evidence"),
+                    "raw": b"synthetic evidence",
                     "res_model": "gc.requirement",
                     "res_id": source.id,
                 }
@@ -72,7 +70,7 @@ class TestMerge(HelpdeskCase):
         self.assertEqual(source.activity_ids, original_activity)
         self.assertEqual(attachment.res_id, source.id)
         attachment.invalidate_recordset()
-        self.assertEqual(base64.b64decode(attachment.with_user(self.app_user).datas), b"synthetic evidence")
+        self.assertEqual(attachment.with_user(self.app_user).raw.content, b"synthetic evidence")
         self.assertIn(source, target.merged_source_ids)
         self.assertEqual(target.with_user(self.app_user).get_authorized_sources(), [])
 
@@ -102,11 +100,12 @@ class TestMerge(HelpdeskCase):
 
     def test_cross_permission_merge_is_atomic(self):
         source, target = self.linked_requirement(), self.make_requirement()
-        self.env["ir.rule"].create(
+        self.env["ir.access"].create(
             {
                 "name": "SYNTHETIC hidden merge target",
+                "operation": "crud",
                 "model_id": self.env["ir.model"]._get_id("gc.requirement"),
-                "domain_force": "[('id', '!=', %s)] if user.id == %s else [(1, '=', 1)]"
+                "domain": "[('id', '!=', %s)] if user.id == %s else [(1, '=', 1)]"
                 % (target.id, self.app_user.id),
             }
         )

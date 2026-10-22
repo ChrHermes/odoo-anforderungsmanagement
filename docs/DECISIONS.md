@@ -53,3 +53,7 @@ Der Ergänzungsauftrag genehmigt **Anforderungen** als sichtbaren Namen bei unve
 ## D013 – Major-Upgrade und lesende Inventur (22.10.2026)
 
 Ein 18->20-Upgrade muss die gesamte Datenbank samt Filestore über den unterstützten Odoo-Upgradeweg migrieren. Eine neue 20er Datenbank oder `-u` auf derselben Majorversion beweist das nicht. Keine erfundene Coremigration oder Neucapture privater Quellen. Der administrative Shellprüfer vergleicht Daten-/Historien-/Berechtigungsinventuren einschließlich Originale und Ticketleser; Abweichungen stoppen die Abnahme, keine automatische Reparatur. Fehlender lizenzierter Upgradezugang bleibt ein offenes Gate.
+
+## D014 – Beobachtete Odoo-20-APIs (22.10.2026)
+
+Der 20er Port verwendet das tatsächlich installierte `ir.access` mit gruppierten Berechtigungen und globalen Einschränkungen statt der entfallenen ACL-/Rule-Modelle. Bestehende Sicherheits-XML-IDs bleiben erhalten; der native Gruppenscope wird ergänzt. Effektive Gruppen (`all_group_ids`), Action-`group_ids`, neue Mail-/Constraint-/Domain-/Gruppierungs-APIs und `raw.content` für physische Anhänge werden nativ verwendet. Die zusätzlich belegte Abhängigkeit `mail_tracking` erhält die aus `mail` ausgelagerten strukturierten Änderungswerte; diese werden nicht aus Tests entfernt. Keine Versionszweige im App-Sicherheitscode. Nur der administrative Inventurprüfer normalisiert beide Coreformate, prüft bestehende XML-ID-Ziele und echte Lesergebnisse. Die tatsächliche Core-/Sicherheitsmetadatenmigration bleibt ohne Enterprise-Upgradebestand offen.

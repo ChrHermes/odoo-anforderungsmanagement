@@ -4,7 +4,7 @@ from markupsafe import Markup
 
 from odoo import api, Command, fields, models, _
 from odoo.exceptions import ValidationError
-from odoo.osv import expression
+from odoo.fields import Domain
 from odoo.tools import SQL
 
 
@@ -70,10 +70,10 @@ class RequirementMerge(models.Model):
         )[:3]
         if not terms or not product_id:
             return self.browse()
-        domain = expression.AND(
+        domain = Domain.AND(
             [
                 [("product_id", "=", product_id), ("id", "!=", exclude_id or 0), ("active", "=", True)],
-                expression.OR([[("name", "ilike", term)] for term in terms]),
+                Domain.OR([[("name", "ilike", term)] for term in terms]),
             ]
         )
         return self.search(domain, limit=5, order="write_date desc, id desc")

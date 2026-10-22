@@ -1,14 +1,14 @@
 {
     "name": "Anforderungen",
     "summary": "Interne Anforderungen mit geschützten Helpdesk-Quellen",
-    "version": "18.0.1.1.0",
+    "version": "20.0.1.1.0",
     "category": "Productivity",
     "author": "GridCal",
     "license": "LGPL-3",
-    "depends": ["base", "mail", "helpdesk"],
+    "depends": ["base", "mail", "mail_tracking", "helpdesk"],
     "data": [
         "security/security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/sequence.xml",
         "data/initial_products.xml",
         "views/product_category_views.xml",

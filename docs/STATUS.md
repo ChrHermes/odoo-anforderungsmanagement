@@ -4,7 +4,7 @@
 
 N1: Oberfläche auf **Anforderungen**, technische IDs unverändert, Version `18.0.1.1.0`. Deutscher Katalog und Locale-Test ergänzen die bisherige Suite. Finale Install-/Upgradeprüfung einschließlich Katalog vom alten Kandidaten `36085f5` besteht mit 27/26/27 Tests. Statische Prüfung, Ruff und Formatprüfung bestanden. Erweiterte Vorher-/Nachher-Inventur prüft Daten, Archivoriginale, Provenienz, Historie, Aktivitäten, Filestore und Rechte; negative Korruptionsproben greifen.
 
-N2: Odoo 20 offiziell anhand Source/Image verifiziert; separater Port `codex/20.0-port` folgt nach N1-Commit. N3: tatsächlicher Major-Upgrade mangels Enterprise-/Upgradezugang offen. Keine vollständige Enterprise-Kompatibilität behaupten. [Details, Branchstrategie und Migrationsgates](COMPATIBILITY.md).
+N1-Commit: `287f078`. N2: separater nativer Port `codex/20.0-port`, Odoo 20.0-20261015/PostgreSQL 17, frischer Vertrag 27 App-Tests + 2 Webtests, Upgrade 27 App-Tests, Inventur inklusive strukturiertem Chatter und negativen Proben bestanden. N3: tatsächlicher Major-Upgrade mangels Enterprise-/Upgradezugang offen; Zugang asynchron angefragt. Keine vollständige Enterprise-Kompatibilität behaupten. [Details, Branchstrategie und Migrationsgates](COMPATIBILITY.md).
 
 Checkout zu Beginn: Nutzeränderungen an `.gitattributes`, Vertragsworkflow, SVG-Icon, Compose, Ruff und Vertragsmanifest (nur CRLF) sowie gelöschte `codex-task.md` und neue `tasks/`. Diese bleiben erhalten und werden nicht in unsere Commits aufgenommen. Remote ist aktuell HTTPS; ausschließlich Development-Pushes.
 
@@ -60,3 +60,7 @@ Enterprise-Installation, bestehende Helpdesk-Customizations, echte Record Rules 
 ### M4, implementiert / Enterprise-Gate offen
 
 21 Tests im Community-Vertrag erfolgreich. Bestätigter Merge, Zeilensperren, Quellenkopien mit Provenienz, unveränderte überlappende Snapshots, manuelle Kundenzuordnung, Historie/Anhänge/Aktivitäten, dauerhafte Redirects/Ketten, Wiederherstellung und bounded Duplikatvorschläge. Erster Lauf: zwei Fehler; Odoo-Standardlöschung von Aktivitäten korrigiert, NewId-Erwartung im Vorschlagstest an tatsächliche ORM-Semantik angepasst. M5 ergänzt anschließend die oben dokumentierten Installations-/Upgrade-/Leistungsnachweise.
+
+Push am 22.10.2026 versucht, nicht möglich: HTTPS-Anmeldung fehlt (`could not read Username`); lesender SSH-Fallback scheitert an fehlendem bestätigtem GitHub-Hostschlüssel. Keine Zugangsdaten-/Remote-/SSH-Konfiguration geändert. Commits bleiben lokal; kein aktueller GitHub-/Odoo.sh-Build beobachtet.
+
+Finale Wiederholung nach verstärkter Historien-Fixture: 18 27/26/27 Tests, 20 29/27 Tests, beide Inventuren und negativen Proben bestanden. Zwei tatsächlich vorhandene Trackingzeilen und ursprüngliche Eindeutigkeitsnamen auf 20 bestätigt. Beide Teststacks entfernt; statische Prüfung, Ruff und Formatprüfung je Versionslinie erfolgreich. Enterprise-/Migrationsgate bleibt offen.

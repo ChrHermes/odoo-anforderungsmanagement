@@ -1,6 +1,5 @@
 """Synthetic upgrade fixture; only invoked inside the isolated contract DB."""
 
-import base64
 import json
 
 from odoo import Command
@@ -26,7 +25,7 @@ def prepare(env, audit_capture):
                 "name": "Synthetic upgrade actor",
                 "login": "synthetic-upgrade-actor",
                 "email": "upgrade@example.invalid",
-                "groups_id": [
+                "group_ids": [
                     Command.set(
                         [
                             env.ref(xmlid).id
@@ -87,7 +86,7 @@ def prepare(env, audit_capture):
     attachment = env["ir.attachment"].create(
         {
             "name": "synthetic-upgrade.txt",
-            "datas": base64.b64encode(b"synthetic upgrade evidence"),
+            "raw": b"synthetic upgrade evidence",
             "res_model": "gc.requirement",
             "res_id": requirement.id,
         }
@@ -100,11 +99,12 @@ def prepare(env, audit_capture):
         }
     ).action_apply()
     denied = actor.copy({"name": "Synthetic denied reader", "login": "synthetic-denied-reader"})
-    env["ir.rule"].create(
+    env["ir.access"].create(
         {
             "name": "Synthetic upgrade exact ticket restriction",
+            "operation": "crud",
             "model_id": env["ir.model"]._get_id("helpdesk.ticket"),
-            "domain_force": "[('id', '=', %s)] if user.id == %s else [(1, '=', 1)]" % (ticket.id, denied.id),
+            "domain": "[('id', '=', %s)] if user.id == %s else [(1, '=', 1)]" % (ticket.id, denied.id),
         }
     )
     parameters = env["ir.config_parameter"]
@@ -117,9 +117,15 @@ def prepare(env, audit_capture):
         "survivor_id": survivor.id,
         "activity_id": activity.id,
     }.items():
-        parameters.set_param("gc_requirements.contract." + key, value)
+        parameters.set_str("gc_requirements.contract." + key, str(value))
+    # Persist creation first: native mail deliberately suppresses tracking of
+    # changes made within the original creation transaction.
+    env.cr.commit()
+    survivor.write({"priority": "2", "assigned_user_id": actor.id})
+    survivor._track_finalize()
+    assert survivor.sudo().message_ids.tracking_value_ids, "Fixture must contain structured history"
     baseline = audit_capture(env, [actor.id, denied.id])
-    parameters.set_param("gc_requirements.contract.audit", json.dumps(baseline))
+    parameters.set_str("gc_requirements.contract.audit", json.dumps(baseline))
     env.cr.commit()
     print("CONTRACT_UPGRADE_PREPARED")
 
@@ -131,30 +137,28 @@ def verify(env, audit_verify):
     assert node.name == "SYNTHETIC UPGRADE SENTINEL" and node.sequence == 987
     assert category.name == "SYNTHETIC EDITED CATEGORY" and not category.active
     parameters = env["ir.config_parameter"]
-    actor = env["res.users"].browse(int(parameters.get_param("gc_requirements.contract.actor_id")))
+    actor = env["res.users"].browse(int(parameters.get_str("gc_requirements.contract.actor_id")))
     requirement = (
         env["gc.requirement"]
         .with_user(actor)
         .with_context(active_test=False)
-        .browse(int(parameters.get_param("gc_requirements.contract.requirement_id")))
+        .browse(int(parameters.get_str("gc_requirements.contract.requirement_id")))
     )
-    assert requirement.reference == parameters.get_param("gc_requirements.contract.reference")
+    assert requirement.reference == parameters.get_str("gc_requirements.contract.reference")
     rows = requirement.get_authorized_sources()
     assert len(rows) == 2 and "UPGRADE_IMMUTABLE_SNAPSHOT" in rows[0]["description_snapshot"]
     attachment = env["ir.attachment"].browse(
-        int(parameters.get_param("gc_requirements.contract.attachment_id"))
+        int(parameters.get_str("gc_requirements.contract.attachment_id"))
     )
-    assert base64.b64decode(attachment.datas) == b"synthetic upgrade evidence"
+    assert attachment.raw.content == b"synthetic upgrade evidence"
     assert attachment.res_id == requirement.id
-    baseline = json.loads(parameters.get_param("gc_requirements.contract.audit"))
+    baseline = json.loads(parameters.get_str("gc_requirements.contract.audit"))
     audit_verify(env, baseline)
     assert not requirement.active and requirement.merged_into_id.id == int(
-        parameters.get_param("gc_requirements.contract.survivor_id")
+        parameters.get_str("gc_requirements.contract.survivor_id")
     )
     assert (
-        env["mail.activity"]
-        .browse(int(parameters.get_param("gc_requirements.contract.activity_id")))
-        .exists()
+        env["mail.activity"].browse(int(parameters.get_str("gc_requirements.contract.activity_id"))).exists()
     )
     assert env.ref("gc_requirements.menu_root").name == "Anforderungen"
     assert env["ir.module.module"].search([("name", "=", "gc_requirements")]).shortdesc == "Anforderungen"
@@ -165,7 +169,7 @@ def verify(env, audit_verify):
 
     for section, record, values in (
         ("requirements", requirement, {"name": "Synthetic deliberate preservation failure"}),
-        ("attachments", attachment, {"datas": base64.b64encode(b"deliberate corruption")}),
+        ("attachments", attachment, {"raw": b"deliberate corruption"}),
     ):
         try:
             with env.cr.savepoint():

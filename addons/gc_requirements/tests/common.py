@@ -81,11 +81,12 @@ class HelpdeskCase(RequirementCase):
         )
         # A global, conditional rule verifies exact current customized ticket
         # permissions. Group rules alone could be widened by other group rules.
-        cls.ticket_rule = cls.env["ir.rule"].create(
+        cls.ticket_rule = cls.env["ir.access"].create(
             {
                 "name": "SYNTHETIC exact ticket access boundary",
+                "operation": "crud",
                 "model_id": cls.env["ir.model"]._get_id("helpdesk.ticket"),
-                "domain_force": "[('id', 'in', %s)] if user.id == %s else [(1, '=', 1)]"
+                "domain": "[('id', 'in', %s)] if user.id == %s else [(1, '=', 1)]"
                 % ([cls.ticket_a.id], cls.limited.id),
             }
         )

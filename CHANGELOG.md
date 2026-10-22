@@ -1,5 +1,12 @@
 # Änderungen
 
+## 20.0.1.1.0 – Separater Development-Port
+
+- Native Odoo-20-APIs für Zugriffsregeln, effektive Gruppen, Actions, SQL-Constraints, Suche/Gruppierung und Mail-Empfänger; fachliche Modelle und vorhandene XML-IDs erhalten.
+- Offizielles `mail_tracking` für strukturierte Chatterhistorie, native Binärdateiprüfung und typisierte Testparameter.
+- Eigener gepinnter Odoo-20-/PostgreSQL-17-Vertrag und Development-Workflow. Alle 27 App-Tests nach Installation/Upgrade und erweiterte Erhaltungsinventur bestanden; Installation zusätzlich 2 Webtests.
+- Enterprise-/Odoo.sh-/Major-Migrationsabnahme offen; keine Staging-/Production-Freigabe.
+
 ## 18.0.1.1.0 – Anforderungen, Development
 
 - Sichtbarer App-/Launcher-/Gruppenname „Anforderungen“, stabile technische IDs und deutsche Übersetzungen einschließlich geerbter Labels.

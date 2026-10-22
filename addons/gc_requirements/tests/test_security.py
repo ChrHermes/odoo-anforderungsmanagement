@@ -15,7 +15,7 @@ class TestSourceSecurity(HelpdeskCase):
             for operation in (
                 lambda model=model: model.browse(raw.ids).read(["description_snapshot"]),
                 lambda model=model: model.search_read([], ["description_snapshot"]),
-                lambda model=model: model.read_group([], ["description_snapshot:count"], []),
+                lambda model=model: model.read_group([], aggregates=["description_snapshot:count"]),
                 lambda model=model: model.browse(raw.ids).export_data(["description_snapshot"]),
                 lambda model=model: model.search_count([]),
             ):
@@ -36,9 +36,7 @@ class TestSourceSecurity(HelpdeskCase):
             .create({"requirement_id": req.id})
         )
         self.assertIn("SNAPSHOT_ALPHA", viewer.read(["source_html"])[0]["source_html"])
-        self.ticket_rule.domain_force = (
-            "[('id', '=', 0)] if user.id == %s else [(1, '=', 1)]" % self.limited.id
-        )
+        self.ticket_rule.domain = "[('id', '=', 0)] if user.id == %s else [(1, '=', 1)]" % self.limited.id
         self.assertEqual(limited.get_authorized_sources(), [])
         self.assertNotIn("SNAPSHOT_ALPHA", viewer.read(["source_html"])[0]["source_html"])
         self.assertNotIn("SNAPSHOT_ALPHA", str(viewer.export_data(["source_html"])))
@@ -84,11 +82,12 @@ class TestSourceSecurity(HelpdeskCase):
 
     def test_parent_requirement_record_rule_is_checked(self):
         req = self.linked_requirement()
-        self.env["ir.rule"].create(
+        self.env["ir.access"].create(
             {
                 "name": "SYNTHETIC requirement restriction",
+                "operation": "crud",
                 "model_id": self.env["ir.model"]._get_id("gc.requirement"),
-                "domain_force": "[('id', '=', 0)] if user.id == %s else [(1, '=', 1)]" % self.limited.id,
+                "domain": "[('id', '=', 0)] if user.id == %s else [(1, '=', 1)]" % self.limited.id,
             }
         )
         with self.assertRaises(AccessError), self.cr.savepoint():
@@ -99,7 +98,7 @@ class TestSourceSecurity(HelpdeskCase):
 
     def test_portal_with_accidental_app_group_and_external_activity(self):
         req = self.make_requirement()
-        self.portal.sudo().write({"groups_id": [Command.link(self.env.ref("gc_requirements.group_user").id)]})
+        self.portal.sudo().write({"group_ids": [Command.link(self.env.ref("gc_requirements.group_user").id)]})
         self.assertTrue(self.portal.share)
         with self.assertRaises(AccessError), self.cr.savepoint():
             req.with_user(self.portal).read(["description"])

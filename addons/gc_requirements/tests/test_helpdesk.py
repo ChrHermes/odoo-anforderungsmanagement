@@ -141,4 +141,6 @@ class TestHelpdesk(HelpdeskCase):
         req = self.make_requirement()
         self.assertIn(req.id, [item[0] for item in self.Requirement.name_search(req.reference)])
         for field in ("product_id", "request_type", "assigned_user_id", "priority", "state"):
-            self.assertTrue(self.Requirement.read_group([("id", "=", req.id)], [field], [field]))
+            self.assertTrue(
+                self.Requirement.read_group([("id", "=", req.id)], groupby=[field], aggregates=["__count"])
+            )

@@ -24,9 +24,9 @@ def main():
     assert not list((ROOT / "tests").rglob("__manifest__.py")), (
         "Test contracts must not shadow Enterprise modules during addon discovery"
     )
-    assert manifest["version"].startswith("18.0.")
+    assert manifest["version"].startswith("20.0.")
     assert manifest["application"] and manifest["installable"]
-    assert set(manifest["depends"]) == {"base", "mail", "helpdesk"}
+    assert set(manifest["depends"]) == {"base", "mail", "mail_tracking", "helpdesk"}
     loaded = set(manifest["data"])
     for name in loaded:
         assert (ADDON / name).is_file(), name
@@ -34,17 +34,17 @@ def main():
     for path in xml_files:
         root = ET.parse(path).getroot()
         assert root.tag == "odoo", path
-        assert not root.findall(".//tree"), "Odoo 18 needs <list>"
+        assert not root.findall(".//tree"), "Odoo 20 needs <list>"
         assert str(path.relative_to(ADDON)) in loaded, "Unloaded XML: %s" % path
     for name in ("initial_products.xml", "sequence.xml"):
         assert ET.parse(ADDON / "data" / name).getroot().get("noupdate") == "1"
-    with (ADDON / "security/ir.model.access.csv").open() as handle:
+    with (ADDON / "security/ir.access.csv").open() as handle:
         access = list(csv.DictReader(handle))
     assert not any(row["model_id:id"] == "model_gc_requirement_ticket_source" for row in access), (
         "Raw snapshots must have no generic ACL"
     )
     assert all(row["group_id:id"].startswith("gc_requirements.") for row in access)
-    assert all(row["perm_unlink"] == "0" for row in access if row["model_id:id"] == "model_gc_requirement")
+    assert all("d" not in row["operation"] for row in access if row["model_id:id"] == "model_gc_requirement")
     print(
         "PASS: %s Python files, %s XML files, manifest/data/ACL packaging"
         % (len(python_files), len(xml_files))

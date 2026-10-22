@@ -15,7 +15,7 @@ class RequirementCollaboration(models.Model):
                     ("partner_id", "in", partner_ids),
                     ("share", "=", False),
                     ("active", "=", True),
-                    ("groups_id", "in", self.env.ref("gc_requirements.group_user").id),
+                    ("all_group_ids", "in", self.env.ref("gc_requirements.group_user").id),
                 ]
             )
         )
@@ -51,8 +51,8 @@ class RequirementCollaboration(models.Model):
     def message_notify(self, **kwargs):
         raise AccessError(_("Bitte verwenden Sie eine interne Notiz an der Anforderung."))
 
-    def _notify_get_recipients(self, message, msg_vals, **kwargs):
-        recipients = super()._notify_get_recipients(message, msg_vals, **kwargs)
+    def _notify_get_recipients(self, message, **kwargs):
+        recipients = super()._notify_get_recipients(message, **kwargs)
         allowed = self._permitted_partner_ids([r["id"] for r in recipients])
         return [r for r in recipients if r["id"] in allowed]
 

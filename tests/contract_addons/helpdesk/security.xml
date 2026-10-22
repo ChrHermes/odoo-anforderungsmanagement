@@ -1,6 +1,6 @@
 <odoo>
     <record id="group_helpdesk_user" model="res.groups"><field name="name">SYNTHETIC TEST Helpdesk user</field></record>
-    <record id="access_ticket" model="ir.model.access"><field name="name">Synthetic ticket</field><field name="model_id" ref="model_helpdesk_ticket"/><field name="group_id" ref="group_helpdesk_user"/><field name="perm_read" eval="True"/><field name="perm_create" eval="True"/><field name="perm_write" eval="True"/><field name="perm_unlink" eval="True"/></record>
-    <record id="access_team" model="ir.model.access"><field name="name">Synthetic team</field><field name="model_id" ref="model_helpdesk_team"/><field name="group_id" ref="group_helpdesk_user"/><field name="perm_read" eval="True"/><field name="perm_create" eval="True"/><field name="perm_write" eval="True"/></record>
-    <record id="access_stage" model="ir.model.access"><field name="name">Synthetic stage</field><field name="model_id" ref="model_helpdesk_stage"/><field name="group_id" ref="group_helpdesk_user"/><field name="perm_read" eval="True"/><field name="perm_create" eval="True"/><field name="perm_write" eval="True"/></record>
+    <record id="access_ticket" model="ir.access"><field name="name">Synthetic ticket</field><field name="model_id" ref="model_helpdesk_ticket"/><field name="group_id" ref="group_helpdesk_user"/><field name="operation">crud</field></record>
+    <record id="access_team" model="ir.access"><field name="name">Synthetic team</field><field name="model_id" ref="model_helpdesk_team"/><field name="group_id" ref="group_helpdesk_user"/><field name="operation">cru</field></record>
+    <record id="access_stage" model="ir.access"><field name="name">Synthetic stage</field><field name="model_id" ref="model_helpdesk_stage"/><field name="group_id" ref="group_helpdesk_user"/><field name="operation">cru</field></record>
 </odoo>

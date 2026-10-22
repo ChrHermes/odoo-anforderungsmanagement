@@ -1,5 +1,9 @@
 # Codex / coding-agent instructions - Anforderungsmanagement
 
+## Version scope of this Development branch
+
+`codex/20.0-port` targets the observed Odoo 20 Enterprise APIs; Odoo 18 remains primary on `codex/initial-mvp`. Use native `ir.access`, group privileges/effective memberships and `mail_tracking` on this branch. All business/security gates remain binding. The legacy Odoo-18 ACL/rule filenames below describe the primary line; this port loads `security/ir.access.csv` with stable external IDs. Never deploy this manifest to 18 or infer a completed major migration from fresh install/module upgrade.
+
 ## Mission and authority
 
 Implement a versioned, testable, maintainable **Odoo 18 Enterprise** addon (primary platform; Odoo 20 port per SPEC section 13) `gc_requirements` for an internal application named **Anforderungen**. This repository contains the approved functional and delivery decisions. The human stakeholder defines business intent; the coding agent carries out technical implementation in small, verified steps.

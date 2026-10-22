@@ -64,7 +64,7 @@
             <filter name="recent" string="Zuletzt aktualisiert (30 Tage)" domain="[('write_date', '&gt;=', (context_today() - relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
             <filter name="activities" string="Offene Aktivitäten" domain="[('activity_ids', '!=', False)]"/>
             <separator/><filter name="archived" string="Archiviert" domain="[('active', '=', False)]"/>
-            <group expand="0" string="Gruppieren nach"><filter name="by_product" string="Produkt" context="{'group_by': 'product_id'}"/><filter name="by_type" string="Typ" context="{'group_by': 'request_type'}"/><filter name="by_assignee" string="Verantwortlich" context="{'group_by': 'assigned_user_id'}"/><filter name="by_priority" string="Priorität" context="{'group_by': 'priority'}"/></group>
+            <group><filter name="by_product" string="Produkt" context="{'group_by': 'product_id'}"/><filter name="by_type" string="Typ" context="{'group_by': 'request_type'}"/><filter name="by_assignee" string="Verantwortlich" context="{'group_by': 'assigned_user_id'}"/><filter name="by_priority" string="Priorität" context="{'group_by': 'priority'}"/></group>
         </search></field>
     </record>
     <record id="action_requirements" model="ir.actions.act_window">

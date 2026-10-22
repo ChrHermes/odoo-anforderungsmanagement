@@ -23,13 +23,9 @@ class RequirementTicketSource(models.Model):
         "gc.requirement", string="Ursprüngliche Anforderung", readonly=True, ondelete="restrict"
     )
 
-    _sql_constraints = [
-        (
-            "requirement_ticket_unique",
-            "unique(requirement_id, ticket_id)",
-            "Das Ticket ist bereits verknüpft.",
-        )
-    ]
+    _requirement_ticket_unique = models.Constraint(
+        "UNIQUE(requirement_id, ticket_id)", "Das Ticket ist bereits verknüpft."
+    )
 
     @api.model_create_multi
     def create(self, vals_list):

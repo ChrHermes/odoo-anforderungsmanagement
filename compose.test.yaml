@@ -2,7 +2,7 @@
 # Enterprise acceptance: replace /test-contracts with a licensed Enterprise path.
 services:
   db:
-    image: postgres:15-alpine@sha256:09e4f20b14ddb3dfe3a0c825b206032aaf8f28300ba2070c0b60fc1c10c6abc7
+    image: postgres:17@sha256:0b657ff48d7f76a1e907f381b1693eb4f2bf54c1d2df4feb6743d7dc601768dd
     environment:
       POSTGRES_USER: odoo
       POSTGRES_PASSWORD: isolated-test-only
@@ -15,7 +15,7 @@ services:
     tmpfs:
       - /var/lib/postgresql/data
   odoo:
-    image: odoo:18.0@sha256:1b346c6f9145c79b802b711a554a141acbd0503ed6cd7d31cb3c938889c4cc36
+    image: odoo:20.0@sha256:61e3c71b0503c5f658e604c3e340bede20b97d05f726179fa006eae50a32fd23
     depends_on:
       db:
         condition: service_healthy

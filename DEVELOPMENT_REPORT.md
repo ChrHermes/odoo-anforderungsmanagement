@@ -1,8 +1,8 @@
-# Entwicklungsbericht – Anforderungsmanagement
+# Entwicklungsbericht – Anforderungen
 
 ## Ergänzungsauftrag, 22.10.2026
 
-Name **Anforderungen**, Modul `gc_requirements` unverändert, Version `18.0.1.1.0`. Deutsche Labels/Katalog und ein Locale-Test ergänzen alle bisherigen Tests. Frischer Odoo-18-Vertragsinstall 27/27, alter Git-Kandidat 26/26, anschließendes Modulupgrade 27/27; erweiterte Inventur samt negativen Korruptionsproben bestanden. Statische Prüfung, Ruff und Formatprüfung erfolgreich. Vollständige Enterprise-Abnahme und 18->20-Datenmigration weiterhin offen. Odoo-20-Portierung separat vorgesehen; [aktuelle Versionsmatrix und Migrationsweg](docs/COMPATIBILITY.md).
+Name **Anforderungen**, Modul `gc_requirements` unverändert, Version `18.0.1.1.0`. Deutsche Labels/Katalog und ein Locale-Test ergänzen alle bisherigen Tests. Frischer Odoo-18-Vertragsinstall 27/27, alter Git-Kandidat 26/26, anschließendes Modulupgrade 27/27; erweiterte Inventur samt negativen Korruptionsproben bestanden. Statische Prüfung, Ruff und Formatprüfung erfolgreich. Vollständige Enterprise-Abnahme und 18->20-Datenmigration weiterhin offen. Odoo-20-Port auf `codex/20.0-port`: 27 App-Tests + 2 Webtests nach frischem Install, 27 App-Tests nach Upgrade und vollständige Erhaltungsinventur bestanden; [aktuelle Versionsmatrix und Migrationsweg](docs/COMPATIBILITY.md).
 
 Vorhandene Nutzeränderungen einschließlich CRLF-Konvertierungen, gelöschter `codex-task.md` und neuer `tasks/` bleiben unberührt und aus den Commits ausgeschlossen.
 

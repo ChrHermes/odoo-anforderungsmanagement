@@ -59,7 +59,7 @@ class Requirement(models.Model):
         domain=lambda self: [
             ("share", "=", False),
             ("active", "=", True),
-            ("groups_id", "in", self.env.ref("gc_requirements.group_user").ids),
+            ("all_group_ids", "in", self.env.ref("gc_requirements.group_user").ids),
         ],
     )
     creator_user_id = fields.Many2one(
@@ -78,9 +78,7 @@ class Requirement(models.Model):
     implemented_on = fields.Date(string="Veröffentlicht am", tracking=True)
     decision_reason = fields.Text(string="Begründung", tracking=True)
 
-    _sql_constraints = [
-        ("reference_unique", "unique(reference)", "Die Anforderungsnummer muss eindeutig sein.")
-    ]
+    _reference_unique = models.Constraint("UNIQUE(reference)", "Die Anforderungsnummer muss eindeutig sein.")
 
     def _check_app_user(self):
         if self.env.user.share or not self.env.user.has_group("gc_requirements.group_user"):
