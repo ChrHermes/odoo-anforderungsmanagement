@@ -304,3 +304,12 @@ Upgrade auditor adds conditional planning/Worktimes/history/follower/activity in
 
 
 Version-specific planning implementation: Odoo 18 `_read_group` returns milestone recordsets, Odoo 20 `read_group` returns milestone IDs. Both aggregate without sudo. The 20 port retains native `models.Constraint`, effective `all_group_ids`, `ir.access` permissions/restrictions and its mail-recipient signature; the shared tests use equivalent native policies. Old-feature upgrades passed on both pinned runtimes (18: 42/32/42, 20: 44/34/42 tests); Enterprise and actual major migration remain unverified.
+
+
+## 17. Manual planning status refinement (22 October 2026)
+
+Version 18.0.1.3.1 / 20.0.1.3.1. Existing stored tracked `state` has no compute/inverse from requirements. `action_change_state` reuses `gc.requirement.milestone.complete` and its XML ID/ACL; the transient adds required five-state selection and a date input used only for completion. Existing `action_complete` remains a shortcut defaulting to done. Noncompletion targets use ordinary authorized writes; completion keeps the private identity token and freshly locked/recomputed check.
+
+`not_implemented_count` is an additional nonstored, current-user aggregate over all linked nonimplemented requirements (including archived/rejected). Existing open/status/progress counters keep their original semantics. `implementation_summary` is nonstored and translatable, uses the existing progress denominator, and handles empty/archived/rejected-only sets explicitly. No additional table, stored relation or persistence layer. Native statusbar and readonly current state; no Kanban drag bypass.
+
+`completed_on` is readonly in ordinary views and guarded on create/write: no historical date edits outside an actual completion transition. Reopening preserves it; repeated done writes do not refresh it. Mixed batches partition newly completed and already-completed rows to avoid replacing previous dates. Write rereads state/date after acquiring ordered row locks. Completion audit notes now contain actual date and remaining count; standard state/date tracking and earlier notes preserve each completion/reopening. Requirement/ticket write paths and private sources remain unchanged.

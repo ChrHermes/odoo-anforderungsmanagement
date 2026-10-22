@@ -1,5 +1,16 @@
 # Projektwissen
 
+## Manuelle Release-/Meilensteinstatus, 22.10.2026
+
+Versionen 18.0.1.3.1 / 20.0.1.3.1, Auftrag release-refining, SPEC §14.1 / D020. `state` war bereits gespeicherte manuelle Selection. Bestehender `gc.requirement.milestone.complete` plus XML-ID/ACL wiederverwendet: allgemeines `action_change_state`, freie Auswahl, Abschlusskurzbefehle default done. Kein neues Statusmodell/keine Migration. Abschlussdatum serverseitig nur bei tatsächlichem Übergang nach done; Wiederöffnung und wiederholtes/mischendes Batch-write erhalten früheres Datum. Datierte Abschlussnotiz plus natives Tracking behalten Historie.
+
+Neue nichtgespeicherte `implementation_summary` und `not_implemented_count` nutzen denselben normalen Benutzeraggregatpfad. Zusammenfassung/Prozent behalten alten Nenner aktive ohne Abgelehnte; Abschlusswarnung zählt präziser alle lesbaren nicht umgesetzten Zuordnungen inklusive Archiv/Abgelehnt. Status/Pub-Daten der Requirements bleiben unabhängig. Native Kanban-Prozentanzeige ohne zusätzliches `title` (langer Titel verdrängte/wickelte 100 %); daneben explizite Zusammenfassung mit Tooltip. Checkbox mit explizitem vollbreitem Label statt schmaler Standard-Gruppenlabelspalte.
+
+Tests: 18 Altupgrade 49/42/49, befüllt 49/49; 20 51/44/49 und 51/49; Inventuren erhalten wieder geöffnetes Release und abgeschlossenen Meilenstein mit historischen Daten. Native Chatter-Metadaten nur als administrativer Testbeobachter lesen; eigentliche Aktionen bleiben mit Pilotbenutzer. Im Test zuerst `_track_finalize()` auf frischem Plan, damit native Erstellungsunterdrückung endet. Keine App-Sudo-Erweiterung.
+
+Browserdaten können vom Nutzer bearbeitet/archiviert sein: Planungssmoke setzt keinen bestimmten Seedtitel mehr voraus und erstellt eigene Prüfdatensätze. Erwartete Server-Validation öffnet zusätzlichen Fehlerdialog; gezielt dessen Footer-Schließen bedienen, nicht früher aufgelösten Hintergrund-Schließenbutton. Vorhandene Demo niemals zurücksetzen. Lokale Browsernachweise nur für 18/synthetisch; Enterprise/20-Browser/Major-Migration bleiben offen.
+
+
 ## UX-Stand 18/20, 22.10.2026
 
 Kandidaten: 18 `bc2cc78`, 20 `c15a70e`. Final erneut 32/32 beziehungsweise 34/32 Tests und Erhaltungsinventuren erfolgreich; beide Browserprüfungen auf 18 erfolgreich. Screenshots zuletzt nach Kartenabstand/kompakter Farbkonfiguration aktualisiert und visuell geprüft. Development-Push beider Branches Exit 128 mangels HTTPS-Anmeldung; lokal weiterarbeiten, keine neuen CI-/Odoo.sh-Ergebnisse ableiten. Fremde Ausgangsdiffs/Tasks bleiben unberührt.

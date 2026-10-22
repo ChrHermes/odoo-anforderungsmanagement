@@ -57,7 +57,17 @@ async function selectRelation(field, text, option) {
     await page.locator('.o-autocomplete--dropdown-menu').getByText(option, {exact: true}).click();
 }
 
+async function changeState(label, {confirm = false} = {}) {
+    await page.getByRole('button', {name: 'Status ändern', exact: true}).click();
+    await page.locator('.modal .o_field_widget[name="state"] select').selectOption({label});
+    if (confirm) await page.locator('.modal .o_field_widget[name="confirmed"] input').check();
+    await page.getByRole('button', {name: 'Status übernehmen', exact: true}).click();
+    await page.locator('.modal').waitFor({state: 'hidden'});
+}
+
 let planId;
+let requirementId;
+let implementedOn;
 const title = `Release Browserprüfung ${new Date().toISOString()}`;
 try {
     await step('Anmeldung, Releaseplanung und Produktfarben', async () => {
@@ -68,9 +78,9 @@ try {
         await page.locator('a.card').first().click();
         await page.locator('.o_kanban_record').first().waitFor();
         await page.getByText('Releaseplanung', {exact: true}).first().click();
-        await page.locator('.o_kanban_record').first().waitFor();
-        await page.getByText('SCADA-Ausbau Q2 2027', {exact: true}).waitFor();
-        assert.ok(await page.locator('.gc_product_badge').count() >= 4);
+        await page.locator('.o_kanban_record').filter({hasText: /MS-\d+/}).first().waitFor();
+        // Existing demo records may have been edited/archived manually.
+        assert.ok(await page.locator('.gc_product_badge').count() >= 1);
         await page.screenshot({path: path.join(output, 'planning-kanban.png'), fullPage: true});
         await page.locator('.o_switch_view.o_list').click();
         await page.locator('.o_data_row').first().waitFor();
@@ -87,7 +97,14 @@ try {
         assert.equal(plans.length, 1);
         planId = plans[0].id;
         assert.match(plans[0].reference, /^MS-\d+$/);
-        const req = await rpc('gc.requirement', 'create', [{name: title + ' Requirement', description: '<p>Browser planning test</p>', request_type: 'feature', product_id: (await rpc('gc.requirement.product', 'search_read', [], {domain: [['name', '=', 'GridCal Node']], fields: ['name']}))[0].id}]);
+        requirementId = await rpc('gc.requirement', 'create', [{name: title + ' Requirement', description: '<p>Browser planning test</p>', request_type: 'feature', product_id: (await rpc('gc.requirement.product', 'search_read', [], {domain: [['name', '=', 'GridCal Node']], fields: ['name']}))[0].id}]);
+        await page.getByRole('tab', {name: 'Umgesetzte Anforderungen', exact: true}).click();
+        await page.getByText('Keine Anforderungen zugeordnet', {exact: true}).waitFor();
+        await changeState('Geplant');
+        await changeState('Aktiv');
+        assert.equal((await rpc('gc.requirement.milestone', 'read', [[planId], ['state']]))[0].state, 'active');
+        await page.screenshot({path: path.join(output, 'empty-release-active.png'), fullPage: true});
+        await page.getByRole('tab', {name: 'Anforderungen', exact: true}).click();
         // Real native selection dialog, no relation RPC shortcut.
         await page.locator('.o_field_widget[name="assignment_ids"]').getByRole('button', {name: /Hinzufügen|Zeile hinzufügen/}).click();
         await page.locator('.modal .o_searchview_input').fill(title + ' Requirement');
@@ -96,7 +113,7 @@ try {
         await page.locator('.modal').waitFor({state: 'hidden'});
         await page.locator('.o_form_button_save').click();
         await page.locator('.o_form_button_save').waitFor({state: 'hidden'});
-        assert.equal((await rpc('gc.requirement', 'read', [[req], ['milestone_id']]))[0].milestone_id[0], planId);
+        assert.equal((await rpc('gc.requirement', 'read', [[requirementId], ['milestone_id']]))[0].milestone_id[0], planId);
         await page.screenshot({path: path.join(output, 'planning-detail.png'), fullPage: true});
     });
     await step('Abschlusswarnung, ausdrückliche Bestätigung und unveränderter Anforderungsstatus', async () => {
@@ -104,14 +121,50 @@ try {
         await page.locator('.modal .alert-warning').waitFor();
         await page.screenshot({path: path.join(output, 'completion-warning.png'), fullPage: true});
         await page.getByText('Abschluss trotz offener Anforderungen ausdrücklich bestätigen', {exact: true}).waitFor();
+        await page.getByRole('button', {name: 'Status übernehmen', exact: true}).click();
+        assert.equal((await rpc('gc.requirement.milestone', 'read', [[planId], ['state']]))[0].state, 'active');
+        await page.locator('.modal').filter({hasText: 'Validierungsfehler'}).locator('footer').getByRole('button', {name: 'Schließen', exact: true}).click();
+        await page.locator('.modal .o_field_widget[name="confirmed"] input').waitFor();
         await page.locator('.modal .o_field_widget[name="confirmed"] input').check();
-        await page.getByRole('button', {name: 'Abschluss übernehmen', exact: true}).click();
+        await page.getByRole('button', {name: 'Status übernehmen', exact: true}).click();
         await page.locator('.modal').waitFor({state: 'hidden'});
         const plan = (await rpc('gc.requirement.milestone', 'read', [[planId], ['state', 'open_count', 'completed_on']]))[0];
         assert.equal(plan.state, 'done');
         assert.equal(plan.open_count, 1);
         assert.ok(plan.completed_on);
         await page.screenshot({path: path.join(output, 'planning-published.png'), fullPage: true});
+    });
+    await step('Wiederöffnung, 100 % Anforderungen und erneuter bewusster Abschluss', async () => {
+        const before = (await rpc('gc.requirement.milestone', 'read', [[planId], ['completed_on']]))[0].completed_on;
+        await changeState('Aktiv');
+        assert.equal((await rpc('gc.requirement.milestone', 'read', [[planId], ['completed_on']]))[0].completed_on, before);
+        await rpc('gc.requirement', 'write', [[requirementId], {state: 'implemented'}]);
+        implementedOn = (await rpc('gc.requirement', 'read', [[requirementId], ['implemented_on']]))[0].implemented_on;
+        await page.reload();
+        await page.getByRole('tab', {name: 'Umgesetzte Anforderungen', exact: true}).click();
+        await page.getByText('1 von 1 Anforderungen umgesetzt', {exact: true}).waitFor();
+        const plan = (await rpc('gc.requirement.milestone', 'read', [[planId], ['state', 'progress']]))[0];
+        assert.equal(plan.state, 'active');
+        assert.equal(plan.progress, 100);
+        await page.screenshot({path: path.join(output, 'active-all-requirements-implemented.png'), fullPage: true});
+        await changeState('Abgeschlossen / Veröffentlicht');
+        await changeState('Aktiv');
+        // Restore the synthetic requirement to exercise the original independent-state check.
+        await rpc('gc.requirement', 'write', [[requirementId], {state: 'new'}]);
+        await page.reload();
+        await changeState('Abgeschlossen / Veröffentlicht', {confirm: true});
+    });
+    await step('Meilenstein verwendet denselben manuellen Statusdialog', async () => {
+        const id = await rpc('gc.requirement.milestone', 'create', [{name: title + ' Milestone', kind: 'milestone'}]);
+        await page.goto(`http://localhost:8069/odoo/gc.requirement.milestone/${id}`);
+        for (const label of ['Geplant', 'Aktiv', 'Abgeschlossen / Veröffentlicht', 'Aktiv', 'Abgesagt', 'Entwurf']) {
+            await changeState(label);
+        }
+        const plan = (await rpc('gc.requirement.milestone', 'read', [[id], ['state', 'completed_on']]))[0];
+        assert.equal(plan.state, 'draft');
+        assert.ok(plan.completed_on);
+        await page.screenshot({path: path.join(output, 'milestone-reopened.png'), fullPage: true});
+        await page.goto(`http://localhost:8069/odoo/gc.requirement.milestone/${planId}`);
     });
     await step('Anforderungsnavigation, getrennte Planung und nativer GitLab-Link', async () => {
         await page.locator('button[name="action_view_requirements"]').click();
@@ -130,7 +183,7 @@ try {
         const rows = await rpc('gc.requirement', 'search_read', [], {domain: [['name', '=', title + ' Requirement']], fields: ['state', 'implemented_version', 'implemented_on', 'milestone_id', 'development_url', 'worktimes_url']});
         assert.equal(rows[0].state, 'new');
         assert.equal(rows[0].implemented_version, false);
-        assert.equal(rows[0].implemented_on, false);
+        assert.equal(rows[0].implemented_on, implementedOn);
         assert.equal(rows[0].milestone_id[0], planId);
         assert.equal(rows[0].development_url, 'Independent development reference');
         await page.screenshot({path: path.join(output, 'requirement-planning-worktimes.png'), fullPage: true});

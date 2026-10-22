@@ -7,6 +7,17 @@ from .common import HelpdeskCase
 
 @tagged("post_install", "-at_install")
 class TestMilestones(HelpdeskCase):
+    def transition(self, plan, state, **values):
+        action = plan.action_change_state()
+        wizard = (
+            self.env[action["res_model"]]
+            .with_user(self.app_user)
+            .with_context(**action["context"])
+            .create(dict(state=state, **values))
+        )
+        wizard.action_apply()
+        return wizard
+
     def milestone(self, **values):
         return (
             self.env["gc.requirement.milestone"]
@@ -174,6 +185,8 @@ class TestMilestones(HelpdeskCase):
                 release.with_user(user).create({"name": "Denied", "kind": "milestone"})
             with self.assertRaises(AccessError), self.cr.savepoint():
                 release.with_user(user).action_complete()
+            with self.assertRaises(AccessError), self.cr.savepoint():
+                release.with_user(user).action_change_state()
         # Global rule still denies a portal account accidentally assigned the pilot group.
         self.portal.write({"groups_id": [Command.link(self.env.ref("gc_requirements.group_user").id)]})
         self.assertFalse(release.with_user(self.portal).has_access("read"))
@@ -250,3 +263,117 @@ class TestMilestones(HelpdeskCase):
                 req.worktimes_url = bad
         req.worktimes_url = False
         self.assertEqual(req.development_url, "Internal task reference")
+
+    def test_manual_status_for_both_kinds_without_requirements(self):
+        for kind in ("release", "milestone"):
+            plan = self.milestone(kind=kind)
+            self.assertFalse(plan._fields["state"].compute)
+            self.assertTrue(plan._fields["state"].store)
+            for state in ("planned", "active", "done", "active", "cancelled", "draft", "done"):
+                self.transition(plan, state)
+                self.assertEqual(plan.state, state)
+            self.assertTrue(plan.completed_on)
+            self.assertEqual(plan.requirement_count, 0)
+            self.assertEqual(plan.progress, 0)
+            self.assertEqual(plan.implementation_summary, "Keine Anforderungen zugeordnet")
+
+    def test_requirement_mutations_never_change_planning_status(self):
+        for kind in ("release", "milestone"):
+            plan = self.milestone(kind=kind)
+            self.transition(plan, "active")
+            req = self.make_requirement()
+            plan.assignment_ids = [Command.link(req.id)]
+            for state in ("planned", "in_progress", "implemented", "deferred", "rejected"):
+                req.write({"state": state, "decision_reason": "Synthetic decision"})
+                self.assertEqual(plan.state, "active")
+                self.assertFalse(plan.completed_on)
+                if state == "implemented":
+                    self.assertEqual(plan.progress, 100)
+                    self.assertEqual(plan.implementation_summary, "1 von 1 Anforderungen umgesetzt")
+            req.action_archive()
+            self.assertEqual(plan.state, "active")
+            plan.assignment_ids = [Command.clear()]
+            self.assertEqual(plan.state, "active")
+            self.assertFalse(plan.completed_on)
+            self.assertEqual(plan.progress, 0)
+
+    def test_reopen_preserves_dates_and_completion_history(self):
+        for kind in ("release", "milestone"):
+            plan = self.milestone(kind=kind)
+            req = self.make_requirement(milestone_id=plan.id)
+            before = req.read(["state", "implemented_on", "implemented_version"])
+            self.transition(plan, "done", confirmed=True, completed_on="2026-10-01")
+            self.transition(plan, "active")
+            self.assertEqual(str(plan.completed_on), "2026-10-01")
+            for values in (
+                {"completed_on": False},
+                {"completed_on": "2026-10-02"},
+                {"state": "planned", "completed_on": False},
+            ):
+                with self.assertRaises(ValidationError), self.cr.savepoint():
+                    plan.write(values)
+            self.transition(plan, "done", confirmed=True, completed_on="2026-10-22")
+            self.assertEqual(str(plan.completed_on), "2026-10-22")
+            notes = " ".join(str(msg.body) for msg in plan.message_ids)
+            self.assertIn("2026-10-01", notes)
+            self.assertIn("2026-10-22", notes)
+            self.assertEqual(req.read(["state", "implemented_on", "implemented_version"]), before)
+            self.assertFalse(plan.copy().completed_on)
+        with self.assertRaises(ValidationError), self.cr.savepoint():
+            self.milestone(completed_on="2026-10-01")
+
+    def test_warning_includes_rejected_archived_and_rechecks_state(self):
+        plan = self.milestone()
+        self.make_requirement(milestone_id=plan.id, state="rejected", decision_reason="Synthetic")
+        self.make_requirement(milestone_id=plan.id).action_archive()
+        self.assertEqual(plan.open_count, 0)
+        self.assertEqual(plan.not_implemented_count, 2)
+        with self.assertRaises(ValidationError), self.cr.savepoint():
+            self.transition(plan, "done")
+        with self.assertRaises(ValidationError), self.cr.savepoint():
+            plan.with_context(gc_planning_completion=True).write({"state": "done"})
+        self.transition(plan, "active")  # Warning must never block other target states.
+        self.transition(plan, "done", confirmed=True)
+        self.assertEqual(plan.state, "done")
+        self.assertTrue(
+            plan.message_ids.filtered(lambda msg: "Noch nicht umgesetzte Anforderungen: 2" in str(msg.body))
+        )
+
+    def test_mixed_batch_completion_retains_previous_date(self):
+        old, new = self.milestone(), self.milestone()
+        self.transition(old, "done", completed_on="2026-10-01")
+        (old | new).write({"state": "done"})
+        self.assertEqual(str(old.completed_on), "2026-10-01")
+        self.assertEqual(new.completed_on, fields.Date.today())
+
+    def test_status_dialog_and_progress_labels_in_all_views(self):
+        plan = self.milestone()
+        form = plan.get_view(view_type="form")["arch"]
+        self.assertIn('name="action_change_state"', form)
+        self.assertIn('widget="statusbar"', form)
+        self.assertIn("Umgesetzte Anforderungen", form)
+        for view_type in ("kanban", "list", "form"):
+            arch = plan.get_view(view_type=view_type)["arch"]
+            self.assertIn('name="implementation_summary"', arch)
+            self.assertNotIn('string="Fortschritt"', arch)
+        action = plan.action_change_state()
+        wizard = self.env[action["res_model"]].with_user(self.app_user).with_context(**action["context"])
+        with Form(wizard) as dialog:
+            self.assertEqual(dialog.state, "draft")
+            dialog.state = "planned"
+        dialog.record.action_apply()
+        self.assertEqual(plan.state, "planned")
+        self.assertEqual(
+            dict(wizard._fields["state"].selection).keys(), dict(plan._fields["state"].selection).keys()
+        )
+
+    def test_status_transitions_have_native_chatter_tracking(self):
+        plan = self.milestone()
+        # Flush creation before testing native tracking of an existing record.
+        plan._track_finalize()
+        self.transition(plan, "planned")
+        plan._track_finalize()
+        tracking = plan.sudo().message_ids.tracking_value_ids.filtered(
+            lambda value: value.field_id.name == "state"
+        )
+        self.assertTrue(tracking)

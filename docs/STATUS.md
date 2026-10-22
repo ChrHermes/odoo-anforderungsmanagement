@@ -1,3 +1,19 @@
+# Manuelle Release-/Meilensteinstatus – 22.10.2026
+
+Auftrag `tasks/20261022_release-refining.md`, Versionen **18.0.1.3.1 / 20.0.1.3.1**. Ursache: Status bereits gespeichert/manuell, komfortabler allgemeiner Wechsel fehlte. Gemeinsamer nativer Dialog **Status ändern** für alle fünf Zustände und beide Typen, auch ohne Anforderungen. Bestehender Abschlusswizard und technische IDs bleiben erhalten. Abschlusswarnung mit aktueller Anzahl aller lesbaren nicht umgesetzten Zuordnungen einschließlich Abgelehnter/Archivierter, ausdrückliche Checkbox; andere Wechsel frei. Abschlussdatum nur beim tatsächlichen Abschluss, Wiederöffnung erhält Datum/Historie, erneuter Abschluss ergänzt datierte Notiz. Keine Status-/Publikationsänderung an Anforderungen durch Planung.
+
+Kennzahl **Umgesetzte Anforderungen**, „X von Y Anforderungen umgesetzt“, Prozent/Balken und expliziter Leerfall in Kanban/Liste/Form. Bezugsmenge bleibt wie bisher aktive Anforderungen ohne Abgelehnte; Gesamt-/Archiv-/acht Statuszähler bleiben erhalten. Erläuterung: 100 % ist keine Veröffentlichung und kein vollständiger Entwicklungsfortschritt. Keine neue Statuspersistenz oder Datenmigration. SPEC §14.1 / D020.
+
+Nachweise:
+
+- Odoo 18: `python3 scripts/test_contract.py --baseline-ref 661513b` **49/42/49** Tests, zusätzlicher befüllter Install-/Upgradevertrag **49/49**; null Fehler, vollständige Inventuren/negative Proben erfolgreich.
+- Odoo 20: im eigenen Worktree `python3 scripts/test_contract.py --baseline-ref 854dbe2` **51/44/49**, zusätzlicher befüllter Vertrag **51/49**; frisch zwei zusätzliche native Core-Webfälle. Null Fehler, Inventuren/negative Proben erfolgreich.
+- Erhaltungsfixture enthält jetzt ein wieder geöffnetes Release und einen abgeschlossenen Meilenstein mit historischen Datumswerten. Bestehende Quellen/Originale/Chatter/Tracking/physische Anhänge, Zuordnung/Worktimes, Sequenzen und Rechte weiterhin geprüft.
+- Statische Paket-/Python-/XML-/ACL-Prüfung, Ruff/Formatierung beider Linien sowie JavaScript-Syntaxprüfung erfolgreich. Sieben zusätzliche App-Testfälle, vorhandene Suite bleibt erhalten.
+- Lokale 18er Demo erfolgreich ohne Reset aktualisiert. Bisheriger Browser-Smoke (7 Schritte) und UX-/Quellenschutztest (4 Gruppen, zwei Sitzungen) erfolgreich. Erweiterter Planungstest (6 Schritte) bestanden: beide Typen, leere Planung, Ablehnung ohne Checkbox und bestätigter Abschluss, 100 % bei Status Aktiv, Wiederöffnung/Historiendatum, native Bestandsauswahl und Worktimes. Keine JS-Fehler/externen Browserrequests. Screenshots unter `.local/dev/browser-planning/`, relevante Dialog-/100-%-/Wiederöffnungsansichten visuell geprüft.
+
+Nur lokale Entwicklungsnachweise mit **synthetischem Helpdesk**, keine Enterprise-Abnahme. Enterprise-/Custom-Helpdesk-/Mailautomationsgates, 20er Browser und tatsächliche Major-Migration bleiben offen. Keine Staging-/Production-Aktion oder -Freigabe. Branch-/Commit-/Pushstand nach Abschluss im Git-Log und hier ergänzen. Fremde Ausgangsdiffs an `.gitattributes`, CI, Icon, Compose, Ruff und Vertragsmanifest bleiben unberührt.
+
 # Releaseplanung / Worktimes – lokal umgesetzt, 22.10.2026
 
 Auftrag `tasks/20261022_releases-milestones.md`, Versionen 18.0.1.3.0 / 20.0.1.3.0. Native interne Planung, optionale tracked Zuordnung, Produktkonsistenz beider Richtungen, Abschlussbestätigung, Zähler/Filter und eigenständiger GitLab-Worktimes-Link. Planung verändert keine Requirementstatus oder tatsächlichen Veröffentlichungsdaten. SPEC §14 / D019; Odoo-18-Codekandidat `e43cab7`, 20er Port `7213606`, weiterer Prüfabschluss im Git-Log.

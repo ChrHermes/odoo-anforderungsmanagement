@@ -43,7 +43,7 @@ class RequirementMilestone(models.Model):
     description = fields.Html(string="Beschreibung", sanitize=True)
     planned_start = fields.Date(string="Geplant ab", tracking=True)
     planned_date = fields.Date(string="Geplant am / bis", tracking=True, index=True)
-    completed_on = fields.Date(string="Abgeschlossen / veröffentlicht am", tracking=True)
+    completed_on = fields.Date(string="Abgeschlossen / veröffentlicht am", tracking=True, readonly=True)
     state = fields.Selection(
         PLANNING_STATES,
         string="Planungsstatus",
@@ -77,7 +77,17 @@ class RequirementMilestone(models.Model):
     open_count = fields.Integer(
         string="Offen (aktiv, einschließlich zurückgestellt)", compute="_compute_counts"
     )
-    progress = fields.Float(string="Umgesetzt (%)", compute="_compute_counts")
+    progress = fields.Float(
+        string="Umgesetzte Anforderungen (%)",
+        compute="_compute_counts",
+        help="Anteil umgesetzter aktiver Anforderungen ohne Abgelehnte; kein Entwicklungsfortschritt des gesamten Releases und keine Veröffentlichung.",
+    )
+    implementation_summary = fields.Char(string="Umgesetzte Anforderungen", compute="_compute_counts")
+    not_implemented_count = fields.Integer(
+        string="Noch nicht umgesetzte Anforderungen",
+        compute="_compute_counts",
+        help="Alle lesbaren zugeordneten Anforderungen ohne Status Umgesetzt, einschließlich abgelehnter und archivierter Anforderungen.",
+    )
     new_count = fields.Integer(string="Neu", compute="_compute_counts")
     review_count = fields.Integer(string="In Prüfung", compute="_compute_counts")
     evaluated_count = fields.Integer(string="Bewertet", compute="_compute_counts")
@@ -144,8 +154,11 @@ class RequirementMilestone(models.Model):
             else []
         )
         counts = {}
+        not_implemented = {}
         for milestone, active, state, count in groups:
             bucket = counts.setdefault(milestone.id, {})
+            if state != "implemented":
+                not_implemented[milestone.id] = not_implemented.get(milestone.id, 0) + count
             key = state if active else "archived"
             bucket[key] = bucket.get(key, 0) + count
         for record in self:
@@ -157,6 +170,18 @@ class RequirementMilestone(models.Model):
             eligible = sum(bucket.get(state, 0) for state, _label in STATES if state != "rejected")
             record.open_count = eligible - bucket.get("implemented", 0)
             record.progress = 100 * bucket.get("implemented", 0) / eligible if eligible else 0
+            record.not_implemented_count = not_implemented.get(record.id, 0)
+            record.implementation_summary = (
+                _(
+                    "%(done)s von %(total)s Anforderungen umgesetzt",
+                    done=bucket.get("implemented", 0),
+                    total=eligible,
+                )
+                if eligible
+                else _("Keine Anforderungen zugeordnet")
+                if not record.requirement_count
+                else _("Keine aktiven Anforderungen ohne Ablehnung")
+            )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -169,6 +194,8 @@ class RequirementMilestone(models.Model):
             if vals.get("state", self.env.context.get("default_state")) == "done":
                 # Create drafts first, then use the same audited completion path.
                 raise ValidationError(_("Bitte zuerst speichern und anschließend ausdrücklich abschließen."))
+            if vals.get("completed_on", self.env.context.get("default_completed_on")):
+                raise ValidationError(_("Das Abschlussdatum wird nur beim ausdrücklichen Abschluss gesetzt."))
             vals["reference"] = self.env["ir.sequence"].next_by_code("gc.requirement.milestone")
             prepared.append(vals)
         records = super().create(prepared)
@@ -177,17 +204,27 @@ class RequirementMilestone(models.Model):
 
     def write(self, vals):
         self._lock_planning()
+        self.invalidate_recordset(["state", "completed_on"])
         if "reference" in vals:
             raise ValidationError(_("Die Planungsnummer ist unveränderlich."))
         changes = self.filtered(lambda record: vals.get("state") == "done" and record.state != "done")
+        if "completed_on" in vals and len(changes) != len(self):
+            raise ValidationError(
+                _(
+                    "Das Abschlussdatum darf nur bei einem erneuten Abschluss geändert werden. Historische Angaben bleiben erhalten."
+                )
+            )
+        if changes and len(changes) != len(self):
+            result = changes.write(vals)
+            return (self - changes).write(vals) and result
         if changes:
             changes.invalidate_recordset()
             if (
-                any(record.open_count for record in changes)
+                any(record.not_implemented_count for record in changes)
                 and self.env.context.get("gc_planning_completion") is not _COMPLETION_CONFIRMED
             ):
                 raise ValidationError(
-                    _("Es gibt offene Anforderungen. Bitte den Abschlussdialog bestätigen.")
+                    _("Es gibt noch nicht umgesetzte Anforderungen. Bitte den Abschlussdialog bestätigen.")
                 )
             vals = dict(vals)
             vals.setdefault("completed_on", fields.Date.context_today(self))
@@ -206,10 +243,12 @@ class RequirementMilestone(models.Model):
         for record in changes:
             record.message_post(
                 body=_(
-                    "%(decision)s. Offene aktive Anforderungen: %(open)s; abgelehnt: %(rejected)s; archiviert: %(archived)s. Anforderungsstatus und Veröffentlichungsdaten bleiben erhalten.",
+                    "%(decision)s am %(date)s. Noch nicht umgesetzte Anforderungen: %(remaining)s. Offene aktive Anforderungen: %(open)s; abgelehnt: %(rejected)s; archiviert: %(archived)s. Anforderungsstatus und Veröffentlichungsdaten bleiben erhalten.",
                     decision=_("Release veröffentlicht")
                     if record.kind == "release"
                     else _("Meilenstein abgeschlossen"),
+                    date=record.completed_on,
+                    remaining=record.not_implemented_count,
                     open=record.open_count,
                     rejected=record.rejected_count,
                     archived=record.archived_count,
@@ -250,19 +289,25 @@ class RequirementMilestone(models.Model):
                     record.message_subscribe(partner_ids=user.partner_id.ids)
 
     def action_complete(self):
+        return self.action_change_state(default_state="done")
+
+    def action_change_state(self, default_state=None):
         self.ensure_one()
         self._lock_planning()
         return {
             "type": "ir.actions.act_window",
-            "name": _("Abschluss bestätigen"),
+            "name": _("Status ändern"),
             "res_model": "gc.requirement.milestone.complete",
             "view_mode": "form",
             "target": "new",
-            "context": {"default_milestone_id": self.id},
+            "context": {"default_milestone_id": self.id, "default_state": default_state or self.state},
         }
 
-    def _complete(self):
-        self.with_context(gc_planning_completion=_COMPLETION_CONFIRMED).write({"state": "done"})
+    def _complete(self, completed_on=None):
+        values = {"state": "done"}
+        if self.state != "done":
+            values["completed_on"] = completed_on or fields.Date.context_today(self)
+        self.with_context(gc_planning_completion=_COMPLETION_CONFIRMED).write(values)
 
     def action_view_requirements(self):
         self.ensure_one()

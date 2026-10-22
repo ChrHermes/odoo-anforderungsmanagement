@@ -94,3 +94,12 @@ Abschlussdialog prüft unmittelbar erneut; offene Anforderungen erfordern ausdr�
 Bestehender interner Chatter-Schutz wird als gemeinsames abstraktes Mixin wiederverwendet, direkte Follower-/Aktivitätsconstraints auf beide Modelle erweitert. Das Mixin muss vor den konkreten Modellen geladen werden und selbst mail.thread/activity erben, damit Mailmethoden tatsächlich überschrieben werden. Erste Laufzeitproben deckten falsche MRO/Reihenfolge auf; bestehende Sicherheitsassertionen bleiben unverändert.
 
 Worktimes ist ein eigenes optionales HTTP(S)-URL-Feld mit nativem Link „In GitLab öffnen“ (`target=_blank`), unabhängig von der Entwicklungsreferenz. Kein GitLab-Zugang/API, keine automatische Versions-/Statusübernahme. Neue Stammdaten bestehen nur aus Sequenz/Sicherheits-/Ansichtsdefinitionen; Releases sind Benutzerdaten, keine Produktionsseeds.
+
+
+## D020 – Expliziter Planungsstatus und getrennte Umsetzungsanzeige (22.10.2026)
+
+Auftrag `tasks/20261022_release-refining.md`: Status war bereits gespeichert/manuell, keine abgeleitete Statuslogik vorhanden. Bestehenden Abschlusswizard um alle fünf Zielstatus erweitern, technische IDs/ACL behalten. Primärer Button „Status ändern“, Statusleiste, bestehende Abschlusskurzbefehle. Kein Kanban-Drag, damit der Bestätigungsweg einheitlich bleibt.
+
+Die bestehende Kennzahl bleibt Umgesetzt / aktive Anforderungen ohne Abgelehnte. Text „X von Y Anforderungen umgesetzt“, erklärter Nenner, Leerfall und ausdrücklicher Hinweis: 100 % ist keine Veröffentlichung und kein vollständiger Entwicklungsfortschritt. Statusverteilungen/Gesamt-/Archiv-/Offenzähler bleiben erhalten. Die präzisierte Abschlusswarnung zählt hingegen alle lesbaren zugeordneten Einträge ohne Status Umgesetzt, also auch abgelehnte/archivierte; keine pauschale Blockade, bestätigter Abschluss bleibt möglich. Beide Werte ohne sudo.
+
+Abschlussdatum nur bei tatsächlichem manuellem Abschluss setzen; außerhalb dieses Übergangs serverseitig gegen Änderung/Löschung schützen. Wiederöffnung erhält letztes Datum; erneuter Abschluss ergänzt datierte Notiz und native Trackinghistorie. Ein bereits abgeschlossener Datensatz erhält durch wiederholtes oder gemischtes Batch-write kein neues Datum. Keine Anforderungsstatus/Veröffentlichungsdaten ändern. Neue UI-Zusammenfassung/Warnzahl sind ausschließlich berechnet, keine Migration bestehender Status-/Datenwerte.
