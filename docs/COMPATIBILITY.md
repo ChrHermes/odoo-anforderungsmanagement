@@ -97,3 +97,6 @@ Final geprüft: 18 `e43cab7` / `0b71c26`, 20 `7213606`; normale befüllte Vertr�
 ## Release-Statuskorrektur 1.3.1
 
 Identischer Fachumfang und 49 App-Tests auf beiden Development-Linien, vorhandene native 20er Gruppen-/Security-/Constraint-/Mail-/read_group-APIs erhalten. Altupgrade vom letzten Planungsstand: 18 `661513b` mit 49/42/49, 20 `854dbe2` mit 51/44/49; weiterer befüllter Install-/Upgradevertrag 49/49 bzw. 51/49, Inventuren einschließlich beider Planarten/historischer Abschlussdaten erfolgreich. Kein neuer gespeicherter Status und keine Datentransformation. Native Form-/Kanban-/Listen-/Suchansichten unter beiden Laufzeiten geladen; tatsächliche Browsernachweise beziehen sich weiterhin nur auf die lokale 18er Demo. Enterprise und Major-Migration bleiben offen.
+
+
+Abschluss: Beide Codekandidaten 18 `979792f` / 20 `09612f4` auf ihren autorisierten Development-Linien gepusht; GitHub-Community-Vertragsläufe 39777844722 / 39777850379 completed/success. Lokale 18er Browserprüfungen Planung/Smoke/UX (6/7/4 Schritte bzw. Gruppen) bestanden und relevante Screenshots visuell geprüft. Letzter 20er befüllter Vertrag einschließlich endgültiger nativer Dialogansicht 51/49 fehlerfrei. Offene Enterprise-/20er Browser-/Major-Migrationsgates bleiben bestehen.
