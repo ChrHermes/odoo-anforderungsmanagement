@@ -1,4 +1,4 @@
-# Implementation plan - Odoo 18 Requirements Management
+# Implementation plan - Odoo 18/20 Anforderungen
 
 **Target:** complete, maintainable MVP as defined in [SPEC.md](SPEC.md), with technical guardrails from [TECHNICAL_DESIGN.md](TECHNICAL_DESIGN.md).  
 **Process:** Codex works incrementally, tests and commits each milestone on an Odoo.sh Development branch. Approval gates control promotion to Staging and Production.  
@@ -23,7 +23,7 @@
 
 **Build:**
 
-- Root app tile `Anforderungsmanagement`, named actions/menus and minimal Form/Kanban/List (Kanban initially first).
+- Root app tile `Anforderungen`, named actions/menus and minimal Form/Kanban/List (Kanban initially first).
 - Manifest, data files, basic security groups (`User` and `Configuration`), explicit pilot membership.
 - `gc.requirement` fields: reference, title, editorial description, type, state, priority, assignee, date/version, product, optional category, archive.
 - Own top-level product model and recursive category model with validation.
@@ -182,3 +182,17 @@ MVP is **done** only when all applicable acceptance checks in SPEC.md and milest
 ## 9. Planned post-MVP backlog
 
 Product-based auto assignment; restricted approval group; AI-assisted ticket summary with internal data protection review; a dashboard with statistics and trend graphs; release and GitHub links; improved duplicate detection; optional multi-category tagging; advanced reporting. Pilot evidence should drive the order.
+
+## 10. Supplement N1-N3 - naming, Odoo 20 and migration
+
+1. **N1, Odoo 18:** normalize German app/launcher/group/action captions, ship a German catalog, keep technical IDs, bump to `18.0.1.1.0`. Run all existing tests plus German locale checks, fresh installation and upgrade from the previous candidate. Expand the upgrade preservation fixture to archived merge originals, provenance, customers, history, activities, attachments and access boundaries. Commit changes and evidence on `codex/initial-mvp`.
+2. **N2, Odoo 20:** inspect official sources/runtime, isolate native API adaptations on `codex/20.0-port` with a `20.0.*` manifest. Retain all acceptance tests and security gates. Fresh install and same-major module upgrade in a separate pinned Community contract are preparatory evidence only; Enterprise install/upgrade/UI/Helpdesk checks remain mandatory. Record branch, commit, runtime and actual results.
+3. **N3, actual 18-to-20 migration:** obtain an authorized isolated Enterprise Development database/filestore and approved migration access. Capture preservation inventory with allowed/denied test identities; migrate the full database through Odoo's supported upgrade service, install the port and verify preservation and security. Do not treat reinstall/import or a same-major `-u` as this gate. Staging rehearsal needs fresh candidate approval; Production remains separately gated.
+
+| Gate | Required evidence | Completion rule |
+|---|---|---|
+| 18 install + upgrade | All existing tests and German naming; previous-candidate preservation | Version-specific runtime result, Enterprise separately |
+| 20 install + upgrade | Same test coverage plus native API checks | Version-specific runtime result, Enterprise separately |
+| 18 -> 20 migration | Full upgraded database/filestore, inventory comparison, exact-ticket privacy/mail tests | Actual migration observed; remains open without authorized infrastructure |
+
+Track results and blockers in `docs/COMPATIBILITY.md`, `docs/ACCEPTANCE.md` and `docs/STATUS.md`. Separate version branches are proposed maintenance lines, not authorization for a hosted Staging/Production branch or automatic promotion.

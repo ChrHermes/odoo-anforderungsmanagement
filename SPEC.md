@@ -1,7 +1,10 @@
 # Requirements Management - functional specification
 
-**Project:** Internal Odoo 18 app, working title **Anforderungsmanagement**  
-**Module (planned):** `gc_requirements`  
+**Project:** Internal Odoo app, application name **Anforderungen** (rename approved 22 October 2026)
+
+**Technical module:** `gc_requirements`
+
+**Target versions:** Odoo 18 and Odoo 20 Enterprise; Odoo 18 remains the primary development and acceptance platform. Compatibility requires successful version-specific runtime tests.
 **Hosting:** Odoo.sh (Development -> Staging -> Production)  
 **Status:** Approved concept baseline, 21 October 2026  
 **Authority:** Decisions made during concept interview, phases 1-7  
@@ -135,7 +138,7 @@ Use standard Odoo Chatter and activities, not a custom chat/tasks subsystem:
 
 ## 7. Views and everyday UX
 
-The app appears as **Anforderungsmanagement** in the Odoo app launcher, with its own root menu. **Kanban is the landing view**, grouped by state, with an immediately available **List** view. No custom frontend or dashboard is required.
+The app appears as **Anforderungen** in the Odoo app launcher, with its own root menu. **Kanban is the landing view**, grouped by state, with an immediately available **List** view. No custom frontend or dashboard is required.
 
 Each informative Kanban card should show:
 
@@ -213,3 +216,13 @@ Requirements should normally be **archived, not deleted**. Archived records reta
 - **Notifications:** Use exclusively internal-note subtypes and test with portal/customer partners; the external email ban applies to this app's messages, not to unrelated existing Odoo processes.
 - **Localization:** user-facing labels German; code identifiers English.
 - **No silent production actions:** only the authorized team can approve merges/promotions and live configuration changes.
+
+## 13. Naming and cross-version acceptance (22 October 2026)
+
+Approved supplement: `tasks/20261022_naming-migration.md`. The visible application name is **Anforderungen**. Manifest, launcher/root menu, window actions and German group labels must agree. Keep `gc_requirements`, model names, fields, REQ numbers and existing XML IDs stable. Labels remain translatable. A later rename is a presentation change; use native menu/translation administration or a reviewed XML/manifest update rather than a second app or new data model.
+
+Support is targeted for **Odoo 18 and 20 Enterprise with Helpdesk**. The complete business and security rules above apply equally to both. Do not remove or weaken existing tests to achieve a port. No version is declared fully compatible on static checks or synthetic Helpdesk tests alone.
+
+Required evidence: (1) fresh 18 install, (2) 18 module upgrade, (3) fresh 20 install, (4) 20 module upgrade, (5) actual migration of existing 18 data through the supported platform upgrade to 20, including the custom addon upgrade. Preserve references/sequence, classifications, links and private snapshots with provenance, customer relations, attachments/filestore, Chatter/tracking, activities, followers, merged originals/redirects and permissions. Repeat exact-ticket read denial and notification tests on the migrated Enterprise environment. A fresh 20 installation plus data recreation is not migration evidence.
+
+The current evidence, branch maintenance proposal and remaining gates are maintained in [COMPATIBILITY.md](docs/COMPATIBILITY.md). Staging and Production still require separate explicit approvals.

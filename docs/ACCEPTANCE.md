@@ -37,3 +37,9 @@ Extern reproduziert: GitHub-Läufe [39678680433](https://github.com/ChrHermes/od
 - Custom-Helpdesk-Read-/Feldbeschränkungen werden im Adapter zusätzlich über `read` berücksichtigt. Externe benutzerdefinierte Automationen auf `mail.message.create` müssen vor Freigabe kontrolliert werden.
 - Normales Verknüpfen ist bei vorhandener Quelle idempotent. Parallel konkurrierende Verknüpfungen werden zusätzlich durch SQL-Eindeutigkeit abgesichert; ein Konflikt darf die gesamte RPC-Transaktion zurückrollen.
 - Merge-Zeilensperren schützen die beiden Anforderungen. Ein eigener paralleler Mehrprozess-/Deadlocktest und reales Lastprofil stehen noch aus.
+
+## Naming-Kandidat 18.0.1.1.0, 22.10.2026
+
+`python3 scripts/test_contract.py --baseline-ref 36085f50b66102a85515fd004abae59120848af1`: Neuinstallation 27 Tests, Installation des alten Kandidaten 26 Tests, Upgrade auf neuen Stand 27 Tests; alle ohne Fehler. Locale-Test lädt `i18n/de.po` und prüft App-/Launcher-/Aktions-/Gruppennamen, Status/Typ/Priorität sowie geerbte deutsche Aktivitäts-/Metadatenlabels. Die gesamte bisherige Suite bleibt erhalten.
+
+Erweiterte Inventur erhält Klassifikation, Referenz/Sequenz, private Snapshots und überlappende Capture-/Mergeprovenienz, Ticket-/Kundenzuordnung, archivierte Originale, Chatter samt Tracking, Aktivitäten/Follower, physischen Anhang sowie XML-IDs, Gruppen und aktuelle Zugriffsgrenzen. Absichtliche Titel-/Anhangveränderungen werden erkannt und zurückgerollt. Statische Syntax-/Paket-/XML-/ACL-Prüfung, Ruff und Formatierung bestanden. **Kein Enterprise- oder 18->20-Migrationsnachweis**; gesonderte Matrix in [COMPATIBILITY](COMPATIBILITY.md).

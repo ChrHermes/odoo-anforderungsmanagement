@@ -1,4 +1,4 @@
-# Technical design - Odoo 18 addon `gc_requirements`
+# Technical design - Odoo 18/20 addon `gc_requirements`
 
 **Companion documents:** [SPEC.md](SPEC.md), [IMPLEMENTATION.md](IMPLEMENTATION.md), [AGENTS.md](AGENTS.md).  
 **Status:** Proposed implementation design; verify the target Odoo.sh database before coding Helpdesk view inheritance and permissions.
@@ -59,7 +59,7 @@ repo/
 
 The tree is a recommendation, not a mandate. Prefer small, cohesive files. Do not create a speculative separate frontend, API controller or dashboard.
 
-**Manifest:** `name='Anforderungsmanagement'`, `version='18.0.1.0.0'` initially, `application=True`, `installable=True`, `auto_install=False`, dependencies `base`, `mail`, `helpdesk` (Enterprise dependency needs confirmation on the target branch). Additional dependencies only if demonstrated necessary. Load security/groups before menus/views; initialize master data through `data`, not `demo`.
+**Manifest:** `name='Anforderungen'`, `version='18.0.1.0.0'` initially, `application=True`, `installable=True`, `auto_install=False`, dependencies `base`, `mail`, `helpdesk` (Enterprise dependency needs confirmation on the target branch). Additional dependencies only if demonstrated necessary. Load security/groups before menus/views; initialize master data through `data`, not `demo`.
 
 ## 3. Proposed ORM models
 
@@ -185,7 +185,7 @@ Archive and restore are separate from state fields; `Umgesetzt` and `Abgelehnt` 
 
 ## 8. UX, menus and Odoo view technology
 
-Root menu: `Anforderungsmanagement`; submenus `Anforderungen`, `Konfiguration > Produkte`, `Konfiguration > Funktionsbereiche` (configuration group only). Default window action `view_mode='kanban,list,form'` with Kanban grouped by `state`. Use native `kanban` templates and `<list>` XML in Odoo 18, not old `tree` root. Provide clear empty states and a simple Create action.
+Root menu: `Anforderungen`; submenus `Anforderungen`, `Konfiguration > Produkte`, `Konfiguration > Funktionsbereiche` (configuration group only). Default window action `view_mode='kanban,list,form'` with Kanban grouped by `state`. Use native `kanban` templates and `<list>` XML in Odoo 18, not old `tree` root. Provide clear empty states and a simple Create action.
 
 Detail form:
 
@@ -270,3 +270,13 @@ Use `TransactionCase` for ORM/security logic and `HttpCase` or documented target
 - The versioned test contract has only `manifest.py.in`, no discoverable Odoo manifest. The test driver generates a real manifest exclusively in ignored `.local/contract-addons`, preventing accidental shadowing during repository addon discovery. Static packaging checks enforce this separation.
 - Odoo 18's activity mixin deletes activities on archive in both `write` and `toggle_active`. Requirements override the toggle to use the base ORM path and guard only requirement-activity deletions during archive. Existing permissions remain enforced. A regression test verifies original activity identity across merge/archive and ordinary manual completion afterward.
 
+
+## 15. Naming and Odoo 20 port design (22 October 2026)
+
+Visible app/group names use **Anforderungen**; technical identifiers remain unchanged. Odoo 18 module version is `18.0.1.1.0`. German source labels plus `i18n/de.po` cover native inherited field captions as well. User-maintained seed names are deliberately excluded from the translation catalog. Native menu editing can change the launcher label; versioned XML supplies the default and reapplies it on upgrade. A permanent future rename therefore updates XML/manifest/translations together; no custom settings subsystem is needed.
+
+Use separate Development maintenance lines for 18 and 20, with conventional major-specific manifests, identical business models and tests, and small native API changes in the port. Avoid a runtime version switch in security code. Official 20 sources confirm changes to user/group relations, permission scopes, action group fields and mail recipient method signatures. The pinned 20 runtime also changes grouping APIs; inspect and adapt all call sites, preserving the same assertions. Exact findings and runtime evidence: [COMPATIBILITY.md](docs/COMPATIBILITY.md).
+
+`scripts/migration_audit.py` is an administrator-only Odoo-shell tool outside the addon, never an RPC method. It reads canonical record inventories and hashes sensitive text/content, includes archived records, effective group membership, ACLs/rules and explicit test-user visibility. `verify` fails on differences and never repairs records. It is reused by the synthetic module-upgrade fixture, including negative probes. It does not migrate Odoo core or prove an 18-to-20 migration. Changes in standard Helpdesk ACLs/rules require explicit security review if the inventory differs.
+
+A major upgrade requires Odoo's supported migration of the entire isolated database and filestore, then the ported custom addon update and inventory/security/notification tests. No direct start of Odoo 20 against an 18 schema; no hand-written core SQL migration. Current unchanged addon models/tables/columns/XML IDs require no speculative app data rewrite. Add a narrowly scoped migration script only for an observed migrated schema/data difference. [Official custom-upgrade procedure](https://www.odoo.com/documentation/20.0/developer/howtos/upgrade_custom_db.html).

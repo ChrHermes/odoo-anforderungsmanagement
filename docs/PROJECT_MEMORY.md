@@ -1,6 +1,6 @@
 # Projektwissen
 
-Stand: 21.10.2026. Verbindliche Fachentscheidungen stehen in `SPEC.md`, technische Regeln in `TECHNICAL_DESIGN.md`, Prüfgates in `IMPLEMENTATION.md` und Arbeitsregeln in `AGENTS.md`.
+Stand: 22.10.2026. Verbindliche Fachentscheidungen stehen in `SPEC.md`, technische Regeln in `TECHNICAL_DESIGN.md`, Prüfgates in `IMPLEMENTATION.md` und Arbeitsregeln in `AGENTS.md`.
 
 - Eigenständiges internes Odoo-18-Enterprise-Addon `addons/gc_requirements`, native Python/XML-Komponenten, deutsche Oberfläche. Abhängigkeiten: `base`, `mail`, `helpdesk`.
 - Explizite Pilotgruppe; Konfigurationsgruppe verwaltet ausschließlich Produktstammdaten. Keine pauschale Berechtigung für interne Mitarbeiter.
@@ -31,3 +31,11 @@ Quellenschutz: keine ACL und keine öffentliche Relation zu `gc.requirement.tick
 - Noch offen: Enterprise/Customs, tatsächliche UI-Darstellung, Odoo.sh-Schutz/Zugriff/Build und neutralisierte Staging-Abnahme. Browserwerkzeug scheiterte bei Initialisierung mit `node:process`-Importfehler. Keine Infrastrukturänderung als Ausweichlösung vorgenommen.
 - GitHub-Vertragslauf 39678680433 für Codekandidat `9ef47ad` erfolgreich (1m22s); kein Odoo.sh-Nachweis. Checkout-Release v7.0.1 im offiziellen Repository als aktuell verifiziert, Commit `3d3c42e5aac5ba805825da76410c181273ba90b1`, verwendet Node 24. Workflow nutzt explizites Ubuntu 24.04 statt wanderndem `ubuntu-latest`.
 - Folgelauf 39679093289 für `e300220` erfolgreich (1m38s), ohne die vorherigen Runner-/Checkout-Veraltungswarnungen. App-Code bleibt identisch zu `9ef47ad`. Nachfolgende reine Dokumentationscommits ändern den geprüften Code nicht und sind per Workflow-Pfadfilter von erneuten Tests ausgenommen. Userdiff `codex-task.md` bleibt unberührt.
+
+## Naming-/Versionsauftrag, 22.10.2026
+
+- Sichtbarer Name jetzt **Anforderungen**, technischer Name `gc_requirements`, vorhandene XML-IDs/Modelle/Felder unverändert. Primärplattform 18, vollständige Unterstützung von 20 als zusätzliches Ziel. Quellenfreigabe gilt unverändert je exaktem aktuellen Ticket.
+- Native deutsche Beschriftungen und `i18n/de.po`; Katalog ergänzt auch geerbte Aktivitäts-/Nachrichten-/Metadatenlabels, nicht benutzergepflegte Seeds. Keine neue Einstellungs-/Datenstruktur. Defaultnamen werden beim XML-Upgrade erneut angewendet; dauerhafte Umbenennung als zusammenhängende Manifest-/XML-/Übersetzungsänderung.
+- 20er API-Befunde/Branchstrategie/Migrationsgate: `docs/COMPATIBILITY.md`. Separater Development-Port statt Versionsswitches in Sicherheitscode; vorhandene Tests nicht abschwächen.
+- `scripts/migration_audit.py` ist nur ein administrativer, lesender Shellprüfer außerhalb des Addons. Inventur mit IDs/Hashes vertraulich und außerhalb Git halten. Er ersetzt keine Datenbankmigration. `test_contract.py --baseline-ref <commit>` prüft zusätzlich das echte Modulupgrade vom vorherigen Git-Code.
+- Vollständige 18->20-Datenmigration und Enterprise-Prüfungen erfordern genehmigten isolierten Zugang; derzeit nicht vorhanden. Keine Staging-/Production-Freigabe ableiten.

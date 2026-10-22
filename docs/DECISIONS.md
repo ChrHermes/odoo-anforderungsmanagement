@@ -41,3 +41,15 @@ Das versionierte Testvertrag-Verzeichnis enthält absichtlich **kein** erkennbar
 ## D010 – Aktive Klassifikation und interne Aktivitäten (21.10.2026)
 
 Eine gespeicherte rekursive Selektierbarkeit blendet Bereiche unter archivierten Produkten/Vorfahren aus der Auswahl aus. Bestehende unveränderte Zuordnungen dürfen weiterhin gespeichert werden; echte neue Zuordnungen werden serverseitig auf den vollständigen aktiven Pfad geprüft. Aktivitätsassignees müssen aktuell interne berechtigte App-Benutzer sein; direkter ORM-Zugriff wird ebenso geprüft wie die UI.
+
+## D011 – Name und native Konfiguration (22.10.2026)
+
+Der Ergänzungsauftrag genehmigt **Anforderungen** als sichtbaren Namen bei unverändertem `gc_requirements`. Manifest, Rootmenü, Aktionen und Gruppen verwenden denselben Namen. Deutsche Originaltexte plus Übersetzungskatalog, keine neue Konfigurationsdatenhaltung. Menüänderung ist über native Administration möglich; Modulupgrades setzen versionierte Defaultlabels wieder. Dauerhafte Umbenennung zusammenhängend in Manifest/XML/Katalog ausliefern.
+
+## D012 – Getrennte Versionslinien und ehrliche Nachweise (22.10.2026)
+
+18 bleibt primär auf `codex/initial-mvp`; 20 wird separat auf `codex/20.0-port` mit nativem Manifest/APIs gepflegt. Gemeinsame Fixes gezielt übertragen, beide Suites separat ausführen. Vorgeschlagene spätere Wartungsbranches sind keine Hosting-/Promotionfreigabe. Bestehende Modelle, XML-IDs, Fach-/Sicherheitsregeln und Tests bleiben erhalten. Vertragsnachweise getrennt von Enterprise-Abnahme ausweisen.
+
+## D013 – Major-Upgrade und lesende Inventur (22.10.2026)
+
+Ein 18->20-Upgrade muss die gesamte Datenbank samt Filestore über den unterstützten Odoo-Upgradeweg migrieren. Eine neue 20er Datenbank oder `-u` auf derselben Majorversion beweist das nicht. Keine erfundene Coremigration oder Neucapture privater Quellen. Der administrative Shellprüfer vergleicht Daten-/Historien-/Berechtigungsinventuren einschließlich Originale und Ticketleser; Abweichungen stoppen die Abnahme, keine automatische Reparatur. Fehlender lizenzierter Upgradezugang bleibt ein offenes Gate.

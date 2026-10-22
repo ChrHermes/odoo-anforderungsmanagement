@@ -1,6 +1,14 @@
 # Entwicklungsstand
 
-## Aktuell – 21.10.2026
+## Naming-/Versionsauftrag – 22.10.2026
+
+N1: Oberfläche auf **Anforderungen**, technische IDs unverändert, Version `18.0.1.1.0`. Deutscher Katalog und Locale-Test ergänzen die bisherige Suite. Finale Install-/Upgradeprüfung einschließlich Katalog vom alten Kandidaten `36085f5` besteht mit 27/26/27 Tests. Statische Prüfung, Ruff und Formatprüfung bestanden. Erweiterte Vorher-/Nachher-Inventur prüft Daten, Archivoriginale, Provenienz, Historie, Aktivitäten, Filestore und Rechte; negative Korruptionsproben greifen.
+
+N2: Odoo 20 offiziell anhand Source/Image verifiziert; separater Port `codex/20.0-port` folgt nach N1-Commit. N3: tatsächlicher Major-Upgrade mangels Enterprise-/Upgradezugang offen. Keine vollständige Enterprise-Kompatibilität behaupten. [Details, Branchstrategie und Migrationsgates](COMPATIBILITY.md).
+
+Checkout zu Beginn: Nutzeränderungen an `.gitattributes`, Vertragsworkflow, SVG-Icon, Compose, Ruff und Vertragsmanifest (nur CRLF) sowie gelöschte `codex-task.md` und neue `tasks/`. Diese bleiben erhalten und werden nicht in unsere Commits aufgenommen. Remote ist aktuell HTTPS; ausschließlich Development-Pushes.
+
+## Vorheriger Stand – 21.10.2026
 
 **M1–M5 im verfügbaren Offline-Umfang implementiert und lokal geprüft. Enterprise-/Odoo.sh-/Staging-Abnahme weiterhin offen; keine Produktionsfreigabe.**
 

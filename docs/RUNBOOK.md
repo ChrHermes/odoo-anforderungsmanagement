@@ -54,3 +54,13 @@ Odoo.sh: Projekt und Development-Zuordnung sowie technische Zugriffsbeschränkun
 4. Mail-/Integrationsisolation bestätigen, bevor Status-/Chatter-/Activity-Aktionen ausgeführt werden. Bei Geplant/Umgesetzt/Abgelehnt nur interne Notizen, keine Kundenmails, keine Wiederöffnung, keine Autoaktivität. Auch benutzerdefinierte Automationen auf `mail.message` kontrollieren.
 5. Alle nativen Ansichten, Formulare, Filter/Favoriten, Follower/Mentions und Aktivitätsübersicht prüfen. Merge mit überschneidenden Tickets und Anhängen bestätigen; archivierte Originale einschließlich Aktivitäten bleiben erreichbar.
 6. Ergebnisse zu einem konkreten Commit unter `docs/ACCEPTANCE.md` dokumentieren. M3-/M5-Gates erst mit realen Nachweisen schließen. Vor Staging frische Businessfreigabe, vor Production separate Freigabe und benannten Pilot einholen.
+
+## Ergänzung Naming / Versionen, 22.10.2026
+
+`python3 scripts/test_contract.py --baseline-ref 36085f50b66102a85515fd004abae59120848af1` prüft den aktuellen frischen Install, installiert danach den alten Git-Kandidaten in einem neu erzeugten synthetischen Stack und aktualisiert ihn auf den Checkout. Git-Baseline muss lokal verfügbar sein. Der Treiber erzeugt sie nur in `.local/baseline`, ändert keinen Branch und entfernt ausschließlich seinen Vertragsstack.
+
+Der erweiterte Erhaltungstest nutzt `scripts/migration_audit.py`, einschließlich archivierter Mergeoriginale, Quellen-/Ticketdaten, Chatter/Tracking, manueller Aktivitäten, physischer Anhänge und effektiver Rechte. Absichtliche Änderungen an Titel/Anhang müssen fehlschlagen und werden per Savepoint zurückgerollt. Deutscher Locale-Test lädt den echten PO-Katalog. Für 20 den separaten Development-Port und dessen Teststack verwenden.
+
+Der administratorseitige Major-Upgrade-Ablauf ist unter [COMPATIBILITY](COMPATIBILITY.md) dokumentiert; **noch nicht ausgeführt**. `capture`/`verify` können in einer autorisierten Odoo-Shell geladen werden; keine Shell-/RPC-Funktion innerhalb des Addons, kein Datenexport in Git. Auf einem neuen Rechner zuerst Git- und Runtimeversionen live prüfen.
+
+Ausgeführt am 22.10.2026 auf Odoo 18.0-20261015: Neuinstallation 27/27, alter Kandidat 26/26, Upgrade auf 18.0.1.1.0 mit 27/27, Inventur inklusive Tracking/Ticketdaten und negative Korruptionsproben bestanden; automatisches Cleanup erfolgreich. `python3 scripts/check_static.py`, Ruff 0.14.0 (`check` und `format --check`) erfolgreich. Enterprise und Major-Migration nicht ausgeführt.

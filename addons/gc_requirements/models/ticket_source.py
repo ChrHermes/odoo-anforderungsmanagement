@@ -8,12 +8,20 @@ class RequirementTicketSource(models.Model):
     _rec_name = "id"
     _order = "captured_at, id"
 
-    requirement_id = fields.Many2one("gc.requirement", required=True, ondelete="restrict", index=True)
-    ticket_id = fields.Many2one("helpdesk.ticket", required=True, ondelete="restrict", index=True)
-    description_snapshot = fields.Html(sanitize=True, readonly=True)
-    captured_at = fields.Datetime(required=True, readonly=True)
-    captured_by_id = fields.Many2one("res.users", required=True, readonly=True, ondelete="restrict")
-    origin_requirement_id = fields.Many2one("gc.requirement", readonly=True, ondelete="restrict")
+    requirement_id = fields.Many2one(
+        "gc.requirement", string="Anforderung", required=True, ondelete="restrict", index=True
+    )
+    ticket_id = fields.Many2one(
+        "helpdesk.ticket", string="Quellticket", required=True, ondelete="restrict", index=True
+    )
+    description_snapshot = fields.Html(string="Momentaufnahme", sanitize=True, readonly=True)
+    captured_at = fields.Datetime(string="Erfasst am", required=True, readonly=True)
+    captured_by_id = fields.Many2one(
+        "res.users", string="Erfasst von", required=True, readonly=True, ondelete="restrict"
+    )
+    origin_requirement_id = fields.Many2one(
+        "gc.requirement", string="Ursprüngliche Anforderung", readonly=True, ondelete="restrict"
+    )
 
     _sql_constraints = [
         (

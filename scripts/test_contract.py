@@ -2,11 +2,13 @@
 """Reproducible Community ORM contract suite. NOT Enterprise acceptance."""
 
 import argparse
+import io
 from pathlib import Path
 import re
 import shutil
 import subprocess
 import sys
+import tarfile
 
 ROOT = Path(__file__).resolve().parents[1]
 COMPOSE = ["docker", "compose", "-p", "gc-requirements-contract", "-f", str(ROOT / "compose.test.yaml")]
@@ -42,6 +44,9 @@ def main():
     parser.add_argument(
         "--keep", action="store_true", help="Keep ONLY the synthetic contract containers/data for inspection"
     )
+    parser.add_argument(
+        "--baseline-ref", help="Also install a previous Git candidate before testing upgrade to this checkout"
+    )
     options = parser.parse_args()
     run([sys.executable, "scripts/check_static.py"], "static")
     # Keep a Helpdesk-named test addon OUT of versioned Odoo discovery paths.
@@ -57,9 +62,35 @@ def main():
     try:
         run(COMPOSE + ["up", "-d", "db"], "start-contract")
         run(COMPOSE + ["run", "--rm", "odoo"], "install", require_tests=True)
+        if options.baseline_ref:
+            archive = subprocess.run(
+                ["git", "archive", options.baseline_ref, "addons"],
+                cwd=ROOT,
+                check=True,
+                stdout=subprocess.PIPE,
+            )
+            baseline = ROOT / ".local/baseline"
+            if baseline.exists():
+                shutil.rmtree(baseline)
+            baseline.mkdir(parents=True)
+            with tarfile.open(fileobj=io.BytesIO(archive.stdout)) as files:
+                files.extractall(baseline, filter="data")
+            run(COMPOSE + ["down", "--volumes", "--remove-orphans"], "clean-baseline")
+            run(COMPOSE + ["up", "-d", "db"], "start-baseline")
+            run(
+                COMPOSE + ["run", "--rm", "-v", str(baseline / "addons") + ":/mnt/extra-addons:ro", "odoo"],
+                "baseline-install",
+                require_tests=True,
+            )
+        audit = (ROOT / "scripts/migration_audit.py").read_text()
         fixture = (ROOT / "scripts/contract_upgrade_fixture.py").read_text()
         shell = COMPOSE + ["run", "--rm", "-T", "odoo", "odoo", "shell"] + ODOO + ["--no-http"]
-        run(shell, "prepare-upgrade", fixture + "\nprepare(env)\n", marker="CONTRACT_UPGRADE_PREPARED")
+        run(
+            shell,
+            "prepare-upgrade",
+            audit + "\npreservation_verify = verify\n" + fixture + "\nprepare(env, capture)\n",
+            marker="CONTRACT_UPGRADE_PREPARED",
+        )
         upgrade = (
             COMPOSE
             + ["run", "--rm", "odoo", "odoo"]
@@ -76,7 +107,12 @@ def main():
             ]
         )
         run(upgrade, "upgrade", require_tests=True)
-        run(shell, "verify-upgrade", fixture + "\nverify(env)\n", marker="CONTRACT_UPGRADE_VERIFIED")
+        run(
+            shell,
+            "verify-upgrade",
+            audit + "\npreservation_verify = verify\n" + fixture + "\nverify(env, preservation_verify)\n",
+            marker="CONTRACT_UPGRADE_VERIFIED",
+        )
         print(
             "PASS: fresh install + tests + edited-data upgrade + tests + preservation checks (synthetic Helpdesk only)",
             flush=True,

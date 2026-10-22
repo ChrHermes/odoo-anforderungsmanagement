@@ -1,0 +1,1122 @@
+# German translations for Anforderungen (gc_requirements).
+# Exported from Odoo 18; user-maintained master data are not translated here.
+msgid ""
+msgstr ""
+"Project-Id-Version: gc_requirements 18.0.1.1.0\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_decision_form
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_from_ticket_form
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_merge_form
+msgid "Abbrechen"
+msgstr "Abbrechen"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__state__rejected
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_decision__state__rejected
+msgid "Abgelehnt"
+msgstr "Abgelehnt"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_needaction
+msgid "Action Needed"
+msgstr "Aktion erforderlich"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_ids
+msgid "Activities"
+msgstr "Aktivitäten"
+
+#. module: gc_requirements
+#: model:ir.model,name:gc_requirements.model_mail_activity
+msgid "Activity"
+msgstr "Aktivität"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Darstellung bei Aktivitätsabweichung"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_state
+msgid "Activity State"
+msgstr "Aktivitätsstatus"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Symbol des Aktivitätstyps"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__mode
+msgid "Aktion"
+msgstr "Aktion"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__active
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__active
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__active
+msgid "Aktiv"
+msgstr "Aktiv"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Aktuelle führende Anforderung öffnen"
+msgstr "Aktuelle führende Anforderung öffnen"
+
+#. module: gc_requirements
+#: model:ir.model,name:gc_requirements.model_gc_requirement
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__requirement_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_source_viewer__requirement_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__requirement_id
+msgid "Anforderung"
+msgstr "Anforderung"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Anforderung archiviert."
+msgstr "Anforderung archiviert."
+
+#. module: gc_requirements
+#: model:ir.model,name:gc_requirements.model_gc_requirement_from_ticket
+msgid "Anforderung aus Ticket"
+msgstr "Anforderung aus Ticket"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/helpdesk.py:0
+#: model:ir.actions.server,name:gc_requirements.action_ticket_requirement
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_from_ticket_form
+msgid "Anforderung erstellen/verknüpfen"
+msgstr "Anforderung erstellen/verknüpfen"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Anforderung wiederhergestellt."
+msgstr "Anforderung wiederhergestellt."
+
+#. module: gc_requirements
+#: model:ir.actions.act_window,name:gc_requirements.action_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_helpdesk_ticket__gc_requirement_count
+#: model:ir.module.category,name:gc_requirements.module_category_requirements
+#: model:ir.ui.menu,name:gc_requirements.menu_requirements
+#: model:ir.ui.menu,name:gc_requirements.menu_root
+msgid "Anforderungen"
+msgstr "Anforderungen"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Anforderungen dürfen nur archiviert, nicht gelöscht werden."
+msgstr "Anforderungen dürfen nur archiviert, nicht gelöscht werden."
+
+#. module: gc_requirements
+#: model:res.groups,name:gc_requirements.group_user
+msgid "Anforderungen: Benutzer"
+msgstr "Anforderungen: Benutzer"
+
+#. module: gc_requirements
+#: model:res.groups,name:gc_requirements.group_config
+msgid "Anforderungen: Konfiguration"
+msgstr "Anforderungen: Konfiguration"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/collaboration.py:0
+msgid "Anforderungsaktivitäten dürfen nur berechtigten internen App-Benutzern zugewiesen werden."
+msgstr "Anforderungsaktivitäten dürfen nur berechtigten internen App-Benutzern zugewiesen werden."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/collaboration.py:0
+msgid "Anforderungsnachrichten dürfen nur interne App-Benutzer erreichen."
+msgstr "Anforderungsnachrichten dürfen nur interne App-Benutzer erreichen."
+
+#. module: gc_requirements
+#: model:ir.model,name:gc_requirements.model_gc_requirement_product
+msgid "Anforderungsprodukt"
+msgstr "Anforderungsprodukt"
+
+#. module: gc_requirements
+#: model:ir.model,name:gc_requirements.model_gc_requirement_decision
+msgid "Anforderungsstatus ändern"
+msgstr "Anforderungsstatus ändern"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Archiviert"
+msgstr "Archiviert"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/helpdesk.py:0
+msgid "Archivierte Anforderungen können nicht neu mit Tickets verknüpft werden."
+msgstr "Archivierte Anforderungen können nicht neu mit Tickets verknüpft werden."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_attachment_count
+msgid "Attachment Count"
+msgstr "Anzahl Anhänge"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__selectable
+msgid "Auswählbar"
+msgstr "Auswählbar"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/helpdesk.py:0
+#: model:ir.model,name:gc_requirements.model_gc_requirement_source_viewer
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_source_viewer_form
+msgid "Autorisierte Ticketquellen"
+msgstr "Autorisierte Ticketquellen"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Autorisierte Ticketquellen anzeigen"
+msgstr "Autorisierte Ticketquellen anzeigen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__decision_reason
+msgid "Begründung"
+msgstr "Begründung"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Begründung (%(state)s): %(reason)s"
+msgstr "Begründung (%(state)s): %(reason)s"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Bei jeder Zurückstellung oder Ablehnung ist eine neue Begründung erforderlich."
+msgstr "Bei jeder Zurückstellung oder Ablehnung ist eine neue Begründung erforderlich."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__description
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Beschreibung"
+msgstr "Beschreibung"
+
+#. module: gc_requirements
+#: model:ir.model,name:gc_requirements.model_gc_requirement_merge
+msgid "Bestätigte Zusammenführung von Anforderungen"
+msgstr "Bestätigte Zusammenführung von Anforderungen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__customer_count
+msgid "Betroffene Kunden"
+msgstr "Betroffene Kunden"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__affected_version
+msgid "Betroffene Version"
+msgstr "Betroffene Version"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__state__evaluated
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_decision__state__evaluated
+msgid "Bewertet"
+msgstr "Bewertet"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/classification.py:0
+msgid "Bitte archivieren Sie Funktionsbereiche, statt sie zu löschen."
+msgstr "Bitte archivieren Sie Funktionsbereiche, statt sie zu löschen."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/classification.py:0
+msgid "Bitte archivieren Sie Produkte, statt sie zu löschen."
+msgstr "Bitte archivieren Sie Produkte, statt sie zu löschen."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/wizards/merge.py:0
+msgid "Bitte bestätigen Sie die Zusammenführung ausdrücklich."
+msgstr "Bitte bestätigen Sie die Zusammenführung ausdrücklich."
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_from_ticket_form
+msgid "Bitte verfassen Sie eine redaktionelle Beschreibung. Der Tickettext wird getrennt als unveränderliche Quelle gesichert."
+msgstr "Bitte verfassen Sie eine redaktionelle Beschreibung. Der Tickettext wird getrennt als unveränderliche Quelle gesichert."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/collaboration.py:0
+msgid "Bitte verwenden Sie eine interne Notiz an der Anforderung."
+msgstr "Bitte verwenden Sie eine interne Notiz an der Anforderung."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/wizards/merge.py:0
+msgid "Bitte wählen Sie die führende Anforderung. Titel, Status und Klassifikation des Ziels bleiben maßgeblich."
+msgstr "Bitte wählen Sie die führende Anforderung. Titel, Status und Klassifikation des Ziels bleiben maßgeblich."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Bitte wählen Sie ein aktives Produkt."
+msgstr "Bitte wählen Sie ein aktives Produkt."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/helpdesk.py:0
+msgid "Bitte wählen Sie ein gültiges Ticket."
+msgstr "Bitte wählen Sie ein gültiges Ticket."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/wizards/ticket.py:0
+msgid "Bitte wählen Sie eine vorhandene Anforderung."
+msgstr "Bitte wählen Sie eine vorhandene Anforderung."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Bitte wählen Sie einen aktiven Funktionspfad."
+msgstr "Bitte wählen Sie einen aktiven Funktionspfad."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__create_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__create_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__create_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__create_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__create_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__create_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_source_viewer__create_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__create_uid
+msgid "Created by"
+msgstr "Erstellt von"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__create_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__create_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__create_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__create_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__create_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__create_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_source_viewer__create_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__create_date
+msgid "Created on"
+msgstr "Erstellt am"
+
+#. module: gc_requirements
+#: model:ir.model.constraint,message:gc_requirements.constraint_gc_requirement_ticket_source_requirement_ticket_unique
+msgid "Das Ticket ist bereits verknüpft."
+msgstr "Das Ticket ist bereits verknüpft."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/helpdesk.py:0
+msgid "Das Ticket ist nicht verfügbar."
+msgstr "Das Ticket ist nicht verfügbar."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Der Funktionsbereich gehört nicht zum gewählten Produkt."
+msgstr "Der Funktionsbereich gehört nicht zum gewählten Produkt."
+
+#. module: gc_requirements
+#: model:ir.model.constraint,message:gc_requirements.constraint_gc_requirement_reference_unique
+msgid "Die Anforderungsnummer muss eindeutig sein."
+msgstr "Die Anforderungsnummer muss eindeutig sein."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/classification.py:0
+msgid "Dieser Bereich ist zugeordnet. Ein Produktwechsel benötigt eine geprüfte Migration."
+msgstr "Dieser Bereich ist zugeordnet. Ein Produktwechsel benötigt eine geprüfte Migration."
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Dieses Original wurde zusammengeführt:"
+msgstr "Dieses Original wurde zusammengeführt:"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__display_name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__display_name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__display_name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__display_name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__display_name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__display_name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_source_viewer__display_name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: gc_requirements
+#: model:ir.model,name:gc_requirements.model_mail_followers
+msgid "Document Followers"
+msgstr "Dokument-Follower"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__priority__3
+msgid "Dringend"
+msgstr "Dringend"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_merge_form
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Duplikat zusammenführen"
+msgstr "Duplikat zusammenführen"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/classification.py:0
+msgid "Ein Funktionsbereich darf keinen Kreis bilden."
+msgstr "Ein Funktionsbereich darf keinen Kreis bilden."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Eine Anforderung kann nicht mit sich selbst zusammengeführt werden."
+msgstr "Eine Anforderung kann nicht mit sich selbst zusammengeführt werden."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Eine Begründung ist erforderlich."
+msgstr "Eine Begründung ist erforderlich."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__development_url
+msgid "Entwicklungsreferenz"
+msgstr "Entwicklungsreferenz"
+
+#. module: gc_requirements
+#: model_terms:ir.actions.act_window,help:gc_requirements.action_requirements
+msgid "Erfassen Sie eine neue Anforderung."
+msgstr "Erfassen Sie eine neue Anforderung."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__captured_at
+msgid "Erfasst am"
+msgstr "Erfasst am"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__captured_by_id
+msgid "Erfasst von"
+msgstr "Erfasst von"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/wizards/merge.py:0
+msgid "Ergebnis: %(tickets)s eindeutige Tickets, %(customers)s Kundenorganisationen. Die Quelle wird archiviert. Quellen, Historie, Anhänge und Aktivitäten bleiben auf dem Original zugänglich. Bei überlappenden Tickets bleibt die Momentaufnahme des Ziels bestehen."
+msgstr "Ergebnis: %(tickets)s eindeutige Tickets, %(customers)s Kundenorganisationen. Die Quelle wird archiviert. Quellen, Historie, Anhänge und Aktivitäten bleiben auf dem Original zugänglich. Bei überlappenden Tickets bleibt die Momentaufnahme des Ziels bestehen."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__merged_source_ids
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Erhaltene Originale"
+msgstr "Erhaltene Originale"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_from_ticket_form
+msgid "Erstellen / verknüpfen"
+msgstr "Erstellen / verknüpfen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__creator_user_id
+msgid "Erstellt von"
+msgstr "Erstellt von"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/collaboration.py:0
+msgid "Externe oder nicht berechtigte Follower sind nicht zulässig."
+msgstr "Externe oder nicht berechtigte Follower sind nicht zulässig."
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__request_type__bug
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_from_ticket__request_type__bug
+msgid "Fehler"
+msgstr "Fehler"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_follower_ids
+msgid "Followers"
+msgstr "Follower"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Follower (Kontakte)"
+
+#. module: gc_requirements
+#: model:ir.model.fields,help:gc_requirements.field_gc_requirement__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Font-Awesome-Symbol, z. B. fa-tasks"
+
+#. module: gc_requirements
+#: model:ir.model,name:gc_requirements.model_gc_requirement_category
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__category_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__category_id
+msgid "Funktionsbereich"
+msgstr "Funktionsbereich"
+
+#. module: gc_requirements
+#: model:ir.actions.act_window,name:gc_requirements.action_categories
+#: model:ir.ui.menu,name:gc_requirements.menu_categories
+msgid "Funktionsbereiche"
+msgstr "Funktionsbereiche"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__request_type__feature
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_from_ticket__request_type__feature
+msgid "Funktionswunsch"
+msgstr "Funktionswunsch"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__target_id
+msgid "Führende Anforderung"
+msgstr "Führende Anforderung"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Für veröffentlichte Anforderungen ist das Veröffentlichungsdatum erforderlich."
+msgstr "Für veröffentlichte Anforderungen ist das Veröffentlichungsdatum erforderlich."
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__state__planned
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_decision__state__planned
+msgid "Geplant"
+msgstr "Geplant"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Gruppieren nach"
+msgstr "Gruppieren nach"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__has_message
+msgid "Has Message"
+msgstr "Hat Nachrichten"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/ticket_source.py:0
+msgid "Historische Ticketquellen dürfen nicht gelöscht werden."
+msgstr "Historische Ticketquellen dürfen nicht gelöscht werden."
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__priority__2
+msgid "Hoch"
+msgstr "Hoch"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_source_viewer__id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__id
+msgid "ID"
+msgstr "ID"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_exception_icon
+msgid "Icon"
+msgstr "Symbol"
+
+#. module: gc_requirements
+#: model:ir.model.fields,help:gc_requirements.field_gc_requirement__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Symbol für eine Aktivitätsabweichung."
+
+#. module: gc_requirements
+#: model:ir.model.fields,help:gc_requirements.field_gc_requirement__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Wenn aktiviert, erfordern neue Nachrichten Ihre Aufmerksamkeit."
+
+#. module: gc_requirements
+#: model:ir.model.fields,help:gc_requirements.field_gc_requirement__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Wenn aktiviert, sind bei Nachrichten Zustellfehler aufgetreten."
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__state__review
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_decision__state__review
+msgid "In Prüfung"
+msgstr "In Prüfung"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__state__in_progress
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_decision__state__in_progress
+msgid "In Umsetzung"
+msgstr "In Umsetzung"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_is_follower
+msgid "Is Follower"
+msgstr "Ist Follower"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/wizards/ticket.py:0
+msgid "Kein Kunde"
+msgstr "Kein Kunde"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/wizards/ticket.py:0
+msgid "Keine zugänglichen Ticketquellen. Die Anzahl kann auch geschützte Tickets umfassen."
+msgstr "Keine zugänglichen Ticketquellen. Die Anzahl kann auch geschützte Tickets umfassen."
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Kunden"
+msgstr "Kunden"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Kunden & Tickets"
+msgstr "Kunden & Tickets"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Kunden aus Tickets werden zusätzlich nach Organisation gezählt. Details geschützter Tickets sind nur mit aktuellen Helpdesk-Leserechten sichtbar."
+msgstr "Kunden aus Tickets werden zusätzlich nach Organisation gezählt. Details geschützter Tickets sind nur mit aktuellen Helpdesk-Leserechten sichtbar."
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_kanban
+msgid "Kunden ·"
+msgstr "Kunden ·"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Kurzer Titel der Anforderung"
+msgstr "Kurzer Titel der Anforderung"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__write_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__write_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__write_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__write_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__write_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__write_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_source_viewer__write_uid
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert von"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__write_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__write_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__write_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__write_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__write_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__write_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_source_viewer__write_date
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__manual_customer_ids
+msgid "Manuell betroffene Kunden"
+msgstr "Manuell betroffene Kunden"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Meine Anforderungen"
+msgstr "Meine Anforderungen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_has_error
+msgid "Message Delivery error"
+msgstr "Fehler bei der Nachrichtenzustellung"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_ids
+msgid "Messages"
+msgstr "Nachrichten"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__priority__1
+msgid "Mittel"
+msgstr "Mittel"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__description_snapshot
+msgid "Momentaufnahme"
+msgstr "Momentaufnahme"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Fälligkeit meiner Aktivität"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_from_ticket_form
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Mögliche Duplikate"
+msgstr "Mögliche Duplikate"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__state__new
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_decision__state__new
+msgid "Neu"
+msgstr "Neu"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_from_ticket__mode__new
+msgid "Neue Anforderung"
+msgstr "Neue Anforderung"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__reason
+msgid "Neue Begründung"
+msgstr "Neue Begründung"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__state
+msgid "Neuer Status"
+msgstr "Neuer Status"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Fälligkeit der nächsten Aktivität"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_summary
+msgid "Next Activity Summary"
+msgstr "Zusammenfassung der nächsten Aktivität"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ der nächsten Aktivität"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Nicht zugewiesen"
+msgstr "Nicht zugewiesen"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__priority__0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Anzahl Aktionen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__message_has_error_counter
+msgid "Number of errors"
+msgstr "Anzahl Fehler"
+
+#. module: gc_requirements
+#: model:ir.model.fields,help:gc_requirements.field_gc_requirement__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Anzahl Nachrichten mit Handlungsbedarf"
+
+#. module: gc_requirements
+#: model:ir.model.fields,help:gc_requirements.field_gc_requirement__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Anzahl Nachrichten mit Zustellfehler"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__reference
+msgid "Nummer"
+msgstr "Nummer"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Nummer und Ersteller sind unveränderlich."
+msgstr "Nummer und Ersteller sind unveränderlich."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Nummer und Ersteller werden automatisch vergeben."
+msgstr "Nummer und Ersteller werden automatisch vergeben."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Nur freigeschaltete interne Mitarbeiter dürfen Anforderungen bearbeiten."
+msgstr "Nur freigeschaltete interne Mitarbeiter dürfen Anforderungen bearbeiten."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/collaboration.py:0
+msgid "Nur freigeschaltete interne Mitarbeiter dürfen Anforderungen folgen."
+msgstr "Nur freigeschaltete interne Mitarbeiter dürfen Anforderungen folgen."
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Offene Aktivitäten"
+msgstr "Offene Aktivitäten"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Originalquellen, Anhänge, Chatter und Aktivitäten bleiben am Original erhalten."
+msgstr "Originalquellen, Anhänge, Chatter und Aktivitäten bleiben am Original erhalten."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__parent_path
+msgid "Parent Path"
+msgstr "Übergeordneter Pfad"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__complete_name
+msgid "Pfad"
+msgstr "Pfad"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__priority
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Priorität"
+msgstr "Priorität"
+
+#. module: gc_requirements
+#: model:ir.model,name:gc_requirements.model_gc_requirement_ticket_source
+msgid "Private unveränderliche Ticketquelle"
+msgstr "Private unveränderliche Ticketquelle"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__product_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__product_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__product_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__name
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Produkt"
+msgstr "Produkt"
+
+#. module: gc_requirements
+#: model:ir.actions.act_window,name:gc_requirements.action_products
+#: model:ir.ui.menu,name:gc_requirements.menu_products
+msgid "Produkte"
+msgstr "Produkte"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Quelle und Ziel müssen aktiv und noch nicht zusammengeführt sein."
+msgstr "Quelle und Ziel müssen aktiv und noch nicht zusammengeführt sein."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__ticket_id
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__ticket_id
+msgid "Quellticket"
+msgstr "Quellticket"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__description
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__description
+msgid "Redaktionelle Beschreibung"
+msgstr "Redaktionelle Beschreibung"
+
+#. module: gc_requirements
+#: model_terms:ir.actions.act_window,help:gc_requirements.action_requirements
+msgid "Redaktionelle Beschreibung und Ticketquellen werden getrennt aufbewahrt."
+msgstr "Redaktionelle Beschreibung und Ticketquellen werden getrennt aufbewahrt."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__sequence
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_product__sequence
+msgid "Reihenfolge"
+msgstr "Reihenfolge"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__activity_user_id
+msgid "Responsible User"
+msgstr "Verantwortlicher Benutzer"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_source_viewer_form
+msgid "Schließen"
+msgstr "Schließen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__state
+msgid "Status"
+msgstr "Status"
+
+#. module: gc_requirements
+#: model:ir.model.fields,help:gc_requirements.field_gc_requirement__activity_state
+msgid "Status based on activities\nOverdue: Due date is already passed\nToday: Activity date is today\nPlanned: Future activities."
+msgstr "Status anhand der Aktivitäten\nÜberfällig: Fälligkeitsdatum liegt in der Vergangenheit\nHeute: Aktivität ist heute fällig\nGeplant: Künftige Aktivitäten."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_decision_form
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Status ändern"
+msgstr "Status ändern"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_decision_form
+msgid "Status übernehmen"
+msgstr "Status übernehmen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_source_viewer__source_html
+msgid "Ticketquellen"
+msgstr "Ticketquellen"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/ticket_source.py:0
+msgid "Ticketquellen dürfen nur über die geprüfte Ticketaktion angelegt werden."
+msgstr "Ticketquellen dürfen nur über die geprüfte Ticketaktion angelegt werden."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/ticket_source.py:0
+msgid "Ticketquellen und ihre Herkunft sind unveränderlich."
+msgstr "Ticketquellen und ihre Herkunft sind unveränderlich."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__ticket_count
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_kanban
+msgid "Tickets"
+msgstr "Tickets"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__name
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__name
+msgid "Titel"
+msgstr "Titel"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Titel und eine inhaltliche redaktionelle Beschreibung sind erforderlich."
+msgstr "Titel und eine inhaltliche redaktionelle Beschreibung sind erforderlich."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Titel, Beschreibung, Typ und Produkt sind erforderlich."
+msgstr "Titel, Beschreibung, Typ und Produkt sind erforderlich."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__request_type
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__request_type
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Typ"
+msgstr "Typ"
+
+#. module: gc_requirements
+#: model:ir.model.fields,help:gc_requirements.field_gc_requirement__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Art der Aktivitätsabweichung am Datensatz."
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__state__implemented
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_decision__state__implemented
+msgid "Umgesetzt"
+msgstr "Umgesetzt"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_decision_form
+msgid "Umgesetzt bedeutet: veröffentlicht oder produktiv verfügbar."
+msgstr "Umgesetzt bedeutet: veröffentlicht oder produktiv verfügbar."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__implementation_note
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__implementation_note
+msgid "Umsetzungshinweis"
+msgstr "Umsetzungshinweis"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Ungültige Zusammenführungskette."
+msgstr "Ungültige Zusammenführungskette."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__child_ids
+msgid "Unterbereiche"
+msgstr "Unterbereiche"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/classification.py:0
+msgid "Unterbereiche müssen zum selben Produkt gehören."
+msgstr "Unterbereiche müssen zum selben Produkt gehören."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_ticket_source__origin_requirement_id
+msgid "Ursprüngliche Anforderung"
+msgstr "Ursprüngliche Anforderung"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__assigned_user_id
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Verantwortlich"
+msgstr "Verantwortlich"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/requirement.py:0
+msgid "Verantwortliche müssen freigeschaltete interne App-Benutzer sein."
+msgstr "Verantwortliche müssen freigeschaltete interne App-Benutzer sein."
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__request_type__improvement
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_from_ticket__request_type__improvement
+msgid "Verbesserung"
+msgstr "Verbesserung"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/helpdesk.py:0
+#: model:ir.actions.server,name:gc_requirements.action_ticket_requirements
+msgid "Verknüpfte Anforderungen"
+msgstr "Verknüpfte Anforderungen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__implemented_on
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__implemented_on
+msgid "Veröffentlicht am"
+msgstr "Veröffentlicht am"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__implemented_version
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_decision__implemented_version
+msgid "Veröffentlichte Version"
+msgstr "Veröffentlichte Version"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__requirement_id
+msgid "Vorhandene Anforderung"
+msgstr "Vorhandene Anforderung"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_from_ticket__mode__existing
+msgid "Vorhandene verknüpfen"
+msgstr "Vorhandene verknüpfen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__preview
+msgid "Vorschau"
+msgstr "Vorschau"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Weitere Informationen"
+msgstr "Weitere Informationen"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__source_id
+msgid "Zu archivierende Anforderung"
+msgstr "Zu archivierende Anforderung"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/helpdesk.py:0
+msgid "Zugängliche Kunden"
+msgstr "Zugängliche Kunden"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/helpdesk.py:0
+msgid "Zugängliche Tickets"
+msgstr "Zugängliche Tickets"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_search
+msgid "Zuletzt aktualisiert (30 Tage)"
+msgstr "Zuletzt aktualisiert (30 Tage)"
+
+#. module: gc_requirements
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement__state__deferred
+#: model:ir.model.fields.selection,name:gc_requirements.selection__gc_requirement_decision__state__deferred
+msgid "Zurückgestellt"
+msgstr "Zurückgestellt"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_merge_form
+msgid "Zusammenführen und Quelle archivieren"
+msgstr "Zusammenführen und Quelle archivieren"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_merge__confirmed
+msgid "Zusammenführung ausdrücklich bestätigen"
+msgstr "Zusammenführung ausdrücklich bestätigen"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Zusammenführungen dürfen keine Kreise bilden."
+msgstr "Zusammenführungen dürfen keine Kreise bilden."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Zusammenführungsverweise sind dauerhaft und dürfen nicht direkt verändert werden."
+msgstr "Zusammenführungsverweise sind dauerhaft und dürfen nicht direkt verändert werden."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Zusammenführungsverweise werden ausschließlich durch den bestätigten Dialog gesetzt."
+msgstr "Zusammenführungsverweise werden ausschließlich durch den bestätigten Dialog gesetzt."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__merged_into_id
+msgid "Zusammengeführt in"
+msgstr "Zusammengeführt in"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/merge.py:0
+msgid "Zusammengeführt:"
+msgstr "Zusammengeführt:"
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement__similar_requirement_ids
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_from_ticket__similar_requirement_ids
+msgid "Ähnliche Anforderungen"
+msgstr "Ähnliche Anforderungen"
+
+#. module: gc_requirements
+#: model_terms:ir.ui.view,arch_db:gc_requirements.view_requirement_form
+msgid "Öffnen Sie ein Original für dessen unveränderte Anhänge, Chatter, Aktivitäten und Ticket-Momentaufnahmen."
+msgstr "Öffnen Sie ein Original für dessen unveränderte Anhänge, Chatter, Aktivitäten und Ticket-Momentaufnahmen."
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/models/classification.py:0
+msgid "Über- und Unterbereich müssen zum selben Produkt gehören."
+msgstr "Über- und Unterbereich müssen zum selben Produkt gehören."
+
+#. module: gc_requirements
+#: model:ir.model.fields,field_description:gc_requirements.field_gc_requirement_category__parent_id
+msgid "Übergeordneter Bereich"
+msgstr "Übergeordneter Bereich"
+
+#. module: gc_requirements
+#. odoo-python
+#: code:addons/gc_requirements/wizards/ticket.py:0
+msgid "Übernommen aus"
+msgstr "Übernommen aus"

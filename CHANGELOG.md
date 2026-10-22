@@ -1,5 +1,11 @@
 # Änderungen
 
+## 18.0.1.1.0 – Anforderungen, Development
+
+- Sichtbarer App-/Launcher-/Gruppenname „Anforderungen“, stabile technische IDs und deutsche Übersetzungen einschließlich geerbter Labels.
+- Deutscher Locale-Test zusätzlich zur bisherigen Suite; Upgrade vom alten Git-Kandidaten und umfassende lesende Daten-/Rechteinventur mit negativen Korruptionsproben.
+- Versionsziel Odoo 18 und 20, separate Development-Portierung und dokumentierte Branch-/Major-Migrationsstrategie. Enterprise-/Migrationsabnahme bleibt offen.
+
 ## 18.0.1.0.0 – Erstimplementierung, Development-Kandidat
 
 - Internes Anforderungsmanagement mit deutscher Oberfläche, expliziter Pilot-/Konfigurationsgruppe und eigenständiger Produkthierarchie.

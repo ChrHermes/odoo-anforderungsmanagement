@@ -2,7 +2,7 @@
 
 ## Mission and authority
 
-Implement a versioned, testable, maintainable **Odoo 18 Enterprise** addon `gc_requirements` for an internal application named **Anforderungsmanagement**. This repository contains the approved functional and delivery decisions. The human stakeholder defines business intent; the coding agent carries out technical implementation in small, verified steps.
+Implement a versioned, testable, maintainable **Odoo 18 Enterprise** addon (primary platform; Odoo 20 port per SPEC section 13) `gc_requirements` for an internal application named **Anforderungen**. This repository contains the approved functional and delivery decisions. The human stakeholder defines business intent; the coding agent carries out technical implementation in small, verified steps.
 
 Read these documents **in order** before writing code:
 

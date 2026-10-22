@@ -1,7 +1,7 @@
 {
-    "name": "Anforderungsmanagement",
+    "name": "Anforderungen",
     "summary": "Interne Anforderungen mit geschützten Helpdesk-Quellen",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Productivity",
     "author": "GridCal",
     "license": "LGPL-3",
